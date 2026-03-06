@@ -5,6 +5,7 @@ import {
   runKnowledgeAssistantDemo,
   runAutomationPotentialDemo,
 } from "../lib/api.js";
+import Din0PlaygroundGuide from "../components/Din0PlaygroundGuide.jsx";
 
 const suggestedInputs = [
   {
@@ -104,11 +105,14 @@ export default function Lab() {
       />
 
       <section className="section booking-intro">
-        <div className="container">
-          <h1>AI Playground</h1>
-          <p className="hero-copy muted">
-            Interactive demonstrations of AI systems and algorithms used in real consulting projects.
-          </p>
+        <div className="container lab-intro-layout">
+          <div>
+            <h1>AI Playground</h1>
+            <p className="hero-copy muted">
+              Interactive demonstrations of AI systems and algorithms used in real consulting projects.
+            </p>
+          </div>
+          <Din0PlaygroundGuide />
         </div>
       </section>
 

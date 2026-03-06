@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import SectionHeader from "../components/SectionHeader.jsx";
 import Seo from "../components/Seo.jsx";
+import FloatingDin0 from "../components/FloatingDin0.jsx";
 
 const aiSystems = [
   {
@@ -112,25 +113,32 @@ export default function Home() {
             </div>
           </div>
 
-          <aside className="hero-panel" aria-label="Value summary">
-            <p className="panel-kicker">Consulting Focus</p>
-            <h2>Deploy practical AI systems that improve lead quality and operational speed.</h2>
-            <div className="panel-list">
-              <p>AI assistants for websites that capture and qualify leads.</p>
-              <p>AI automation for businesses with repetitive service workflows.</p>
-              <p>AI knowledge assistants connected to internal documentation.</p>
-            </div>
-            <div className="panel-metrics">
-              <div>
-                <strong>30d</strong>
-                <span>Typical pilot delivery</span>
+          <div className="hero-panel-stack">
+            <FloatingDin0
+              className="din0-hero"
+              message="Din_0 suggests: Start with a consultation."
+            />
+            <aside className="hero-panel" aria-label="Value summary">
+              <p className="panel-kicker">Consulting Focus</p>
+              <h2>Deploy practical AI systems that improve lead quality and operational speed.</h2>
+              <div className="panel-list">
+                <p>AI assistants for websites that capture and qualify leads.</p>
+                <p>AI automation for businesses with repetitive service workflows.</p>
+                <p>AI knowledge assistants connected to internal documentation.</p>
               </div>
-              <div>
-                <strong>42%</strong>
-                <span>Average automation potential</span>
+              <div className="panel-metrics">
+                <div>
+                  <strong>30d</strong>
+                  <span>Typical pilot delivery</span>
+                </div>
+                <div>
+                  <strong>42%</strong>
+                  <span>Average automation potential</span>
+                </div>
               </div>
-            </div>
-          </aside>
+            </aside>
+            <p className="din0-hero-note muted">Din_0 is your AI demo companion.</p>
+          </div>
         </div>
       </section>
 
