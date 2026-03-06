@@ -14,7 +14,7 @@ const allowedOrigin = process.env.CORS_ORIGIN || "*";
 const labKnowledgeBase = [
   {
     source: "Lead Automation Playbook",
-    text: "AI assistants for websites improve lead conversion by qualifying intent before human handoff.",
+    text: "AI assistants for websites improve lead conversion with instant responses, qualification questions, personalized interactions, and appointment scheduling.",
   },
   {
     source: "Workflow Blueprint",
@@ -23,6 +23,10 @@ const labKnowledgeBase = [
   {
     source: "SME Delivery Guide",
     text: "AI consulting for SMEs works best when focused on one measurable objective in the first 30 days.",
+  },
+  {
+    source: "Knowledge Assistant Guide",
+    text: "An AI knowledge assistant for internal teams enables searchable access to documentation, onboarding material, and support procedures.",
   },
   {
     source: "ChatHive Integration Notes",
@@ -112,11 +116,11 @@ app.post("/api/lab/lead-qualification", (req, res) => {
     return res.status(400).json({ error: "Business description is required." });
   }
 
-  const keywords = ["lead", "sales", "website", "automation", "service", "sme", "b2b", "crm"];
+  const keywords = ["lead", "sales", "website", "automation", "service", "sme", "b2b", "crm", "real estate", "accounting"];
   const normalized = businessDescription.toLowerCase();
   const matches = keywords.filter((keyword) => normalized.includes(keyword)).length;
 
-  const score = Math.min(100, 40 + matches * 9 + Math.min(22, businessDescription.length / 10));
+  const score = Math.min(100, 42 + matches * 8 + Math.min(20, businessDescription.length / 11));
   const rounded = Math.round(score);
 
   const recommendation =
@@ -161,14 +165,16 @@ app.post("/api/lab/automation-potential", (req, res) => {
     return res.status(400).json({ error: "Company size and workload are required." });
   }
 
-  const sizeFactor = Math.min(1, companySize / 50);
-  const workloadFactor = Math.min(1, weeklyManualHours / 80);
-  const automationPotential = Math.round((0.4 + sizeFactor * 0.3 + workloadFactor * 0.3) * 100);
-  const hoursSaved = Math.round((weeklyManualHours * automationPotential) / 100);
+  const automationPotential = Math.max(
+    10,
+    Math.min(80, Math.round(25 + companySize * 0.5 + weeklyManualHours * 0.25))
+  );
+
+  const hoursSavedPerMonth = Math.round(weeklyManualHours * 3.9 * (automationPotential / 100));
 
   return res.json({
     automationPotential,
-    hoursSaved,
+    hoursSavedPerMonth,
     summary:
       "Start by automating repetitive qualification, reporting, and internal knowledge tasks for the fastest ROI.",
   });
@@ -187,14 +193,17 @@ app.post("/api/lab/roi-calculator", (req, res) => {
   }
 
   const supportHours = (monthlySupportTickets * timePerSupportRequest) / 60;
-  const leadOpsHours = monthlyLeads * 0.25;
+  const leadOpsHours = monthlyLeads * 0.22;
   const totalManualHours = supportHours + leadOpsHours;
 
-  const scaleFactor = Math.min(1, employees / 120);
-  const automationPotential = Math.round((0.3 + scaleFactor * 0.25 + Math.min(0.35, totalManualHours / 800)) * 100);
+  const automationPotential = Math.max(
+    10,
+    Math.min(80, Math.round(24 + employees * 0.35 + totalManualHours / 12))
+  );
+
   const hoursSavedPerMonth = Math.round((totalManualHours * automationPotential) / 100);
-  const monthlySavings = hoursSavedPerMonth * hourlyCost;
-  const estimatedAnnualSavings = Math.round(monthlySavings * 12);
+  const estimatedMonthlySavings = Math.round(hoursSavedPerMonth * hourlyCost);
+  const estimatedAnnualSavings = Math.round(estimatedMonthlySavings * 12);
 
   const estimatedAnnualInvestment = 18000;
   const estimatedAnnualRoi = Math.max(
@@ -205,6 +214,7 @@ app.post("/api/lab/roi-calculator", (req, res) => {
   return res.json({
     hoursSavedPerMonth,
     automationPotential,
+    estimatedMonthlySavings,
     estimatedAnnualSavings,
     estimatedAnnualRoi,
   });

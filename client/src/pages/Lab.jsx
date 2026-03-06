@@ -6,6 +6,34 @@ import {
   runAutomationPotentialDemo,
 } from "../lib/api.js";
 
+const suggestedInputs = [
+  {
+    title: "Demo 1 - Lead Qualification (Accounting Firm)",
+    prompt:
+      "We are a 20-person accounting firm serving SMEs in Belgium and want to automate website lead capture.",
+    expected:
+      "Detect business type, identify lead qualification need, and suggest AI solutions.",
+  },
+  {
+    title: "Demo 2 - Lead Qualification (Real Estate)",
+    prompt:
+      "I run a real estate agency and want to qualify website inquiries automatically before scheduling calls.",
+    expected: "Suggest lead qualification assistant and lead scoring workflow.",
+  },
+  {
+    title: "Demo 3 - Knowledge Assistant",
+    prompt: "How can AI assistants improve lead conversion on business websites?",
+    expected:
+      "Explain instant response to visitors, lead qualification questions, personalized interactions, and appointment scheduling.",
+  },
+  {
+    title: "Demo 4 - Knowledge Assistant (Internal)",
+    prompt: "What is an AI knowledge assistant for internal teams?",
+    expected:
+      "Explain internal knowledge search for documentation, onboarding, and support.",
+  },
+];
+
 export default function Lab() {
   const [leadInput, setLeadInput] = useState("");
   const [leadResult, setLeadResult] = useState(null);
@@ -19,6 +47,11 @@ export default function Lab() {
   const [workload, setWorkload] = useState("35");
   const [autoResult, setAutoResult] = useState(null);
   const [autoLoading, setAutoLoading] = useState(false);
+
+  function useAutomationDemoValues() {
+    setSize("15");
+    setWorkload("35");
+  }
 
   async function submitLeadDemo(event) {
     event.preventDefault();
@@ -129,6 +162,14 @@ export default function Lab() {
             <p className="muted">
               User enters company size and workflow data. System estimates automation potential.
             </p>
+            <div className="demo-inline-actions">
+              <button type="button" className="btn btn-secondary" onClick={useAutomationDemoValues}>
+                Use Demo Values (15 / 35)
+              </button>
+              <p className="muted small">
+                Expected output example: Automation Potential ~41%, Estimated Hours Saved per Month ~56h.
+              </p>
+            </div>
             <form onSubmit={submitAutomationDemo} className="lab-form two-col">
               <label>
                 Company size
@@ -157,11 +198,26 @@ export default function Lab() {
             {autoResult ? (
               <div className="lab-result">
                 <p><strong>Estimated automation potential:</strong> {autoResult.automationPotential}%</p>
-                <p><strong>Estimated weekly hours saved:</strong> {autoResult.hoursSaved}</p>
+                <p><strong>Estimated hours saved per month:</strong> {autoResult.hoursSavedPerMonth}</p>
                 <p className="muted">{autoResult.summary}</p>
               </div>
             ) : null}
           </article>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <h2>Suggested Demo Inputs</h2>
+          <div className="cards-grid">
+            {suggestedInputs.map((item) => (
+              <article key={item.title} className="surface-card">
+                <h3>{item.title}</h3>
+                <p><strong>Example input:</strong> {item.prompt}</p>
+                <p className="muted"><strong>Expected system behavior:</strong> {item.expected}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
     </main>

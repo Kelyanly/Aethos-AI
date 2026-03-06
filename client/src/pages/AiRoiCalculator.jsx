@@ -3,21 +3,26 @@ import { Link } from "react-router-dom";
 import Seo from "../components/Seo.jsx";
 import { runRoiCalculator } from "../lib/api.js";
 
-export default function AiRoiCalculator() {
-  const [form, setForm] = useState({
-    employees: "20",
-    monthlySupportTickets: "300",
-    monthlyLeads: "120",
-    timePerSupportRequest: "20",
-    hourlyCost: "35",
-  });
+const demoValues = {
+  employees: "25",
+  monthlySupportTickets: "300",
+  monthlyLeads: "90",
+  timePerSupportRequest: "10",
+  hourlyCost: "40",
+};
 
+export default function AiRoiCalculator() {
+  const [form, setForm] = useState(demoValues);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   function onChange(event) {
     setForm((prev) => ({ ...prev, [event.target.name]: event.target.value }));
+  }
+
+  function useDemoValues() {
+    setForm(demoValues);
   }
 
   async function onSubmit(event) {
@@ -45,7 +50,7 @@ export default function AiRoiCalculator() {
     <main>
       <Seo
         title="AI Automation ROI Calculator | Aethos AI"
-        description="Estimate time and money savings from AI assistants and workflow automation for your business."
+        description="Estimate how much time and money your business could save with AI assistants and workflow automation."
       />
 
       <section className="section booking-intro">
@@ -54,6 +59,14 @@ export default function AiRoiCalculator() {
           <p className="hero-copy muted">
             Estimate how much time and money your business could save with AI assistants and workflow automation.
           </p>
+          <div className="demo-inline-actions">
+            <button type="button" className="btn btn-secondary" onClick={useDemoValues}>
+              Use Demo Values
+            </button>
+            <p className="muted small">
+              Employees: 25, Tickets: 300, Leads: 90, Time: 10 min, Hourly cost: 40 EUR.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -95,7 +108,7 @@ export default function AiRoiCalculator() {
             </label>
 
             <label>
-              Average hourly cost per employee
+              Average hourly cost per employee (EUR)
               <input type="number" min="1" name="hourlyCost" value={form.hourlyCost} onChange={onChange} required />
             </label>
 
@@ -115,9 +128,10 @@ export default function AiRoiCalculator() {
                 <p className="muted">Complete the form to generate your AI ROI estimate.</p>
               ) : (
                 <div className="lab-result">
-                  <p><strong>Estimated hours saved:</strong> {result.hoursSavedPerMonth} hours/month</p>
-                  <p><strong>Automation potential:</strong> {result.automationPotential}%</p>
-                  <p><strong>Estimated annual savings:</strong> ${result.estimatedAnnualSavings.toLocaleString()}</p>
+                  <p><strong>Estimated hours saved per month:</strong> {result.hoursSavedPerMonth}</p>
+                  <p><strong>Estimated automation potential:</strong> {result.automationPotential}%</p>
+                  <p><strong>Estimated monthly savings:</strong> EUR {result.estimatedMonthlySavings.toLocaleString()}</p>
+                  <p><strong>Estimated annual savings:</strong> EUR {result.estimatedAnnualSavings.toLocaleString()}</p>
                   <p><strong>Estimated annual ROI:</strong> {result.estimatedAnnualRoi}%</p>
                 </div>
               )}

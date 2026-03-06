@@ -35,15 +35,39 @@ const chatHiveAgents = [
 const implementations = [
   {
     title: "Lead capture assistant for service businesses",
-    outcome: "More qualified leads with faster first-response timing.",
+    outcome: "More qualified leads and faster response timing.",
   },
   {
     title: "Internal knowledge assistant for teams",
-    outcome: "Reduced response time and higher consistency across teams.",
+    outcome: "Reduced response time and better consistency.",
   },
   {
     title: "Customer support automation AI",
-    outcome: "Less repetitive work and better support coverage.",
+    outcome: "Less repetitive work and stronger support coverage.",
+  },
+];
+
+const chatPrompts = [
+  {
+    prompt: "What services does Aethos AI offer?",
+    expected:
+      "Explain AI lead generation, knowledge assistants, workflow automation, AI audits, and strategy.",
+  },
+  {
+    prompt: "I run a 10-person marketing agency and want to automate lead capture.",
+    expected: "Suggest a lead qualification AI assistant.",
+  },
+  {
+    prompt: "Do you build AI assistants using ChatHive?",
+    expected: "Explain ChatHive-powered agents and use cases.",
+  },
+  {
+    prompt: "I want to book a consultation.",
+    expected: "Guide the user toward the booking page.",
+  },
+  {
+    prompt: "Bonjour, proposez-vous des agents IA pour qualifier les leads ?",
+    expected: "Respond correctly in French and describe lead qualification agents.",
   },
 ];
 
@@ -81,7 +105,7 @@ export default function Home() {
 
           <aside className="hero-panel" aria-label="Value summary">
             <p className="panel-kicker">Consulting Focus</p>
-            <h3>Deploy practical AI systems that improve lead quality and operational speed.</h3>
+            <h2>Deploy practical AI systems that improve lead quality and operational speed.</h2>
             <div className="panel-list">
               <p>AI assistants for websites that capture and qualify leads.</p>
               <p>AI automation for businesses with repetitive service workflows.</p>
@@ -154,7 +178,25 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section section-alt final-cta">
+      <section className="section section-alt" id="chat-prompts">
+        <div className="container">
+          <SectionHeader
+            eyebrow="Demo Readiness"
+            title="Chat Assistant Demo Prompts"
+            description="Use these prompts in the ChatHive widget during presentations and live demos."
+          />
+          <div className="cards-grid">
+            {chatPrompts.map((item) => (
+              <article key={item.prompt} className="surface-card">
+                <h3>{item.prompt}</h3>
+                <p className="muted"><strong>Expected behavior:</strong> {item.expected}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section final-cta">
         <div className="container final-cta-layout">
           <div>
             <h2>Ready to discuss your AI opportunities?</h2>
