@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import SectionHeader from "../components/SectionHeader.jsx";
 import Seo from "../components/Seo.jsx";
@@ -72,6 +73,14 @@ const chatPrompts = [
 ];
 
 export default function Home() {
+  const [copiedPrompt, setCopiedPrompt] = useState("");
+
+  async function copyPrompt(text) {
+    await navigator.clipboard.writeText(text);
+    setCopiedPrompt(text);
+    setTimeout(() => setCopiedPrompt(""), 1200);
+  }
+
   return (
     <main>
       <Seo
@@ -188,7 +197,16 @@ export default function Home() {
           <div className="cards-grid">
             {chatPrompts.map((item) => (
               <article key={item.prompt} className="surface-card">
-                <h3>{item.prompt}</h3>
+                <div className="prompt-row">
+                  <h3>{item.prompt}</h3>
+                  <button
+                    type="button"
+                    className="btn btn-secondary prompt-copy-btn"
+                    onClick={() => copyPrompt(item.prompt)}
+                  >
+                    {copiedPrompt === item.prompt ? "Copied" : "Copy Prompt"}
+                  </button>
+                </div>
                 <p className="muted"><strong>Expected behavior:</strong> {item.expected}</p>
               </article>
             ))}

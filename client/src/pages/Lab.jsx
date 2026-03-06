@@ -35,6 +35,7 @@ const suggestedInputs = [
 ];
 
 export default function Lab() {
+  const [copiedPrompt, setCopiedPrompt] = useState("");
   const [leadInput, setLeadInput] = useState("");
   const [leadResult, setLeadResult] = useState(null);
   const [leadLoading, setLeadLoading] = useState(false);
@@ -51,6 +52,12 @@ export default function Lab() {
   function useAutomationDemoValues() {
     setSize("15");
     setWorkload("35");
+  }
+
+  async function copyPrompt(text) {
+    await navigator.clipboard.writeText(text);
+    setCopiedPrompt(text);
+    setTimeout(() => setCopiedPrompt(""), 1200);
   }
 
   async function submitLeadDemo(event) {
@@ -213,7 +220,16 @@ export default function Lab() {
             {suggestedInputs.map((item) => (
               <article key={item.title} className="surface-card">
                 <h3>{item.title}</h3>
-                <p><strong>Example input:</strong> {item.prompt}</p>
+                <div className="prompt-row">
+                  <p><strong>Example input:</strong> {item.prompt}</p>
+                  <button
+                    type="button"
+                    className="btn btn-secondary prompt-copy-btn"
+                    onClick={() => copyPrompt(item.prompt)}
+                  >
+                    {copiedPrompt === item.prompt ? "Copied" : "Copy Prompt"}
+                  </button>
+                </div>
                 <p className="muted"><strong>Expected system behavior:</strong> {item.expected}</p>
               </article>
             ))}
