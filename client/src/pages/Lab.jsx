@@ -6,6 +6,9 @@ import {
   runAutomationPotentialDemo,
 } from "../lib/api.js";
 import Din0PlaygroundGuide from "../components/Din0PlaygroundGuide.jsx";
+import ScrollRevealSection from "../components/ScrollRevealSection.jsx";
+import PlaygroundBootSequence from "../components/PlaygroundBootSequence.jsx";
+import { trackEvent } from "../lib/analytics.js";
 
 const suggestedInputs = [
   {
@@ -67,6 +70,7 @@ export default function Lab() {
     try {
       const result = await runLeadQualificationDemo({ businessDescription: leadInput });
       setLeadResult(result);
+      trackEvent("demo_run", "/lab", { demo: "lead_qualification" });
     } finally {
       setLeadLoading(false);
     }
@@ -78,6 +82,7 @@ export default function Lab() {
     try {
       const result = await runKnowledgeAssistantDemo({ question: ragInput });
       setRagResult(result);
+      trackEvent("demo_run", "/lab", { demo: "knowledge_assistant" });
     } finally {
       setRagLoading(false);
     }
@@ -92,6 +97,7 @@ export default function Lab() {
         weeklyManualHours: Number(workload),
       });
       setAutoResult(result);
+      trackEvent("demo_run", "/lab", { demo: "automation_potential" });
     } finally {
       setAutoLoading(false);
     }
@@ -104,7 +110,9 @@ export default function Lab() {
         description="Interactive demonstrations of AI systems and algorithms used in real consulting projects."
       />
 
-      <section className="section booking-intro">
+      <PlaygroundBootSequence />
+
+      <ScrollRevealSection className="section booking-intro">
         <div className="container lab-intro-layout">
           <div>
             <h1>AI Playground</h1>
@@ -114,9 +122,9 @@ export default function Lab() {
           </div>
           <Din0PlaygroundGuide />
         </div>
-      </section>
+      </ScrollRevealSection>
 
-      <section className="section section-alt">
+      <ScrollRevealSection className="section section-alt">
         <div className="container lab-grid">
           <article className="surface-card lab-card">
             <h2>1) AI Lead Qualification Bot</h2>
@@ -215,9 +223,9 @@ export default function Lab() {
             ) : null}
           </article>
         </div>
-      </section>
+      </ScrollRevealSection>
 
-      <section className="section">
+      <ScrollRevealSection className="section">
         <div className="container">
           <h2>Suggested Demo Inputs</h2>
           <div className="cards-grid">
@@ -239,7 +247,7 @@ export default function Lab() {
             ))}
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
     </main>
   );
 }

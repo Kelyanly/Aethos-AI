@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { initDatabase, getDatabase } from "./lib/database.js";
 import { validateAndSanitizeContact } from "./lib/validation.js";
+import din0Router from "./src/routes/din0.js";
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ const labKnowledgeBase = [
 
 app.use(cors({ origin: allowedOrigin }));
 app.use(express.json({ limit: "1mb" }));
+app.use("/api/din0", din0Router);
 
 app.get("/health", async (_req, res) => {
   try {
@@ -218,6 +220,107 @@ app.post("/api/lab/roi-calculator", (req, res) => {
     estimatedAnnualSavings,
     estimatedAnnualRoi,
   });
+});
+
+app.post("/api/generate-use-cases", (req, res) => {
+  const industry = String(req.body?.industry || "service").toLowerCase();
+  const companySize = Number(req.body?.companySize);
+  const repetitiveTask = String(req.body?.repetitiveTask || "").trim().toLowerCase();
+
+  if (!Number.isFinite(companySize) || companySize <= 0 || !repetitiveTask) {
+    return res.status(400).json({ error: "Industry, company size and repetitive task are required." });
+  }
+
+  const byIndustry = {
+    agency: [
+      "AI lead qualification assistant for inbound forms and chat.",
+      "AI proposal drafting assistant for faster commercial response.",
+      "AI campaign reporting workflow automation.",
+    ],
+    accounting: [
+      "AI intake assistant for tax/advisory qualification.",
+      "Internal AI knowledge assistant for compliance documentation.",
+      "Workflow automation for recurring document collection.",
+    ],
+    real_estate: [
+      "Lead intent qualification assistant for buyer/seller inquiries.",
+      "Appointment scheduling assistant with readiness scoring.",
+      "Property Q&A assistant connected to listing data.",
+    ],
+    saas: [
+      "AI support assistant for repetitive ticket types.",
+      "Onboarding knowledge assistant for customer activation.",
+      "Lead qualification and CRM handoff automation.",
+    ],
+    service: [
+      "AI lead capture assistant for website visitors.",
+      "Internal knowledge assistant for SOP retrieval.",
+      "Workflow automation for repetitive intake and follow-up tasks.",
+    ],
+  };
+
+  const useCases = byIndustry[industry] || byIndustry.service;
+  const impactScore = Math.min(90, 35 + companySize + (repetitiveTask.length > 30 ? 12 : 6));
+  const estimatedImpact = impactScore >= 75 ? "High" : impactScore >= 55 ? "Medium" : "Moderate";
+
+  return res.json({ useCases, estimatedImpact });
+});
+
+app.post("/api/automation-score", (req, res) => {
+  const employees = Number(req.body?.employees);
+  const monthlyLeads = Number(req.body?.monthlyLeads);
+  const supportTickets = Number(req.body?.supportTickets);
+  const manualTasks = Number(req.body?.manualTasks);
+  const softwareStack = String(req.body?.softwareStack || "").trim();
+
+  const values = [employees, monthlyLeads, supportTickets, manualTasks];
+  if (values.some((value) => !Number.isFinite(value) || value < 0) || !softwareStack) {
+    return res.status(400).json({ error: "All five fields are required with valid values." });
+  }
+
+  const scoreRaw =
+    20 +
+    Math.min(20, employees * 0.8) +
+    Math.min(20, monthlyLeads / 12) +
+    Math.min(20, supportTickets / 20) +
+    Math.min(20, manualTasks * 2);
+  const score = Math.max(10, Math.min(100, Math.round(scoreRaw)));
+
+  const level = score >= 75 ? "Advanced" : score >= 50 ? "Intermediate" : "Beginner";
+  const recommendation =
+    level === "Advanced"
+      ? "Prioritize multi-step automation with assistant + workflow + CRM integration."
+      : level === "Intermediate"
+        ? "Start with one lead or support assistant and automate one downstream workflow."
+        : "Start with a scoped pilot focused on one repetitive process and one measurable KPI.";
+
+  return res.json({ score, level, recommendation });
+});
+
+app.post("/api/analytics/event", async (req, res) => {
+  try {
+    const eventType = String(req.body?.eventType || "").trim();
+    const path = String(req.body?.path || "").trim();
+    const metadata = req.body?.metadata && typeof req.body.metadata === "object" ? req.body.metadata : {};
+
+    if (!eventType || !path) {
+      return res.status(400).json({ error: "eventType and path are required." });
+    }
+
+    const db = getDatabase();
+    await db.run(
+      `
+      INSERT INTO analytics_events (id, eventType, path, metadata, createdAt)
+      VALUES (?, ?, ?, ?, ?)
+      `,
+      [crypto.randomUUID(), eventType, path, JSON.stringify(metadata), new Date().toISOString()]
+    );
+
+    return res.status(201).json({ success: true });
+  } catch (error) {
+    console.error("analytics event store failed", error);
+    return res.status(500).json({ error: "Failed to store analytics event." });
+  }
 });
 
 async function start() {

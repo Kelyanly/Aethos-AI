@@ -33,6 +33,16 @@ export async function initDatabase() {
       createdAt TEXT NOT NULL
     )
   `);
+
+  await db.exec(`
+    CREATE TABLE IF NOT EXISTS analytics_events (
+      id TEXT PRIMARY KEY,
+      eventType TEXT NOT NULL,
+      path TEXT NOT NULL,
+      metadata TEXT,
+      createdAt TEXT NOT NULL
+    )
+  `);
 }
 
 export function getDatabase() {

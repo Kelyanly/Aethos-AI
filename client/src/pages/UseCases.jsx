@@ -1,4 +1,6 @@
 import Seo from "../components/Seo.jsx";
+import ScrollRevealSection from "../components/ScrollRevealSection.jsx";
+import ArchitectureTooltip from "../components/ArchitectureTooltip.jsx";
 
 const cases = [
   {
@@ -35,19 +37,20 @@ export default function UseCases() {
         description="Practical AI use cases: law firm knowledge assistants, real estate lead automation, support automation, and internal AI search."
       />
 
-      <section className="section booking-intro">
+      <ScrollRevealSection className="section booking-intro">
         <div className="container">
           <h1>AI Use Cases for Business Automation</h1>
           <p className="hero-copy muted">
             Real consulting examples that show how AI automation for businesses creates measurable outcomes.
           </p>
         </div>
-      </section>
+      </ScrollRevealSection>
 
-      <section className="section section-alt">
+      <ScrollRevealSection className="section section-alt">
         <div className="container cards-grid">
           {cases.map((item) => (
-            <article key={item.title} className="surface-card">
+            <article key={item.title} className="surface-card interactive-card">
+              <ArchitectureTooltip copy="Problem mapping -> AI architecture -> business impact." />
               <h2>{item.title}</h2>
               <p><strong>Problem:</strong> {item.problem}</p>
               <p><strong>AI solution:</strong> {item.solution}</p>
@@ -55,7 +58,7 @@ export default function UseCases() {
             </article>
           ))}
         </div>
-      </section>
+      </ScrollRevealSection>
     </main>
   );
 }

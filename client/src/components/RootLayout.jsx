@@ -1,12 +1,20 @@
-import { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { trackEvent } from "../lib/analytics.js";
 
 const navItems = [
   { label: "Services", href: "/#services" },
   { label: "AI Agents", href: "/agents" },
+  { label: "Architecture", href: "/architecture" },
   { label: "Use Cases", href: "/use-cases" },
+  { label: "Industries", href: "/industries" },
   { label: "AI Playground", href: "/lab" },
   { label: "ROI Calculator", href: "/ai-roi-calculator" },
+  { label: "AI Roadmap", href: "/ai-roadmap" },
+  { label: "Use Case Generator", href: "/ai-use-case-generator" },
+  { label: "Opportunity Studio", href: "/ai-opportunity-studio" },
+  { label: "Automation Score", href: "/automation-score" },
+  { label: "AI Stack", href: "/ai-stack" },
   { label: "Insights", href: "/insights" },
 ];
 
@@ -16,10 +24,15 @@ function isRoute(href) {
 
 export default function RootLayout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   function closeMenu() {
     setIsMenuOpen(false);
   }
+
+  useEffect(() => {
+    trackEvent("page_view", location.pathname);
+  }, [location.pathname]);
 
   return (
     <div className="site-shell">
@@ -33,11 +46,11 @@ export default function RootLayout() {
             <nav className="desktop-nav" aria-label="Primary">
               {navItems.map((item) =>
                 isRoute(item.href) ? (
-                  <Link key={item.label} to={item.href}>
+                  <NavLink key={item.label} to={item.href} className="nav-item" end>
                     {item.label}
-                  </Link>
+                  </NavLink>
                 ) : (
-                  <a key={item.label} href={item.href}>
+                  <a key={item.label} href={item.href} className="nav-item">
                     {item.label}
                   </a>
                 )
@@ -45,7 +58,7 @@ export default function RootLayout() {
             </nav>
 
             <div className="nav-actions">
-              <Link to="/book" className="btn btn-primary nav-cta" onClick={closeMenu}>
+              <Link to="/book" className="btn btn-primary nav-cta pulse-cta" onClick={closeMenu}>
                 Book a Consultation
               </Link>
               <button
@@ -65,11 +78,11 @@ export default function RootLayout() {
           <nav className={`mobile-nav ${isMenuOpen ? "open" : ""}`} aria-label="Mobile navigation">
             {navItems.map((item) =>
               isRoute(item.href) ? (
-                <Link key={item.label} to={item.href} onClick={closeMenu}>
+                <NavLink key={item.label} to={item.href} className="nav-item" onClick={closeMenu} end>
                   {item.label}
-                </Link>
+                </NavLink>
               ) : (
-                <a key={item.label} href={item.href} onClick={closeMenu}>
+                <a key={item.label} href={item.href} onClick={closeMenu} className="nav-item">
                   {item.label}
                 </a>
               )
@@ -101,6 +114,13 @@ export default function RootLayout() {
             <Link to="/agents">AI Agents</Link>
             <Link to="/use-cases">AI Use Cases</Link>
             <Link to="/ai-roi-calculator">AI ROI Calculator</Link>
+            <Link to="/ai-use-case-generator">AI Use Case Generator</Link>
+            <Link to="/automation-score">Automation Score</Link>
+            <Link to="/prompt-library">Prompt Library</Link>
+            <Link to="/ai-stack">AI Stack</Link>
+            <Link to="/case-study-generator">Case Study Generator</Link>
+            <Link to="/architecture">AI Architecture</Link>
+            <Link to="/implementation-roadmap">Implementation Roadmap</Link>
             <Link to="/book">Book a Consultation</Link>
           </div>
         </div>

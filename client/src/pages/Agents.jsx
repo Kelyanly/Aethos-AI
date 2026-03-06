@@ -1,5 +1,7 @@
 import Seo from "../components/Seo.jsx";
 import SectionHeader from "../components/SectionHeader.jsx";
+import ScrollRevealSection from "../components/ScrollRevealSection.jsx";
+import ArchitectureTooltip from "../components/ArchitectureTooltip.jsx";
 
 const examples = [
   "Lead qualification assistant",
@@ -16,7 +18,7 @@ export default function Agents() {
         description="Learn how Aethos AI deploys ChatHive-powered AI agents for lead qualification, customer support, internal knowledge, and scheduling automation."
       />
 
-      <section className="section booking-intro">
+      <ScrollRevealSection className="section booking-intro">
         <div className="container">
           <h1>AI Agents for Business Automation</h1>
           <p className="hero-copy muted">
@@ -24,36 +26,36 @@ export default function Agents() {
             support quality, and team productivity.
           </p>
         </div>
-      </section>
+      </ScrollRevealSection>
 
-      <section className="section section-alt">
+      <ScrollRevealSection className="section section-alt">
         <div className="container">
           <SectionHeader
             title="What is an AI agent"
             description="An AI agent is a goal-oriented software assistant that understands requests, uses business knowledge, and takes actions across connected tools."
           />
         </div>
-      </section>
+      </ScrollRevealSection>
 
-      <section className="section">
+      <ScrollRevealSection className="section">
         <div className="container">
           <SectionHeader
             title="How conversational AI works"
             description="Conversational AI combines language understanding, workflow logic, and business context to deliver useful responses and actions in real time."
           />
         </div>
-      </section>
+      </ScrollRevealSection>
 
-      <section className="section section-alt">
+      <ScrollRevealSection className="section section-alt">
         <div className="container">
           <SectionHeader
             title="How ChatHive agents are deployed"
             description="Aethos AI uses ChatHive as a conversational layer, then connects agents to CRM systems, internal knowledge, and workflow automations."
           />
         </div>
-      </section>
+      </ScrollRevealSection>
 
-      <section className="section">
+      <ScrollRevealSection className="section">
         <div className="container">
           <SectionHeader
             title="Example business use cases"
@@ -61,13 +63,14 @@ export default function Agents() {
           />
           <div className="cards-grid compact-grid">
             {examples.map((item) => (
-              <article key={item} className="surface-card compact">
+              <article key={item} className="surface-card compact interactive-card">
+                <ArchitectureTooltip copy="Data sources + intent model + action workflow." />
                 <h3>{item}</h3>
               </article>
             ))}
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
     </main>
   );
 }

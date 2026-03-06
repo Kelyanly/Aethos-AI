@@ -1,0 +1,93 @@
+.din0-companion {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  max-width: 420px;
+}
+
+.din0-sprite-card {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.14)),
+    linear-gradient(180deg, rgba(210, 220, 236, 0.1), rgba(210, 220, 236, 0.03));
+  box-shadow:
+    0 12px 24px rgba(15, 23, 32, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.34) inset,
+    0 -10px 24px rgba(255, 255, 255, 0.28) inset;
+  backdrop-filter: blur(16px) saturate(1.05);
+  -webkit-backdrop-filter: blur(16px) saturate(1.05);
+  display: grid;
+  place-items: center;
+  cursor: default;
+  padding: 0;
+}
+
+.din0-sprite-card::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  pointer-events: none;
+}
+
+.din0-sprite-frame {
+  width: 68px;
+  height: 68px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.din0-dialogue {
+  margin: 0;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.44), rgba(255, 255, 255, 0.16)),
+    linear-gradient(180deg, rgba(210, 220, 236, 0.1), rgba(210, 220, 236, 0.03));
+  box-shadow:
+    0 10px 20px rgba(15, 23, 32, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.3) inset,
+    0 -8px 16px rgba(255, 255, 255, 0.25) inset;
+  backdrop-filter: blur(14px) saturate(1.03);
+  -webkit-backdrop-filter: blur(14px) saturate(1.03);
+  color: var(--primary-text);
+  font-size: 0.82rem;
+  line-height: 1.35;
+  padding: 0.5rem 0.72rem;
+  max-width: 280px;
+}
+
+.din0-state-sleep,
+.din0-state-talk {
+  color: var(--secondary-text);
+}
+
+@media (max-width: 760px) {
+  .din0-companion {
+    width: 100%;
+    max-width: 100%;
+    align-items: flex-start;
+  }
+
+  .din0-sprite-card {
+    width: 74px;
+    height: 74px;
+    border-radius: 16px;
+  }
+
+  .din0-sprite-frame {
+    width: 54px;
+    height: 54px;
+  }
+
+  .din0-dialogue {
+    max-width: min(240px, 100%);
+    font-size: 0.78rem;
+    padding: 0.46rem 0.6rem;
+  }
+}

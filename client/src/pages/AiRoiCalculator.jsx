@@ -2,6 +2,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Seo from "../components/Seo.jsx";
 import { runRoiCalculator } from "../lib/api.js";
+import ScrollRevealSection from "../components/ScrollRevealSection.jsx";
+import ROIResultVisualizer from "../components/ROIResultVisualizer.jsx";
+import useDin0Assistant from "../hooks/useDin0Assistant.js";
+import { trackEvent } from "../lib/analytics.js";
 
 const demoValues = {
   employees: "25",
@@ -16,6 +20,7 @@ export default function AiRoiCalculator() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const { assistant, requestByAction } = useDin0Assistant("roi");
 
   function onChange(event) {
     setForm((prev) => ({ ...prev, [event.target.name]: event.target.value }));
@@ -23,6 +28,7 @@ export default function AiRoiCalculator() {
 
   function useDemoValues() {
     setForm(demoValues);
+    requestByAction("open_demo");
   }
 
   async function onSubmit(event) {
@@ -39,6 +45,7 @@ export default function AiRoiCalculator() {
         hourlyCost: Number(form.hourlyCost),
       });
       setResult(data);
+      trackEvent("roi_submit", "/ai-roi-calculator", { employees: Number(form.employees) });
     } catch (submitError) {
       setError(submitError.message);
     } finally {
@@ -53,7 +60,7 @@ export default function AiRoiCalculator() {
         description="Estimate how much time and money your business could save with AI assistants and workflow automation."
       />
 
-      <section className="section booking-intro">
+      <ScrollRevealSection className="section booking-intro">
         <div className="container">
           <h1>AI Automation ROI Calculator</h1>
           <p className="hero-copy muted">
@@ -67,10 +74,11 @@ export default function AiRoiCalculator() {
               Employees: 25, Tickets: 300, Leads: 90, Time: 10 min, Hourly cost: 40 EUR.
             </p>
           </div>
+          <p className="muted small">{assistant.message}</p>
         </div>
-      </section>
+      </ScrollRevealSection>
 
-      <section className="section section-alt">
+      <ScrollRevealSection className="section section-alt">
         <div className="container booking-grid">
           <form className="lead-form" onSubmit={onSubmit}>
             <label>
@@ -124,24 +132,14 @@ export default function AiRoiCalculator() {
           <aside className="booking-side-panel">
             <div className="surface-card">
               <h2>Estimated ROI Output</h2>
-              {!result ? (
-                <p className="muted">Complete the form to generate your AI ROI estimate.</p>
-              ) : (
-                <div className="lab-result">
-                  <p><strong>Estimated hours saved per month:</strong> {result.hoursSavedPerMonth}</p>
-                  <p><strong>Estimated automation potential:</strong> {result.automationPotential}%</p>
-                  <p><strong>Estimated monthly savings:</strong> EUR {result.estimatedMonthlySavings.toLocaleString()}</p>
-                  <p><strong>Estimated annual savings:</strong> EUR {result.estimatedAnnualSavings.toLocaleString()}</p>
-                  <p><strong>Estimated annual ROI:</strong> {result.estimatedAnnualRoi}%</p>
-                </div>
-              )}
+              <ROIResultVisualizer result={result} />
               <Link to="/book" className="btn btn-primary">
                 Discuss Your AI Opportunities
               </Link>
             </div>
           </aside>
         </div>
-      </section>
+      </ScrollRevealSection>
     </main>
   );
 }

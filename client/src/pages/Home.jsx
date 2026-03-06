@@ -1,8 +1,16 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import SectionHeader from "../components/SectionHeader.jsx";
 import Seo from "../components/Seo.jsx";
-import FloatingDin0 from "../components/FloatingDin0.jsx";
+import AnimatedStat from "../components/AnimatedStat.jsx";
+import ScrollRevealSection from "../components/ScrollRevealSection.jsx";
+import AISignalBackground from "../components/AISignalBackground.jsx";
+import UseCaseSwitcher from "../components/UseCaseSwitcher.jsx";
+import WorkflowMicroDiagram from "../components/WorkflowMicroDiagram.jsx";
+import Din0StickyAssistant from "../components/Din0StickyAssistant.jsx";
+import Din0Companion from "../components/Din0Companion.jsx";
+import { tourSteps } from "../agents/demoGuide.js";
+import { trackEvent } from "../lib/analytics.js";
 
 const aiSystems = [
   {
@@ -49,6 +57,29 @@ const implementations = [
   },
 ];
 
+const credibilityLinks = [
+  {
+    title: "AI Systems Architecture",
+    copy: "Review the reference stack: website assistant, workflow automation, CRM and knowledge connections.",
+    href: "/architecture",
+  },
+  {
+    title: "AI Implementation Roadmap",
+    copy: "Discovery, prototype, pilot, deployment, and optimization timeline.",
+    href: "/implementation-roadmap",
+  },
+  {
+    title: "Industry Playbooks",
+    copy: "Real estate, accounting, and agency-focused use cases and deployment patterns.",
+    href: "/industries",
+  },
+  {
+    title: "Example ROI Cases",
+    copy: "Benchmark scenarios for automation potential and annual savings.",
+    href: "/roi-cases",
+  },
+];
+
 const chatPrompts = [
   {
     prompt: "What services does Aethos AI offer?",
@@ -75,11 +106,101 @@ const chatPrompts = [
 
 export default function Home() {
   const [copiedPrompt, setCopiedPrompt] = useState("");
+  const [ctaHovered, setCtaHovered] = useState(false);
+  const [ctaClickSignal, setCtaClickSignal] = useState(0);
+  const [heroActivitySignal, setHeroActivitySignal] = useState(0);
+  const [heroInViewport, setHeroInViewport] = useState(true);
+  const [chatActive, setChatActive] = useState(false);
+  const [showTour, setShowTour] = useState(false);
+  const [tourIndex, setTourIndex] = useState(0);
+  const [visitorIntent, setVisitorIntent] = useState("unknown");
+  const heroRef = useRef(null);
+  const activityTickRef = useRef(0);
 
   async function copyPrompt(text) {
     await navigator.clipboard.writeText(text);
     setCopiedPrompt(text);
     setTimeout(() => setCopiedPrompt(""), 1200);
+  }
+
+  function registerHeroActivity() {
+    const now = Date.now();
+    if (now - activityTickRef.current > 700) {
+      activityTickRef.current = now;
+      setHeroActivitySignal((current) => current + 1);
+    }
+  }
+
+  useEffect(() => {
+    if (!heroRef.current) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setHeroInViewport(entry.isIntersecting);
+      },
+      { threshold: 0.35 },
+    );
+
+    observer.observe(heroRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const storedIntent = window.localStorage.getItem("visitorIntent");
+    if (storedIntent) setVisitorIntent(storedIntent);
+  }, []);
+
+  useEffect(() => {
+    const seenTour = window.localStorage.getItem("aethos_tour_seen");
+    if (!seenTour) {
+      setShowTour(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    const onChatOpen = () => setChatActive(true);
+    const onChatClose = () => setChatActive(false);
+    window.addEventListener("chathive:open", onChatOpen);
+    window.addEventListener("chathive:close", onChatClose);
+
+    // Fallback for widgets exposing open state through attributes.
+    const observer = new MutationObserver(() => {
+      const openNode = document.querySelector(
+        '[class*="chathive"][aria-expanded="true"], [id*="chathive"][aria-expanded="true"], [class*="chathive"][data-open="true"]',
+      );
+      if (openNode) {
+        setChatActive(true);
+      }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+
+    return () => {
+      window.removeEventListener("chathive:open", onChatOpen);
+      window.removeEventListener("chathive:close", onChatClose);
+      observer.disconnect();
+    };
+  }, []);
+
+  const intentCopy = {
+    agency: "AI lead automation for agencies that want better-fit inbound opportunities.",
+    "real-estate": "AI qualification for buyer and seller requests before agent calls.",
+    accounting: "AI intake and knowledge assistants for accounting and advisory workflows.",
+    unknown: "AI automation for businesses that need qualified leads and scalable operations.",
+  };
+
+  const intentCta = {
+    agency: "Automate Your Lead Capture",
+    "real-estate": "Qualify Buyer Leads Faster",
+    accounting: "Optimize Client Intake",
+    unknown: "Book a Consultation",
+  };
+
+  function updateIntent(nextIntent) {
+    setVisitorIntent(nextIntent);
+    window.localStorage.setItem("visitorIntent", nextIntent);
   }
 
   return (
@@ -89,18 +210,36 @@ export default function Home() {
         description="Aethos AI helps service businesses deploy practical AI assistants for lead capture, knowledge access, and workflow automation."
       />
 
-      <section className="hero-section">
-        <div className="container hero-layout">
-          <div className="hero-content">
+      <ScrollRevealSection className="hero-section" once={false}>
+        <div className="container hero-layout" ref={heroRef}>
+          <div
+            className="hero-content"
+            onMouseMove={registerHeroActivity}
+            onFocus={registerHeroActivity}
+            onTouchStart={registerHeroActivity}
+          >
+            <AISignalBackground />
             <p className="eyebrow">AI Consulting for SMEs</p>
-            <h1>AI automation for businesses that need qualified leads and scalable operations.</h1>
+            <h1>{intentCopy[visitorIntent] || intentCopy.unknown}</h1>
             <p className="hero-copy muted">
               Aethos AI delivers AI lead generation automation, AI assistants for websites,
               and AI workflow automation with practical implementation quality.
             </p>
             <div className="hero-actions">
-              <Link className="btn btn-primary" to="/book">
-                Book a Consultation
+              <Link
+                className="btn btn-primary pulse-cta"
+                to="/book"
+                onMouseEnter={() => setCtaHovered(true)}
+                onMouseLeave={() => setCtaHovered(false)}
+                onFocus={() => setCtaHovered(true)}
+                onBlur={() => setCtaHovered(false)}
+                onClick={() => {
+                  setCtaClickSignal((current) => current + 1);
+                  registerHeroActivity();
+                  trackEvent("cta_click", "/", { cta: "hero_primary_book" });
+                }}
+              >
+                {intentCta[visitorIntent] || intentCta.unknown}
               </Link>
               <Link className="btn btn-secondary" to="/agents">
                 Explore AI Solutions
@@ -111,13 +250,24 @@ export default function Home() {
               <span>ChatHive-powered agents</span>
               <span>Business-first implementation</span>
             </div>
+            <div className="usecase-tabs intent-tabs">
+              <button type="button" className={`chip-button ${visitorIntent === "agency" ? "active" : ""}`} onClick={() => updateIntent("agency")}>Agency</button>
+              <button type="button" className={`chip-button ${visitorIntent === "real-estate" ? "active" : ""}`} onClick={() => updateIntent("real-estate")}>Real Estate</button>
+              <button type="button" className={`chip-button ${visitorIntent === "accounting" ? "active" : ""}`} onClick={() => updateIntent("accounting")}>Accounting</button>
+              <button type="button" className={`chip-button ${visitorIntent === "unknown" ? "active" : ""}`} onClick={() => updateIntent("unknown")}>General</button>
+            </div>
+            <div className="hero-din0-row">
+              <Din0Companion
+                inViewport={heroInViewport}
+                ctaHovered={ctaHovered}
+                ctaClickSignal={ctaClickSignal}
+                chatActive={chatActive}
+                activitySignal={heroActivitySignal}
+              />
+            </div>
           </div>
 
           <div className="hero-panel-stack">
-            <FloatingDin0
-              className="din0-hero"
-              message="Din_0 suggests: Start with a consultation."
-            />
             <aside className="hero-panel" aria-label="Value summary">
               <p className="panel-kicker">Consulting Focus</p>
               <h2>Deploy practical AI systems that improve lead quality and operational speed.</h2>
@@ -128,21 +278,52 @@ export default function Home() {
               </div>
               <div className="panel-metrics">
                 <div>
-                  <strong>30d</strong>
+                  <AnimatedStat value={30} suffix="d" />
                   <span>Typical pilot delivery</span>
                 </div>
                 <div>
-                  <strong>42%</strong>
+                  <AnimatedStat value={42} suffix="%" />
                   <span>Average automation potential</span>
                 </div>
               </div>
             </aside>
-            <p className="din0-hero-note muted">Din_0 is your AI demo companion.</p>
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
-      <section className="section" id="chathive-agents">
+      {showTour ? (
+        <div className="tour-overlay" role="dialog" aria-modal="true" aria-label="Aethos quick tour">
+          <div className="tour-card">
+            <p className="eyebrow">Din_0 Tour</p>
+            <h2>{tourSteps[tourIndex].title}</h2>
+            <p className="muted">{tourSteps[tourIndex].description}</p>
+            <div className="tour-actions">
+              <Link className="btn btn-secondary" to={tourSteps[tourIndex].path} onClick={() => setShowTour(false)}>
+                Open Step
+              </Link>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setTourIndex((current) => (current + 1) % tourSteps.length)}
+              >
+                Next
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => {
+                  window.localStorage.setItem("aethos_tour_seen", "1");
+                  setShowTour(false);
+                }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      <ScrollRevealSection className="section" id="chathive-agents">
         <div className="container">
           <SectionHeader
             eyebrow="ChatHive Positioning"
@@ -151,33 +332,35 @@ export default function Home() {
           />
           <div className="cards-grid compact-grid">
             {chatHiveAgents.map((agent) => (
-              <article key={agent} className="surface-card compact">
+              <article key={agent} className="surface-card compact interactive-card">
                 <h3>{agent}</h3>
               </article>
             ))}
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
-      <section className="section section-alt" id="services">
+      <ScrollRevealSection className="section section-alt" id="services">
         <div className="container">
           <SectionHeader
             eyebrow="Services"
             title="AI Systems We Build"
             description="A complete consulting offer from AI readiness to production deployment."
           />
+          <UseCaseSwitcher />
           <div className="cards-grid">
             {aiSystems.map((service) => (
-              <article key={service.title} className="surface-card">
+              <article key={service.title} className="surface-card interactive-card">
+                <WorkflowMicroDiagram />
                 <h3>{service.title}</h3>
                 <p className="muted">{service.copy}</p>
               </article>
             ))}
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
-      <section className="section" id="implementations">
+      <ScrollRevealSection className="section" id="implementations">
         <div className="container">
           <SectionHeader
             eyebrow="Credibility"
@@ -186,16 +369,16 @@ export default function Home() {
           />
           <div className="cards-grid compact-grid">
             {implementations.map((item) => (
-              <article key={item.title} className="surface-card compact">
+              <article key={item.title} className="surface-card compact interactive-card">
                 <h3>{item.title}</h3>
                 <p className="muted">{item.outcome}</p>
               </article>
             ))}
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
-      <section className="section section-alt" id="chat-prompts">
+      <ScrollRevealSection className="section section-alt" id="chat-prompts">
         <div className="container">
           <SectionHeader
             eyebrow="Demo Readiness"
@@ -204,7 +387,7 @@ export default function Home() {
           />
           <div className="cards-grid">
             {chatPrompts.map((item) => (
-              <article key={item.prompt} className="surface-card">
+              <article key={item.prompt} className="surface-card interactive-card">
                 <div className="prompt-row">
                   <h3>{item.prompt}</h3>
                   <button
@@ -220,9 +403,43 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
-      <section className="section final-cta">
+      <ScrollRevealSection className="section section-alt" id="credibility-architecture">
+        <div className="container">
+          <SectionHeader
+            eyebrow="Solution Architecture"
+            title="From Consulting Website to Product-Like AI Platform"
+            description="Explore the architecture, roadmap, industries, and ROI pages used to qualify opportunities with real implementation logic."
+          />
+          <div className="cards-grid">
+            {credibilityLinks.map((item) => (
+              <article key={item.title} className="surface-card interactive-card">
+                <h3>{item.title}</h3>
+                <p className="muted">{item.copy}</p>
+                <Link className="btn btn-secondary" to={item.href}>Open</Link>
+              </article>
+            ))}
+          </div>
+        </div>
+      </ScrollRevealSection>
+
+      <ScrollRevealSection className="section" id="trust-signals">
+        <div className="container">
+          <SectionHeader
+            eyebrow="Trust Signals"
+            title="Technologies We Use"
+            description="Production-ready stack for AI assistants, orchestration, and deployment."
+          />
+          <div className="pill-grid">
+            {["OpenAI", "LangChain", "AWS", "Vector Databases", "Workflow Automation Tools"].map((tool) => (
+              <span key={tool} className="pill-item">{tool}</span>
+            ))}
+          </div>
+        </div>
+      </ScrollRevealSection>
+
+      <ScrollRevealSection className="section final-cta">
         <div className="container final-cta-layout">
           <div>
             <h2>Ready to discuss your AI opportunities?</h2>
@@ -230,11 +447,13 @@ export default function Home() {
               Start with a practical consultation to identify where AI assistants and workflow automation can deliver measurable ROI.
             </p>
           </div>
-          <Link className="btn btn-primary" to="/book">
+          <Link className="btn btn-primary pulse-cta" to="/book">
             Book a Consultation
           </Link>
         </div>
-      </section>
+      </ScrollRevealSection>
+
+      <Din0StickyAssistant visible={!heroInViewport} />
     </main>
   );
 }

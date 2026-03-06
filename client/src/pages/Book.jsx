@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import Seo from "../components/Seo.jsx";
 import { submitConsultation } from "../lib/api.js";
+import ScrollRevealSection from "../components/ScrollRevealSection.jsx";
 
 const initialState = {
   fullName: "",
@@ -78,7 +79,7 @@ export default function Book() {
         description="Discuss your AI opportunities with Aethos AI. Request a consultation for AI lead generation, assistants, and workflow automation."
       />
 
-      <section className="section booking-intro">
+      <ScrollRevealSection className="section booking-intro">
         <div className="container intro-grid">
           <div>
             <p className="eyebrow">Consultation Request</p>
@@ -102,9 +103,9 @@ export default function Book() {
             </p>
           </aside>
         </div>
-      </section>
+      </ScrollRevealSection>
 
-      <section className="section section-alt">
+      <ScrollRevealSection className="section section-alt">
         <div className="container booking-grid">
           <form className="lead-form" onSubmit={onSubmit}>
             <label>
@@ -248,7 +249,7 @@ export default function Book() {
             </div>
           </aside>
         </div>
-      </section>
+      </ScrollRevealSection>
     </main>
   );
 }
