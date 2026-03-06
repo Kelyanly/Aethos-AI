@@ -1,85 +1,99 @@
-# Aethos AI Website
-
-Aethos AI is a premium AI consulting portfolio and lead-generation website.
-It is designed to explain the offer clearly, build trust quickly, and convert visitors into qualified consultation requests.
+# Aethos AI Platform Website
 
 ## Project Overview
 
-This project contains:
-- A conversion-focused homepage with clear positioning and service framing
-- A dedicated booking page (`/book`) with a structured consultation form
-- An Express API that validates, sanitizes, and stores submissions in SQLite
-- ChatHive widget integration in the frontend HTML shell
+Aethos AI is a React + Express platform website for an AI consulting firm focused on:
+- AI consulting for SMEs
+- AI automation for businesses
+- AI lead generation automation
+- AI assistants for websites
+- AI workflow automation
 
-## Stack
+The site includes service positioning, credibility content, consultation booking, interactive AI demos, and an ROI calculator to convert visitors into qualified leads.
+
+## Tech Stack
 
 - Frontend: React, Vite, JavaScript, CSS
-- Routing: `react-router-dom`
 - Backend: Node.js, Express
-- Persistence: SQLite (`sqlite` + `sqlite3`)
+- Database: SQLite
 
 ## Architecture
 
 ### Frontend (`client/`)
-- `src/App.jsx`: Router setup (`/` and `/book`)
-- `src/components/RootLayout.jsx`: shared header and footer
-- `src/components/SectionHeader.jsx`: reusable section heading component
-- `src/pages/Home.jsx`: premium homepage sections
-- `src/pages/Book.jsx`: consultation request page with form states
-- `src/lib/api.js`: API client using `VITE_API_URL`
-- `src/styles.css`: shared design system and responsive styles
+- Routing via `react-router-dom`
+- Shared layout in `src/components/RootLayout.jsx`
+- SEO helper in `src/components/Seo.jsx`
+- Main pages:
+  - Home (`/`)
+  - Booking (`/book`)
+  - AI Agents (`/agents`)
+  - AI Use Cases (`/use-cases`)
+  - AI Playground (`/lab`)
+  - AI ROI Calculator (`/ai-roi-calculator`)
+  - Insights (`/insights`)
 
 ### Backend (`server/`)
-- `index.js`: API routes and server startup
-- `lib/database.js`: SQLite init and connection management
-- `lib/validation.js`: input sanitization + validation rules
-- `data/consultations.db`: SQLite database file (generated at runtime)
+- `POST /api/contact`: stores consultation requests in SQLite
+- `POST /api/lab/lead-qualification`: AI Lead Qualification Bot demo
+- `POST /api/lab/knowledge-assistant`: AI Knowledge Assistant demo
+- `POST /api/lab/automation-potential`: automation potential demo
+- `POST /api/lab/roi-calculator`: AI ROI calculator logic
+- `GET /health`: health endpoint
 
-## Homepage Structure
+## Homepage Features
 
 The homepage includes:
-- Hero with primary and secondary CTAs
-- Services (4 cards)
-- Target clients / industries
-- Use cases
-- Process (`How it works`)
-- Why Aethos AI
-- Final CTA linked to `/book`
+- Positioning for AI consulting for SMEs
+- "AI Agents powered by ChatHive" section
+- "AI Systems We Build" section
+- "Example AI Implementations" trust section
+- Primary and secondary CTA hierarchy
+  - Primary: Book a Consultation
+  - Secondary: Explore AI Solutions
 
-## Booking Flow
+## Booking System
 
-`/book` includes:
-- Intro explaining what happens after submission
-- Consultation form with all required business fields
-- Loading state (`Submitting...`)
-- Success state (request acknowledged)
-- Error state (validation/API failures)
+Route: `/book`
 
-Submitted fields:
-- `fullName`
-- `email`
-- `company`
-- `website`
-- `businessType`
-- `projectGoal`
-- `budgetRange`
-- `desiredTimeline`
-- `message`
+Features:
+- Structured consultation request form
+- Validation and UX feedback states
+- "What happens next" panel
+- Data stored in SQLite through `/api/contact`
 
-Stored record fields:
-- `id`
-- `fullName`
-- `email`
-- `company`
-- `website`
-- `businessType`
-- `projectGoal`
-- `budgetRange`
-- `desiredTimeline`
-- `message`
-- `createdAt`
+## AI Playground
 
-## Local Setup
+Route: `/lab`
+
+Interactive demos:
+1. AI Lead Qualification Bot
+2. AI Knowledge Assistant Demo
+3. Automation Potential Calculator
+
+Purpose:
+- Educational product demos
+- Demonstrates practical consulting workflows
+
+## AI ROI Calculator
+
+Route: `/ai-roi-calculator`
+
+Inputs:
+- Number of employees
+- Monthly support tickets
+- Monthly leads
+- Time per support request
+- Hourly employee cost
+
+Outputs:
+- Estimated hours saved per month
+- Estimated automation potential (%)
+- Estimated annual savings
+- Estimated annual ROI
+
+Includes CTA to `/book`: "Discuss Your AI Opportunities".
+
+## Local Development Setup
 
 Install dependencies:
 
@@ -90,23 +104,23 @@ cd ../server
 npm install
 ```
 
-## Run Frontend
-
-```bash
-cd client
-npm run dev
-```
-
-Default local URL: `http://localhost:5173`
-
-## Run Backend
+Run backend:
 
 ```bash
 cd server
 npm run dev
 ```
 
-Default API URL: `http://localhost:8080`
+Run frontend:
+
+```bash
+cd client
+npm run dev
+```
+
+Default URLs:
+- Frontend: `http://localhost:5173`
+- Backend: `http://localhost:8080`
 
 ## Environment Variables
 
@@ -123,32 +137,31 @@ PORT=8080
 CORS_ORIGIN=http://localhost:5173
 ```
 
-## Deployment Notes
+## Deployment Instructions
 
 ### Frontend
-- Deploy `client/` to a static host (Vercel, Netlify, Cloudflare Pages).
-- Set `VITE_API_URL` to your deployed backend URL.
+Deploy `client/` to static hosting (Vercel / Netlify / Cloudflare Pages).
+Set `VITE_API_URL` to your deployed backend URL.
 
 ### Backend
-- Deploy `server/` to a Node host (Render, Railway, Fly.io, etc.).
-- Ensure persistent disk support for SQLite, or replace SQLite with managed DB in production.
+Deploy `server/` to a Node hosting provider (Render / Railway / Fly.io).
+SQLite requires persistent disk for production data retention.
 
-### Important GitHub Pages Note
-GitHub Pages supports static hosting only.
-- You can host the React frontend there.
-- You cannot run the Express backend on GitHub Pages.
-- The backend must be deployed separately and exposed via URL.
+## Static Hosting vs Backend Hosting
+
+Important:
+- Static hosting platforms serve frontend assets only.
+- Express API routes and SQLite storage must run on a separate backend host.
+- GitHub Pages can host frontend files but cannot run the Node/Express backend.
 
 ## ChatHive Integration
 
-`client/index.html` contains:
-- ChatHive SDK import in `<head>`
-- `Chathive.widget.init(...)` in `<body>`
+ChatHive SDK is loaded in `client/index.html` and initialized in the body.
 
-You can add language configuration directly in the init object, for example:
+Aethos AI uses ChatHive as a core conversational layer for:
+- lead qualification agents
+- customer support agents
+- scheduling agents
+- internal knowledge assistants
 
-```html
-<script>
-  Chathive.widget.init({ apiKey: "YOUR_KEY", language: "fr" });
-</script>
-```
+These agent patterns are explained across the homepage and `/agents` page.

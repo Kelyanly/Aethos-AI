@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import Seo from "../components/Seo.jsx";
 import { submitConsultation } from "../lib/api.js";
 
 const initialState = {
@@ -72,6 +73,11 @@ export default function Book() {
 
   return (
     <main>
+      <Seo
+        title="Book an AI Consultation | Aethos AI"
+        description="Discuss your AI opportunities with Aethos AI. Request a consultation for AI lead generation, assistants, and workflow automation."
+      />
+
       <section className="section booking-intro">
         <div className="container intro-grid">
           <div>
@@ -84,7 +90,7 @@ export default function Book() {
             </p>
           </div>
           <aside className="surface-card reassurance-card">
-            <h3>What happens next</h3>
+            <h2>What happens next</h2>
             <ul>
               <li>Review of your context and constraints</li>
               <li>Structured response with recommended scope</li>
@@ -226,14 +232,14 @@ export default function Book() {
 
           <aside className="booking-side-panel">
             <div className="surface-card">
-              <h3>Consultation focus</h3>
+              <h2>Consultation focus</h2>
               <p className="muted">
                 We prioritize high-impact opportunities where AI can improve revenue,
                 response time, or delivery efficiency.
               </p>
             </div>
             <div className="surface-card">
-              <h3>Best fit profiles</h3>
+              <h2>Best fit profiles</h2>
               <ul>
                 <li>Service businesses with growing inbound demand</li>
                 <li>Teams with recurring knowledge-heavy work</li>

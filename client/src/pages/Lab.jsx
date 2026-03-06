@@ -1,8 +1,8 @@
 import { useState } from "react";
-import SectionHeader from "../components/SectionHeader.jsx";
+import Seo from "../components/Seo.jsx";
 import {
   runLeadQualificationDemo,
-  runMiniRagDemo,
+  runKnowledgeAssistantDemo,
   runAutomationPotentialDemo,
 } from "../lib/api.js";
 
@@ -35,7 +35,7 @@ export default function Lab() {
     event.preventDefault();
     setRagLoading(true);
     try {
-      const result = await runMiniRagDemo({ question: ragInput });
+      const result = await runKnowledgeAssistantDemo({ question: ragInput });
       setRagResult(result);
     } finally {
       setRagLoading(false);
@@ -58,22 +58,26 @@ export default function Lab() {
 
   return (
     <main>
+      <Seo
+        title="AI Playground | Aethos AI"
+        description="Interactive demonstrations of AI systems and algorithms used in real consulting projects."
+      />
+
       <section className="section booking-intro">
         <div className="container">
-          <SectionHeader
-            eyebrow="AI Playground"
-            title="Interactive demonstrations of AI systems used in real consulting projects"
-            description="Test lightweight demos for AI lead generation automation, mini retrieval workflows, and operational automation potential."
-          />
+          <h1>AI Playground</h1>
+          <p className="hero-copy muted">
+            Interactive demonstrations of AI systems and algorithms used in real consulting projects.
+          </p>
         </div>
       </section>
 
       <section className="section section-alt">
         <div className="container lab-grid">
           <article className="surface-card lab-card">
-            <h3>1) AI Lead Qualification Bot</h3>
+            <h2>1) AI Lead Qualification Bot</h2>
             <p className="muted">
-              Describe your business. The demo returns a qualification score and recommendation.
+              User describes their business. The system returns a qualification score.
             </p>
             <form onSubmit={submitLeadDemo} className="lab-form">
               <textarea
@@ -84,21 +88,21 @@ export default function Lab() {
                 required
               />
               <button className="btn btn-primary" disabled={leadLoading}>
-                {leadLoading ? "Evaluating..." : "Evaluate Lead Potential"}
+                {leadLoading ? "Evaluating..." : "Run Demo"}
               </button>
             </form>
             {leadResult ? (
               <div className="lab-result">
-                <p><strong>Score:</strong> {leadResult.score}/100</p>
+                <p><strong>Qualification score:</strong> {leadResult.score}/100</p>
                 <p className="muted">{leadResult.recommendation}</p>
               </div>
             ) : null}
           </article>
 
           <article className="surface-card lab-card">
-            <h3>2) Mini RAG Demo</h3>
+            <h2>2) AI Knowledge Assistant Demo</h2>
             <p className="muted">
-              Ask a question. The demo retrieves an answer from a local consulting knowledge base.
+              User asks a question. The system retrieves answers from a small knowledge base.
             </p>
             <form onSubmit={submitRagDemo} className="lab-form">
               <textarea
@@ -109,7 +113,7 @@ export default function Lab() {
                 required
               />
               <button className="btn btn-primary" disabled={ragLoading}>
-                {ragLoading ? "Searching..." : "Retrieve Answer"}
+                {ragLoading ? "Retrieving..." : "Run Demo"}
               </button>
             </form>
             {ragResult ? (
@@ -121,9 +125,9 @@ export default function Lab() {
           </article>
 
           <article className="surface-card lab-card">
-            <h3>3) AI Automation Potential Calculator</h3>
+            <h2>3) Automation Potential Calculator</h2>
             <p className="muted">
-              Enter team size and manual workload. The demo estimates automation potential.
+              User enters company size and workflow data. System estimates automation potential.
             </p>
             <form onSubmit={submitAutomationDemo} className="lab-form two-col">
               <label>
@@ -147,7 +151,7 @@ export default function Lab() {
                 />
               </label>
               <button className="btn btn-primary full-row" disabled={autoLoading}>
-                {autoLoading ? "Calculating..." : "Estimate Potential"}
+                {autoLoading ? "Calculating..." : "Run Demo"}
               </button>
             </form>
             {autoResult ? (

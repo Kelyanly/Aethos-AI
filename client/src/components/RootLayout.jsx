@@ -3,12 +3,16 @@ import { Link, Outlet } from "react-router-dom";
 
 const navItems = [
   { label: "Services", href: "/#services" },
-  { label: "Industries", href: "/#industries" },
-  { label: "Use Cases", href: "/#use-cases" },
-  { label: "Process", href: "/#process" },
+  { label: "AI Agents", href: "/agents" },
+  { label: "Use Cases", href: "/use-cases" },
   { label: "AI Playground", href: "/lab" },
-  { label: "Why Aethos", href: "/#why-aethos" },
+  { label: "ROI Calculator", href: "/ai-roi-calculator" },
+  { label: "Insights", href: "/insights" },
 ];
+
+function isRoute(href) {
+  return href.startsWith("/") && !href.includes("#");
+}
 
 export default function RootLayout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,7 +32,7 @@ export default function RootLayout() {
 
             <nav className="desktop-nav" aria-label="Primary">
               {navItems.map((item) =>
-                item.href.startsWith("/") && !item.href.includes("#") ? (
+                isRoute(item.href) ? (
                   <Link key={item.label} to={item.href}>
                     {item.label}
                   </Link>
@@ -42,7 +46,7 @@ export default function RootLayout() {
 
             <div className="nav-actions">
               <Link to="/book" className="btn btn-primary nav-cta" onClick={closeMenu}>
-                Book Consultation
+                Book a Consultation
               </Link>
               <button
                 type="button"
@@ -60,7 +64,7 @@ export default function RootLayout() {
 
           <nav className={`mobile-nav ${isMenuOpen ? "open" : ""}`} aria-label="Mobile navigation">
             {navItems.map((item) =>
-              item.href.startsWith("/") && !item.href.includes("#") ? (
+              isRoute(item.href) ? (
                 <Link key={item.label} to={item.href} onClick={closeMenu}>
                   {item.label}
                 </Link>
@@ -71,7 +75,7 @@ export default function RootLayout() {
               )
             )}
             <Link to="/book" className="btn btn-primary" onClick={closeMenu}>
-              Book Consultation
+              Book a Consultation
             </Link>
           </nav>
         </div>
@@ -84,7 +88,7 @@ export default function RootLayout() {
           <div>
             <p className="brand">Aethos AI</p>
             <p className="muted">
-              AI consulting for SMEs, AI automation for businesses, and AI assistants for websites.
+              AI consulting for SMEs, AI lead generation automation, and AI workflow automation for modern service businesses.
             </p>
           </div>
           <div>
@@ -93,17 +97,11 @@ export default function RootLayout() {
             <p className="muted">Brussels, Belgium · Serving EU clients</p>
           </div>
           <div>
-            <p className="footer-title">Links</p>
-            <a href="/#services">Services</a>
-            <Link to="/lab">AI Playground</Link>
-            <Link to="/book">Book Consultation</Link>
-            <a
-              href="https://www.linkedin.com/in/john-francis-kellian-mpiry/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              LinkedIn
-            </a>
+            <p className="footer-title">Explore</p>
+            <Link to="/agents">AI Agents</Link>
+            <Link to="/use-cases">AI Use Cases</Link>
+            <Link to="/ai-roi-calculator">AI ROI Calculator</Link>
+            <Link to="/book">Book a Consultation</Link>
           </div>
         </div>
         <div className="container footer-bottom">

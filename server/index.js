@@ -24,6 +24,10 @@ const labKnowledgeBase = [
     source: "SME Delivery Guide",
     text: "AI consulting for SMEs works best when focused on one measurable objective in the first 30 days.",
   },
+  {
+    source: "ChatHive Integration Notes",
+    text: "ChatHive agents can connect to CRM systems and internal knowledge bases to automate lead capture and support responses.",
+  },
 ];
 
 app.use(cors({ origin: allowedOrigin }));
@@ -108,24 +112,24 @@ app.post("/api/lab/lead-qualification", (req, res) => {
     return res.status(400).json({ error: "Business description is required." });
   }
 
-  const keywords = ["lead", "sales", "website", "automation", "service", "sme", "b2b"];
+  const keywords = ["lead", "sales", "website", "automation", "service", "sme", "b2b", "crm"];
   const normalized = businessDescription.toLowerCase();
   const matches = keywords.filter((keyword) => normalized.includes(keyword)).length;
 
-  const score = Math.min(100, 45 + matches * 8 + Math.min(20, businessDescription.length / 12));
+  const score = Math.min(100, 40 + matches * 9 + Math.min(22, businessDescription.length / 10));
   const rounded = Math.round(score);
 
   const recommendation =
     rounded >= 80
-      ? "High fit for AI lead generation automation and website assistants."
+      ? "High fit for AI lead generation automation and ChatHive-powered assistants."
       : rounded >= 65
-        ? "Good fit. Start with one lead qualification workflow and iterate."
-        : "Potential fit. Clarify offer and inbound process before automation.";
+        ? "Good fit. Start with one lead qualification assistant and measurable KPI tracking."
+        : "Potential fit. Clarify your inbound process before scaling AI automation.";
 
   return res.json({ score: rounded, recommendation });
 });
 
-app.post("/api/lab/mini-rag", (req, res) => {
+app.post("/api/lab/knowledge-assistant", (req, res) => {
   const question = String(req.body?.question || "").trim();
 
   if (!question) {
@@ -146,10 +150,7 @@ app.post("/api/lab/mini-rag", (req, res) => {
     }
   }
 
-  return res.json({
-    answer: best.text,
-    source: best.source,
-  });
+  return res.json({ answer: best.text, source: best.source });
 });
 
 app.post("/api/lab/automation-potential", (req, res) => {
@@ -170,6 +171,42 @@ app.post("/api/lab/automation-potential", (req, res) => {
     hoursSaved,
     summary:
       "Start by automating repetitive qualification, reporting, and internal knowledge tasks for the fastest ROI.",
+  });
+});
+
+app.post("/api/lab/roi-calculator", (req, res) => {
+  const employees = Number(req.body?.employees);
+  const monthlySupportTickets = Number(req.body?.monthlySupportTickets);
+  const monthlyLeads = Number(req.body?.monthlyLeads);
+  const timePerSupportRequest = Number(req.body?.timePerSupportRequest);
+  const hourlyCost = Number(req.body?.hourlyCost);
+
+  const values = [employees, monthlySupportTickets, monthlyLeads, timePerSupportRequest, hourlyCost];
+  if (values.some((value) => !Number.isFinite(value) || value < 0)) {
+    return res.status(400).json({ error: "All calculator inputs must be valid positive numbers." });
+  }
+
+  const supportHours = (monthlySupportTickets * timePerSupportRequest) / 60;
+  const leadOpsHours = monthlyLeads * 0.25;
+  const totalManualHours = supportHours + leadOpsHours;
+
+  const scaleFactor = Math.min(1, employees / 120);
+  const automationPotential = Math.round((0.3 + scaleFactor * 0.25 + Math.min(0.35, totalManualHours / 800)) * 100);
+  const hoursSavedPerMonth = Math.round((totalManualHours * automationPotential) / 100);
+  const monthlySavings = hoursSavedPerMonth * hourlyCost;
+  const estimatedAnnualSavings = Math.round(monthlySavings * 12);
+
+  const estimatedAnnualInvestment = 18000;
+  const estimatedAnnualRoi = Math.max(
+    0,
+    Math.round(((estimatedAnnualSavings - estimatedAnnualInvestment) / estimatedAnnualInvestment) * 100)
+  );
+
+  return res.json({
+    hoursSavedPerMonth,
+    automationPotential,
+    estimatedAnnualSavings,
+    estimatedAnnualRoi,
   });
 });
 

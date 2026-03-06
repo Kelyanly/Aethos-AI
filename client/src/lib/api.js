@@ -27,8 +27,8 @@ export async function runLeadQualificationDemo(payload) {
   return parseJson(response);
 }
 
-export async function runMiniRagDemo(payload) {
-  const response = await fetch(`${API_URL}/api/lab/mini-rag`, {
+export async function runKnowledgeAssistantDemo(payload) {
+  const response = await fetch(`${API_URL}/api/lab/knowledge-assistant`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -38,6 +38,15 @@ export async function runMiniRagDemo(payload) {
 
 export async function runAutomationPotentialDemo(payload) {
   const response = await fetch(`${API_URL}/api/lab/automation-potential`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  return parseJson(response);
+}
+
+export async function runRoiCalculator(payload) {
+  const response = await fetch(`${API_URL}/api/lab/roi-calculator`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
