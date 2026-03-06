@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Aethos AI Portfolio (React + API)
 
 ## Apercu
@@ -116,3 +117,6 @@ git push -u origin main
 - Nom/branding: `client/src/App.jsx`
 - Styles: `client/src/styles.css`
 - ChatHive: `client/index.html`
+=======
+# Aethos-AI
+>>>>>>> 81a2e99f815bc976578bf4af6e2679da019b740b
