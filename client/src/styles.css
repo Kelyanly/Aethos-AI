@@ -170,6 +170,96 @@ h2 {
   transform: scaleX(1);
 }
 
+.nav-group {
+  position: relative;
+}
+
+.nav-group-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  border: 0;
+  background: transparent;
+  color: var(--secondary-text);
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+  position: relative;
+  padding: 0;
+}
+
+.nav-group-trigger span {
+  font-size: 0.7rem;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.nav-group-trigger::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.3rem;
+  width: 100%;
+  height: 2px;
+  background: var(--primary-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.26s ease;
+}
+
+.nav-group:hover .nav-group-trigger,
+.nav-group:focus-within .nav-group-trigger,
+.nav-group.active .nav-group-trigger {
+  color: var(--primary-text);
+}
+
+.nav-group:hover .nav-group-trigger::after,
+.nav-group:focus-within .nav-group-trigger::after,
+.nav-group.active .nav-group-trigger::after {
+  transform: scaleX(1);
+}
+
+.nav-group-menu {
+  position: absolute;
+  top: calc(100% + 0.8rem);
+  left: 0;
+  min-width: 260px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 18px 34px rgba(15, 23, 32, 0.12);
+  padding: 0.38rem;
+  display: grid;
+  gap: 0.1rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 65;
+}
+
+.nav-group:hover .nav-group-menu,
+.nav-group:focus-within .nav-group-menu {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.nav-group-link {
+  display: block;
+  border-radius: 8px;
+  padding: 0.46rem 0.58rem;
+  color: var(--secondary-text);
+  font-size: 0.84rem;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.nav-group-link:hover,
+.nav-group-link.active {
+  background: var(--cards-background);
+  color: var(--primary-text);
+}
+
 .nav-actions {
   display: flex;
   align-items: center;
@@ -199,6 +289,19 @@ h2 {
 
 .mobile-nav {
   display: none;
+}
+
+.mobile-nav-group {
+  display: grid;
+  gap: 0.42rem;
+  padding-top: var(--space-2);
+}
+
+.mobile-nav-title {
+  font-size: 0.74rem;
+  color: var(--secondary-text);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .section {
@@ -1144,7 +1247,7 @@ iframe[src*="chathive"],
 
   .mobile-nav.open {
     opacity: 1;
-    max-height: 480px;
+    max-height: 1200px;
     padding-bottom: var(--space-2);
   }
 

@@ -2,24 +2,45 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { trackEvent } from "../lib/analytics.js";
 
-const navItems = [
+const topLinks = [
   { label: "Services", href: "/#services" },
-  { label: "AI Agents", href: "/agents" },
-  { label: "Architecture", href: "/architecture" },
-  { label: "Use Cases", href: "/use-cases" },
-  { label: "Industries", href: "/industries" },
   { label: "AI Playground", href: "/lab" },
-  { label: "ROI Calculator", href: "/ai-roi-calculator" },
-  { label: "AI Roadmap", href: "/ai-roadmap" },
-  { label: "Use Case Generator", href: "/ai-use-case-generator" },
   { label: "Opportunity Studio", href: "/ai-opportunity-studio" },
-  { label: "Automation Score", href: "/automation-score" },
-  { label: "AI Stack", href: "/ai-stack" },
   { label: "Insights", href: "/insights" },
+];
+
+const navGroups = [
+  {
+    label: "Solutions",
+    items: [
+      { label: "AI Agents", href: "/agents" },
+      { label: "Use Cases", href: "/use-cases" },
+      { label: "Industries", href: "/industries" },
+      { label: "AI Architecture", href: "/architecture" },
+      { label: "Implementation Roadmap", href: "/implementation-roadmap" },
+      { label: "ROI Cases", href: "/roi-cases" },
+      { label: "AI Stack", href: "/ai-stack" },
+    ],
+  },
+  {
+    label: "Tools",
+    items: [
+      { label: "AI ROI Calculator", href: "/ai-roi-calculator" },
+      { label: "AI Roadmap", href: "/ai-roadmap" },
+      { label: "AI Use Case Generator", href: "/ai-use-case-generator" },
+      { label: "Automation Score", href: "/automation-score" },
+      { label: "Prompt Library", href: "/prompt-library" },
+      { label: "Case Study Generator", href: "/case-study-generator" },
+    ],
+  },
 ];
 
 function isRoute(href) {
   return href.startsWith("/") && !href.includes("#");
+}
+
+function isGroupActive(group, pathname) {
+  return group.items.some((item) => pathname === item.href || pathname.startsWith(`${item.href}/`));
 }
 
 export default function RootLayout() {
@@ -44,7 +65,7 @@ export default function RootLayout() {
             </Link>
 
             <nav className="desktop-nav" aria-label="Primary">
-              {navItems.map((item) =>
+              {topLinks.map((item) =>
                 isRoute(item.href) ? (
                   <NavLink key={item.label} to={item.href} className="nav-item" end>
                     {item.label}
@@ -55,6 +76,25 @@ export default function RootLayout() {
                   </a>
                 )
               )}
+
+              {navGroups.map((group) => (
+                <div
+                  key={group.label}
+                  className={`nav-group ${isGroupActive(group, location.pathname) ? "active" : ""}`}
+                >
+                  <button type="button" className="nav-group-trigger" aria-haspopup="menu">
+                    {group.label}
+                    <span aria-hidden="true">▾</span>
+                  </button>
+                  <div className="nav-group-menu" role="menu" aria-label={group.label}>
+                    {group.items.map((item) => (
+                      <NavLink key={item.href} to={item.href} className="nav-group-link" onClick={closeMenu}>
+                        {item.label}
+                      </NavLink>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </nav>
 
             <div className="nav-actions">
@@ -76,7 +116,7 @@ export default function RootLayout() {
           </div>
 
           <nav className={`mobile-nav ${isMenuOpen ? "open" : ""}`} aria-label="Mobile navigation">
-            {navItems.map((item) =>
+            {topLinks.map((item) =>
               isRoute(item.href) ? (
                 <NavLink key={item.label} to={item.href} className="nav-item" onClick={closeMenu} end>
                   {item.label}
@@ -87,6 +127,18 @@ export default function RootLayout() {
                 </a>
               )
             )}
+
+            {navGroups.map((group) => (
+              <div key={group.label} className="mobile-nav-group">
+                <p className="mobile-nav-title">{group.label}</p>
+                {group.items.map((item) => (
+                  <NavLink key={item.href} to={item.href} className="nav-item" onClick={closeMenu}>
+                    {item.label}
+                  </NavLink>
+                ))}
+              </div>
+            ))}
+
             <Link to="/book" className="btn btn-primary" onClick={closeMenu}>
               Book a Consultation
             </Link>
@@ -113,14 +165,8 @@ export default function RootLayout() {
             <p className="footer-title">Explore</p>
             <Link to="/agents">AI Agents</Link>
             <Link to="/use-cases">AI Use Cases</Link>
+            <Link to="/ai-opportunity-studio">Opportunity Studio</Link>
             <Link to="/ai-roi-calculator">AI ROI Calculator</Link>
-            <Link to="/ai-use-case-generator">AI Use Case Generator</Link>
-            <Link to="/automation-score">Automation Score</Link>
-            <Link to="/prompt-library">Prompt Library</Link>
-            <Link to="/ai-stack">AI Stack</Link>
-            <Link to="/case-study-generator">Case Study Generator</Link>
-            <Link to="/architecture">AI Architecture</Link>
-            <Link to="/implementation-roadmap">Implementation Roadmap</Link>
             <Link to="/book">Book a Consultation</Link>
           </div>
         </div>
