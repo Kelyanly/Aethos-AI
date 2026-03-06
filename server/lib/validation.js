@@ -13,7 +13,6 @@ const maxLengthByField = {
 const requiredFields = [
   "fullName",
   "email",
-  "company",
   "businessType",
   "projectGoal",
   "budgetRange",

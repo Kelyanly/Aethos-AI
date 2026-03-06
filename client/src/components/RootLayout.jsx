@@ -6,6 +6,7 @@ const navItems = [
   { label: "Industries", href: "/#industries" },
   { label: "Use Cases", href: "/#use-cases" },
   { label: "Process", href: "/#process" },
+  { label: "AI Playground", href: "/lab" },
   { label: "Why Aethos", href: "/#why-aethos" },
 ];
 
@@ -26,11 +27,17 @@ export default function RootLayout() {
             </Link>
 
             <nav className="desktop-nav" aria-label="Primary">
-              {navItems.map((item) => (
-                <a key={item.label} href={item.href}>
-                  {item.label}
-                </a>
-              ))}
+              {navItems.map((item) =>
+                item.href.startsWith("/") && !item.href.includes("#") ? (
+                  <Link key={item.label} to={item.href}>
+                    {item.label}
+                  </Link>
+                ) : (
+                  <a key={item.label} href={item.href}>
+                    {item.label}
+                  </a>
+                )
+              )}
             </nav>
 
             <div className="nav-actions">
@@ -52,11 +59,17 @@ export default function RootLayout() {
           </div>
 
           <nav className={`mobile-nav ${isMenuOpen ? "open" : ""}`} aria-label="Mobile navigation">
-            {navItems.map((item) => (
-              <a key={item.label} href={item.href} onClick={closeMenu}>
-                {item.label}
-              </a>
-            ))}
+            {navItems.map((item) =>
+              item.href.startsWith("/") && !item.href.includes("#") ? (
+                <Link key={item.label} to={item.href} onClick={closeMenu}>
+                  {item.label}
+                </Link>
+              ) : (
+                <a key={item.label} href={item.href} onClick={closeMenu}>
+                  {item.label}
+                </a>
+              )
+            )}
             <Link to="/book" className="btn btn-primary" onClick={closeMenu}>
               Book Consultation
             </Link>
@@ -71,8 +84,7 @@ export default function RootLayout() {
           <div>
             <p className="brand">Aethos AI</p>
             <p className="muted">
-              AI consulting for lead generation, knowledge assistants, and workflow
-              automation.
+              AI consulting for SMEs, AI automation for businesses, and AI assistants for websites.
             </p>
           </div>
           <div>
@@ -83,7 +95,7 @@ export default function RootLayout() {
           <div>
             <p className="footer-title">Links</p>
             <a href="/#services">Services</a>
-            <a href="/#use-cases">Use Cases</a>
+            <Link to="/lab">AI Playground</Link>
             <Link to="/book">Book Consultation</Link>
             <a
               href="https://www.linkedin.com/in/john-francis-kellian-mpiry/"
