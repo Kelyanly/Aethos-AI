@@ -1377,18 +1377,13 @@ select:focus {
   height: 40px;
 }
 
-iframe[src*="chathive"],
-[id*="chathive"],
-[class*="chathive"] {
-  filter: saturate(0.9) brightness(0.95);
+.din0-widget-root {
+  transform-origin: bottom right;
+  transition: transform 0.2s ease;
 }
 
-@media (min-width: 921px) {
-  iframe[src*="chathive"] {
-    transform: scale(0.92);
-    transform-origin: bottom right;
-    margin: 0 10px 10px 0;
-  }
+.din0-widget-root:hover {
+  transform: translateY(-2px);
 }
 
 @media (max-width: 1180px) {
@@ -1556,10 +1551,8 @@ iframe[src*="chathive"],
     font-size: 0.82rem;
   }
 
-  iframe[src*="chathive"] {
-    transform: scale(0.88);
-    transform-origin: bottom right;
-    margin: 0 4px 6px 0;
+  .din0-widget-root {
+    transform: scale(0.94);
   }
 }
 

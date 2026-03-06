@@ -14,7 +14,7 @@ The platform is designed to feel product-like while staying practical and conver
 - Browser AI: `@huggingface/transformers` (local inference in browser, WebGPU/WASM)
 - Backend: Node.js, Express
 - Database: SQLite
-- Widget: ChatHive SDK
+- Widget: Din_0 embeddable script (`/din0.js` or CDN-hosted build)
 
 ## Architecture
 
@@ -76,12 +76,21 @@ The platform is designed to feel product-like while staying practical and conver
 - Context-aware responses via backend endpoint `POST /api/din0/respond`
 - Fallback deterministic responses if Ollama is unavailable
 - Home companion block + sticky assistant + playground guide
+- Embedded website widget loaded from `client/din0.js` (or CDN override)
 
 Key files:
 - `client/src/components/Din0Sprite.jsx`
 - `client/src/components/Din0Sprite.css`
 - `client/src/hooks/useDin0StateMachine.js`
 - `client/src/components/Din0Companion.jsx`
+
+## Din_0 Widget Embed
+- Current integration lives in `client/index.html`
+- Default widget script path: `/din0.js`
+- Optional overrides before widget init:
+  - `window.__DIN0_WIDGET_URL__ = "https://cdn.tonsite.com/din0.js"`
+  - `window.__DIN0_API_BASE_URL__ = "https://api.tonsite.com"`
+- Default local backend used by init: `http://localhost:8080`
 
 ## AI Opportunity Studio (Flagship)
 Route: `/ai-opportunity-studio`

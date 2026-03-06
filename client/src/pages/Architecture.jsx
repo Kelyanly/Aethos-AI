@@ -3,7 +3,7 @@ import ScrollRevealSection from "../components/ScrollRevealSection.jsx";
 
 const stack = [
   "Website / Chat entry points",
-  "ChatHive conversational AI layer",
+  "Din_0 conversational widget layer",
   "Business logic + qualification policies",
   "Workflow automation orchestration",
   "CRM, knowledge base, and reporting systems",

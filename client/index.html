@@ -21,13 +21,27 @@
     <meta property="og:site_name" content="Aethos AI" />
     <meta property="og:locale" content="en_US" />
     <link rel="icon" href="/favicon.svg" />
-    <script src="https://sdk.chathive.app"></script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
     <script>
-      Chathive.widget.init({ apiKey: "KzSxI0a_YvDPHQlLRWLe8xX7" });
+      (function loadDin0Widget() {
+        var script = document.createElement("script");
+        script.src = window.__DIN0_WIDGET_URL__ || "/din0.js";
+        script.defer = true;
+        script.onload = function initDin0Widget() {
+          if (!window.Din0) return;
+          window.Din0.init({
+            agentId: "default",
+            position: "bottom-right",
+            apiBaseUrl: window.__DIN0_API_BASE_URL__ || "http://localhost:8080",
+            title: "Din_0 Assistant",
+            quickActions: ["Pricing", "Demo", "Docs"],
+          });
+        };
+        document.body.appendChild(script);
+      })();
     </script>
   </body>
 </html>

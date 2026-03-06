@@ -83,7 +83,7 @@ export default function Agents() {
     <main>
       <Seo
         title="AI Agents for Business Automation | Aethos AI"
-        description="Learn how Aethos AI deploys ChatHive-powered AI agents for lead qualification, customer support, internal knowledge, and scheduling automation."
+        description="Learn how Aethos AI deploys Din_0 widget-powered AI agents for lead qualification, customer support, internal knowledge, and scheduling automation."
       />
 
       <ScrollRevealSection className="section booking-intro">

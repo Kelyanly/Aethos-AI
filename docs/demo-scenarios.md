@@ -36,7 +36,7 @@
 - Expected result: Monthly hours saved, automation %, monthly savings, annual savings, and annual ROI.
 - Business value: Faster business-case conversations with prospects.
 
-## 7) ChatHive Assistant Demos
+## 7) Din_0 Assistant Demos
 - Scenario: Live conversational demo in meetings
 - Example prompt: "What services does Aethos AI offer?"
 - Expected result: Explains lead generation systems, knowledge assistants, workflow automation, AI audits, and strategy.

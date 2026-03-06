@@ -30,8 +30,8 @@ const labKnowledgeBase = [
     text: "An AI knowledge assistant for internal teams enables searchable access to documentation, onboarding material, and support procedures.",
   },
   {
-    source: "ChatHive Integration Notes",
-    text: "ChatHive agents can connect to CRM systems and internal knowledge bases to automate lead capture and support responses.",
+    source: "Din_0 Widget Integration Notes",
+    text: "Din_0 widget agents can connect to CRM systems and internal knowledge bases to automate lead capture and support responses.",
   },
 ];
 
@@ -127,7 +127,7 @@ app.post("/api/lab/lead-qualification", (req, res) => {
 
   const recommendation =
     rounded >= 80
-      ? "High fit for AI lead generation automation and ChatHive-powered assistants."
+      ? "High fit for AI lead generation automation and Din_0-powered assistants."
       : rounded >= 65
         ? "Good fit. Start with one lead qualification assistant and measurable KPI tracking."
         : "Potential fit. Clarify your inbound process before scaling AI automation.";

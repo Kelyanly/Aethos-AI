@@ -99,8 +99,8 @@ const chatPrompts = [
     expected: "Suggest a lead qualification AI assistant.",
   },
   {
-    prompt: "Do you build AI assistants using ChatHive?",
-    expected: "Explain ChatHive-powered agents and use cases.",
+    prompt: "Do you build AI assistants using the Din_0 widget?",
+    expected: "Explain Din_0-powered agents and use cases.",
   },
   {
     prompt: "I want to book a consultation.",
@@ -168,27 +168,14 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const onChatOpen = () => setChatActive(true);
-    const onChatClose = () => setChatActive(false);
-    window.addEventListener("chathive:open", onChatOpen);
-    window.addEventListener("chathive:close", onChatClose);
-
-    // Fallback for widgets exposing open state through attributes.
-    const observer = new MutationObserver(() => {
-      const openNode = document.querySelector(
-        '[class*="chathive"][aria-expanded="true"], [id*="chathive"][aria-expanded="true"], [class*="chathive"][data-open="true"]',
-      );
-      if (openNode) {
-        setChatActive(true);
-      }
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+    const onWidgetOpen = () => setChatActive(true);
+    const onWidgetClose = () => setChatActive(false);
+    window.addEventListener("din0:open", onWidgetOpen);
+    window.addEventListener("din0:close", onWidgetClose);
 
     return () => {
-      window.removeEventListener("chathive:open", onChatOpen);
-      window.removeEventListener("chathive:close", onChatClose);
-      observer.disconnect();
+      window.removeEventListener("din0:open", onWidgetOpen);
+      window.removeEventListener("din0:close", onWidgetClose);
     };
   }, []);
 
@@ -255,13 +242,13 @@ export default function Home() {
               >
                 Get Your AI Opportunity Map
               </Link>
-              <Link className="btn btn-secondary" to="/#chathive-agents">
+              <Link className="btn btn-secondary" to="/#assistant-agents">
                 Explore AI Solutions
               </Link>
             </div>
             <div className="hero-signals">
               <span>AI consulting for SMEs</span>
-              <span>ChatHive-powered agents</span>
+              <span>Din_0 companion widget</span>
               <span>Business-first implementation</span>
             </div>
             <div className="usecase-tabs intent-tabs">
@@ -354,16 +341,16 @@ export default function Home() {
         </div>
       ) : null}
 
-      <ScrollRevealSection className="section" id="chathive-agents">
+      <ScrollRevealSection className="section" id="assistant-agents">
         <div className="container">
           <SectionHeader
-            eyebrow="ChatHive Positioning"
-            title="AI Agents powered by ChatHive"
+            eyebrow="Assistant Widget"
+            title="AI Agents guided by Din_0"
             description="Aethos AI deploys conversational AI agents that capture and qualify leads, answer customer questions, automate repetitive workflows, integrate with CRM systems, and connect to internal knowledge bases."
           />
           <div className="page-intro-block">
             <p>
-              ChatHive is used as the conversational layer so teams can launch quickly while
+              Din_0 is embedded as a lightweight widget layer so teams can launch quickly while
               keeping integration options open for CRM, scheduling, and knowledge operations.
             </p>
           </div>
@@ -430,7 +417,7 @@ export default function Home() {
           <SectionHeader
             eyebrow="Demo Readiness"
             title="Chat Assistant Demo Prompts"
-            description="Use these prompts in the ChatHive widget during presentations and live demos."
+            description="Use these prompts in the Din_0 widget during presentations and live demos."
           />
           <div className="cards-grid">
             {chatPrompts.map((item) => (

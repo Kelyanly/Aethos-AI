@@ -20,7 +20,7 @@ const tools = [
     useCases: ["Semantic document search", "Knowledge assistants", "Internal support bots"],
   },
   {
-    name: "ChatHive",
+    name: "Din_0 Widget",
     description: "Conversation interface and deployment layer for web and support assistants.",
     useCases: ["Website lead capture", "Support assistant entry point", "Conversation analytics"],
   },
@@ -89,7 +89,7 @@ export default function AiStack() {
         onClose={() => setShowArchitecture(false)}
         title="Architecture Example"
       >
-        <p><strong>{"Website -> ChatHive -> LLM -> Vector DB -> Workflow automation -> CRM"}</strong></p>
+        <p><strong>{"Website -> Din_0 Widget -> LLM -> Vector DB -> Workflow automation -> CRM"}</strong></p>
         <p className="muted">
           This flow shows how front-end conversations connect to retrieval and automation layers to
           create measurable business actions.
