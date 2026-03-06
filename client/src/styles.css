@@ -1,16 +1,17 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap");
 
 :root {
   color-scheme: light;
-  --bg: #0d0f14;
-  --bg-soft: #141825;
-  --card: #1a2030;
-  --text: #f5f2ea;
-  --muted: #b7b1a4;
-  --accent: #e7c67a;
-  --accent-strong: #ffb347;
-  --border: rgba(231, 198, 122, 0.2);
-  --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  --bg: #f1efea;
+  --bg-soft: #e8e4dd;
+  --ink: #171717;
+  --muted: #54504a;
+  --accent: #101010;
+  --accent-soft: #f8f4ec;
+  --line: rgba(23, 23, 23, 0.12);
+  --card: #ffffff;
+  --shadow: 0 18px 50px rgba(18, 18, 18, 0.1);
+  --pill: #111111;
 }
 
 * {
@@ -19,9 +20,9 @@
 
 body {
   margin: 0;
-  font-family: "Space Grotesk", system-ui, sans-serif;
-  background: radial-gradient(circle at top left, #21273b 0%, #0d0f14 45%, #07080c 100%);
-  color: var(--text);
+  font-family: "Manrope", system-ui, sans-serif;
+  background: radial-gradient(circle at 10% 0%, #f9f6f0 0%, #f1efea 45%, #e7e3db 100%);
+  color: var(--ink);
 }
 
 a {
@@ -34,7 +35,9 @@ a {
 }
 
 .hero {
-  padding: 40px 8vw 80px;
+  padding: 40px 7vw 70px;
+  position: relative;
+  overflow: hidden;
 }
 
 .nav {
@@ -42,14 +45,14 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 32px;
-  padding-bottom: 40px;
+  padding-bottom: 32px;
 }
 
 .logo {
-  font-family: "Playfair Display", serif;
+  font-family: "Fraunces", serif;
   font-size: 1.4rem;
   font-weight: 600;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
 }
 
 .nav-links {
@@ -66,7 +69,7 @@ a {
 .hero-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 40px;
+  gap: 44px;
   align-items: center;
 }
 
@@ -74,21 +77,21 @@ a {
   text-transform: uppercase;
   letter-spacing: 0.2rem;
   font-size: 0.75rem;
-  color: var(--accent);
+  color: var(--muted);
   margin-bottom: 16px;
 }
 
 h1 {
-  font-family: "Playfair Display", serif;
-  font-size: clamp(2.2rem, 3vw, 3.4rem);
-  line-height: 1.1;
+  font-family: "Fraunces", serif;
+  font-size: clamp(2.3rem, 3.3vw, 3.7rem);
+  line-height: 1.05;
   margin: 0 0 18px;
 }
 
 .lead {
   color: var(--muted);
   font-size: 1.05rem;
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
 .cta-row {
@@ -107,13 +110,13 @@ h1 {
 }
 
 .primary {
-  background: linear-gradient(120deg, var(--accent) 0%, var(--accent-strong) 100%);
-  color: #2a2112;
+  background: var(--pill);
+  color: #f7f4ed;
 }
 
 .ghost {
-  border-color: var(--border);
-  color: var(--text);
+  border-color: var(--line);
+  color: var(--ink);
 }
 
 .trust-row {
@@ -125,10 +128,10 @@ h1 {
 }
 
 .hero-card {
-  background: linear-gradient(145deg, rgba(25, 31, 45, 0.9), rgba(18, 22, 34, 0.8));
-  border: 1px solid var(--border);
+  background: var(--card);
+  border: 1px solid var(--line);
   border-radius: 24px;
-  padding: 32px;
+  padding: 28px;
   box-shadow: var(--shadow);
 }
 
@@ -141,7 +144,7 @@ h1 {
 .card-head {
   font-weight: 600;
   margin-bottom: 12px;
-  color: var(--accent);
+  color: var(--ink);
 }
 
 .metric {
@@ -157,7 +160,7 @@ h1 {
 }
 
 .section {
-  padding: 80px 8vw;
+  padding: 78px 7vw;
 }
 
 .section.alt {
@@ -165,7 +168,7 @@ h1 {
 }
 
 .section-title h2 {
-  font-family: "Playfair Display", serif;
+  font-family: "Fraunces", serif;
   font-size: 2rem;
   margin-bottom: 8px;
 }
@@ -177,7 +180,10 @@ h1 {
 
 .cards,
 .work-grid,
-.pillars {
+.pillars,
+.testimonial-grid,
+.timeline,
+.case-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 24px;
@@ -186,9 +192,12 @@ h1 {
 
 .card,
 .work-item,
-.pillars > div {
+.pillars > div,
+.testimonial,
+.timeline-item,
+.case-item {
   background: var(--card);
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: 20px;
   padding: 24px;
   line-height: 1.6;
@@ -198,26 +207,40 @@ h1 {
 .card h3,
 .work-item h3,
 .pillars h4 {
-  color: var(--text);
+  color: var(--ink);
   margin-top: 0;
 }
 
 .work-item span {
   display: inline-block;
   margin-top: 12px;
-  color: var(--accent);
+  color: var(--ink);
   font-size: 0.85rem;
 }
 
-.process {
+.testimonial p {
+  font-style: italic;
+  margin-top: 0;
+}
+
+.testimonial span {
+  display: block;
+  margin-top: 14px;
+  color: var(--ink);
+  font-size: 0.85rem;
+}
+
+.process,
+.timeline {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 20px;
   margin-top: 28px;
 }
 
-.process div {
-  border-left: 2px solid var(--accent);
+.process div,
+.timeline > div {
+  border-left: 2px solid var(--ink);
   padding-left: 16px;
 }
 
@@ -232,7 +255,7 @@ h1 {
   background: var(--card);
   border-radius: 20px;
   padding: 24px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   display: grid;
   gap: 16px;
 }
@@ -246,17 +269,17 @@ label {
 
 input,
 textarea {
-  background: #0f1320;
-  border: 1px solid rgba(231, 198, 122, 0.2);
+  background: #fbfaf7;
+  border: 1px solid var(--line);
   border-radius: 12px;
   padding: 10px 12px;
-  color: var(--text);
+  color: var(--ink);
   font-family: inherit;
 }
 
 button {
-  background: var(--accent);
-  color: #2a2112;
+  background: var(--pill);
+  color: #f7f4ed;
   border: none;
   border-radius: 999px;
   padding: 12px 18px;
@@ -270,18 +293,18 @@ button {
 }
 
 .form-msg.success {
-  color: #9ce2c0;
+  color: #2a7f4f;
 }
 
 .form-msg.error {
-  color: #ff8a80;
+  color: #c23b3b;
 }
 
 .contact-panel {
-  background: linear-gradient(135deg, rgba(25, 31, 45, 0.9), rgba(12, 16, 25, 0.9));
+  background: linear-gradient(135deg, #ffffff 0%, #f3efe7 100%);
   border-radius: 20px;
   padding: 24px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
 }
 
 .panel-block ul {
@@ -290,7 +313,7 @@ button {
 }
 
 .footer {
-  padding: 40px 8vw 60px;
+  padding: 40px 7vw 60px;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -303,6 +326,108 @@ button {
   gap: 16px;
 }
 
+.hero-art {
+  position: relative;
+  min-height: 420px;
+  background: linear-gradient(120deg, #f6f2ea 0%, #fefefe 50%, #f1ece2 100%);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.hero-art::before {
+  content: "";
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  background: conic-gradient(from 120deg, #f1a95c, #f6d072, #f3f0e9, #f1a95c);
+  border-radius: 50%;
+  filter: blur(0px);
+  opacity: 0.8;
+  right: -80px;
+  top: -60px;
+}
+
+.hero-art::after {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: #0e0e0e;
+  right: 24px;
+  bottom: 24px;
+  opacity: 0.06;
+}
+
+.hero-art .art-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 28px;
+}
+
+.hero-art .avatar {
+  width: 200px;
+  height: 260px;
+  border-radius: 24px;
+  background: linear-gradient(160deg, #dfdad1, #ffffff);
+  border: 1px solid var(--line);
+  margin: 0 auto 18px;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.marquee {
+  margin-top: 26px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12rem;
+  color: var(--muted);
+}
+
+.timeline-item h4,
+.case-item h4 {
+  margin: 0 0 12px;
+  color: var(--ink);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-soft);
+  border: 1px solid var(--line);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.cta-group {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.ghost.dark {
+  background: transparent;
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
 @media (max-width: 720px) {
   .nav {
     flex-direction: column;
@@ -310,5 +435,8 @@ button {
   }
   .nav-links {
     flex-wrap: wrap;
+  }
+  .hero-art {
+    min-height: 320px;
   }
 }
