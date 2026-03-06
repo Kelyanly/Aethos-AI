@@ -61,7 +61,7 @@ export default function Book() {
       await submitConsultation(form);
       setStatus("success");
       setFeedback(
-        "Request received. You will get a response with next steps within one business day."
+        "Your request was received. You will get a tailored response with next steps within one business day."
       );
       setForm(initialState);
     } catch (error) {
@@ -72,34 +72,34 @@ export default function Book() {
 
   return (
     <main>
-      <section className="section page-intro">
+      <section className="section booking-intro">
         <div className="container intro-grid">
           <div>
             <p className="eyebrow">Consultation Request</p>
-            <h1>Tell us about your project.</h1>
-            <p className="muted">
-              After you submit this form, Aethos AI reviews your request and returns a
-              tailored response with recommended scope, expected timeline, and next
-              action steps.
+            <h1>Book a strategic AI consultation.</h1>
+            <p className="muted hero-copy">
+              Share your current challenge and business objective. Aethos AI reviews your
+              request and replies with a practical recommendation, timeline guidance, and
+              implementation options.
             </p>
           </div>
-          <aside className="surface-card reassurance">
+          <aside className="surface-card reassurance-card">
             <h3>What happens next</h3>
             <ul>
-              <li>Initial review of your context and business objective</li>
-              <li>Follow-up with targeted questions if needed</li>
-              <li>Practical recommendation with delivery options</li>
+              <li>Review of your context and constraints</li>
+              <li>Structured response with recommended scope</li>
+              <li>Proposal of first milestones and delivery approach</li>
             </ul>
             <p className="muted small">
-              Your information is treated confidentially and used only to evaluate your
-              consultation request.
+              Your information is handled confidentially and used only for consultation
+              assessment.
             </p>
           </aside>
         </div>
       </section>
 
       <section className="section section-alt">
-        <div className="container form-shell">
+        <div className="container booking-grid">
           <form className="lead-form" onSubmit={onSubmit}>
             <label>
               Full Name*
@@ -124,11 +124,7 @@ export default function Book() {
 
             <label>
               Company
-              <input
-                name="company"
-                value={form.company}
-                onChange={onFieldChange}
-              />
+              <input name="company" value={form.company} onChange={onFieldChange} />
             </label>
 
             <label>
@@ -146,7 +142,7 @@ export default function Book() {
               Business Type*
               <input
                 name="businessType"
-                placeholder="Example: B2B services, legal, consulting"
+                placeholder="Example: consulting, agency, B2B services"
                 value={form.businessType}
                 onChange={onFieldChange}
                 required
@@ -157,7 +153,7 @@ export default function Book() {
               Project Goal*
               <input
                 name="projectGoal"
-                placeholder="Example: qualify inbound leads automatically"
+                placeholder="Example: improve inbound lead qualification"
                 value={form.projectGoal}
                 onChange={onFieldChange}
                 required
@@ -202,10 +198,10 @@ export default function Book() {
               Message*
               <textarea
                 name="message"
-                rows="6"
+                rows="7"
                 value={form.message}
                 onChange={onFieldChange}
-                placeholder="Share your context, current bottleneck, and desired outcome."
+                placeholder="Describe your current bottleneck, target outcome, and relevant context."
                 required
               />
             </label>
@@ -227,6 +223,24 @@ export default function Book() {
               </p>
             ) : null}
           </form>
+
+          <aside className="booking-side-panel">
+            <div className="surface-card">
+              <h3>Consultation focus</h3>
+              <p className="muted">
+                We prioritize high-impact opportunities where AI can improve revenue,
+                response time, or delivery efficiency.
+              </p>
+            </div>
+            <div className="surface-card">
+              <h3>Best fit profiles</h3>
+              <ul>
+                <li>Service businesses with growing inbound demand</li>
+                <li>Teams with recurring knowledge-heavy work</li>
+                <li>Organizations ready for practical automation</li>
+              </ul>
+            </div>
+          </aside>
         </div>
       </section>
     </main>

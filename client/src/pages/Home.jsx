@@ -5,84 +5,84 @@ const services = [
   {
     title: "AI Assistants for Lead Capture",
     copy:
-      "Deploy conversational assistants that qualify visitors, capture intent, and hand off the right opportunities to your team.",
+      "Deploy assistants that qualify inbound interest, gather intent, and route opportunities to the right sales owner.",
   },
   {
     title: "Knowledge Assistants",
     copy:
-      "Transform internal documentation into a secure, source-aware assistant that gives precise answers to staff and clients.",
+      "Give teams and clients reliable access to your expertise through source-grounded, business-aware assistants.",
   },
   {
     title: "Workflow Automation",
     copy:
-      "Automate repetitive operational tasks across CRM, support, and delivery workflows with reliability and oversight.",
+      "Automate repetitive delivery and operations tasks across CRM, support, and service workflows with clear controls.",
   },
   {
-    title: "Tailored AI Solutions",
+    title: "Tailored AI Systems",
     copy:
-      "Design and implement custom AI systems aligned with your business model, constraints, and growth priorities.",
+      "Design bespoke AI solutions around your constraints, stack, and service model for measurable business impact.",
   },
 ];
 
 const industries = [
   "Professional Services",
-  "SMEs",
   "Consulting Firms",
-  "Agencies",
+  "B2B Agencies",
   "Financial Services",
-  "Public Sector Programs",
+  "SMEs",
+  "Public Programs",
 ];
 
 const useCases = [
   {
-    title: "Inbound lead qualification",
-    copy: "Filter and prioritize prospects before the first sales call.",
+    title: "Lead qualification and handoff",
+    copy: "Prioritize high-intent prospects and shorten your sales response cycle.",
   },
   {
-    title: "Client onboarding copilots",
-    copy: "Speed up onboarding with guided data collection and document checks.",
+    title: "Client onboarding acceleration",
+    copy: "Capture requirements and documents faster while reducing onboarding friction.",
   },
   {
-    title: "Operations assistants",
-    copy: "Reduce manual admin load with role-specific assistants for internal teams.",
+    title: "Service delivery copilots",
+    copy: "Support teams with contextual recommendations and faster access to internal know-how.",
   },
   {
-    title: "Knowledge-based support",
-    copy: "Answer recurring client questions with controlled, up-to-date information.",
+    title: "Knowledge-powered support",
+    copy: "Answer recurring questions consistently with transparent, up-to-date information.",
   },
 ];
 
 const process = [
   {
-    title: "1. Audit",
-    copy: "Map goals, constraints, data, and bottlenecks to define the highest-impact AI scope.",
+    title: "1. Scope",
+    copy: "Define the opportunity, constraints, and success metrics with stakeholders.",
   },
   {
-    title: "2. Design",
-    copy: "Create architecture and user flows focused on measurable outcomes and adoption.",
+    title: "2. Architect",
+    copy: "Design the assistant, integrations, and governance model for your business context.",
   },
   {
-    title: "3. Build",
-    copy: "Implement the assistant or automation stack with integrations and safety controls.",
+    title: "3. Launch",
+    copy: "Ship a production-ready implementation with quality controls and clear ownership.",
   },
   {
-    title: "4. Optimize",
-    copy: "Track performance, improve prompts and flows, and scale what works.",
+    title: "4. Scale",
+    copy: "Iterate based on real usage data and extend automation to adjacent workflows.",
   },
 ];
 
 const differentiators = [
   {
-    title: "Consulting-grade execution",
-    copy: "Clear scope, clean delivery, and decision-ready reporting for business leaders.",
+    title: "Business-first execution",
+    copy: "Every build is tied to concrete commercial or operational outcomes.",
   },
   {
-    title: "Conversion-focused systems",
-    copy: "Every solution is designed to improve lead quality, response time, and operational throughput.",
+    title: "Premium implementation quality",
+    copy: "Clean architecture, reliable UX, and disciplined delivery standards.",
   },
   {
-    title: "Built for trust",
-    copy: "Strong governance, human oversight, and transparent behavior in production use.",
+    title: "Trust-ready systems",
+    copy: "Transparent behavior, guardrails, and governance designed for professional environments.",
   },
 ];
 
@@ -91,37 +91,46 @@ export default function Home() {
     <main>
       <section className="hero-section">
         <div className="container hero-layout">
-          <div>
-            <p className="eyebrow">Premium AI Consulting for SMEs</p>
-            <h1>Build AI assistants that convert demand into qualified opportunities.</h1>
+          <div className="hero-content">
+            <p className="eyebrow">AI Consulting for Service Businesses</p>
+            <h1>AI assistants that generate qualified demand and scale delivery capacity.</h1>
             <p className="hero-copy muted">
-              Aethos AI helps service businesses deploy practical AI for lead capture,
-              knowledge delivery, and workflow automation. Focused systems, measurable
-              outcomes, and implementation quality you can trust.
+              Aethos AI helps SMEs and service firms deploy practical AI systems for lead
+              capture, knowledge delivery, and workflow automation without unnecessary complexity.
             </p>
             <div className="hero-actions">
               <Link className="btn btn-primary" to="/book">
                 Request Consultation
               </Link>
               <a className="btn btn-secondary" href="#services">
-                View Services
+                Explore Services
               </a>
             </div>
-            <div className="hero-signals muted">
+            <div className="hero-signals">
               <span>Brussels-based</span>
-              <span>EU-focused delivery</span>
+              <span>EU delivery</span>
               <span>Conversion-oriented</span>
             </div>
           </div>
 
           <aside className="hero-panel">
-            <p className="panel-title">What this website can do for your business</p>
-            <ul>
-              <li>Capture and qualify inbound leads automatically</li>
-              <li>Answer recurring client questions with verified sources</li>
-              <li>Automate repetitive workflows across key teams</li>
-              <li>Provide an AI roadmap grounded in business outcomes</li>
-            </ul>
+            <p className="panel-kicker">Strategic Value</p>
+            <h3>Designed to improve revenue velocity and operational consistency.</h3>
+            <div className="panel-list">
+              <p>Lead assistants that qualify and route opportunities automatically.</p>
+              <p>Knowledge copilots that reduce internal response time.</p>
+              <p>Automation layers that eliminate repetitive delivery tasks.</p>
+            </div>
+            <div className="panel-metrics">
+              <div>
+                <strong>30d</strong>
+                <span>Typical pilot window</span>
+              </div>
+              <div>
+                <strong>4x</strong>
+                <span>Faster internal answers</span>
+              </div>
+            </div>
           </aside>
         </div>
       </section>
@@ -130,8 +139,8 @@ export default function Home() {
         <div className="container">
           <SectionHeader
             eyebrow="Core Services"
-            title="Designed for implementation, not slide decks"
-            description="Each engagement is scoped around a clear business objective and a production-ready outcome."
+            title="Consulting-grade offers with implementation depth"
+            description="Each engagement is scoped around one clear objective and delivered with production-level standards."
           />
           <div className="cards-grid">
             {services.map((service) => (
@@ -148,8 +157,8 @@ export default function Home() {
         <div className="container">
           <SectionHeader
             eyebrow="Target Clients"
-            title="Built for service-led organizations"
-            description="Aethos AI is optimized for teams that need practical AI systems with real ROI and strong credibility."
+            title="Built for high-trust service environments"
+            description="Aethos AI partners with organizations where clarity, reliability, and speed matter."
           />
           <div className="pill-grid">
             {industries.map((industry) => (
@@ -165,10 +174,10 @@ export default function Home() {
         <div className="container">
           <SectionHeader
             eyebrow="Use Cases"
-            title="Where clients typically start"
-            description="High-value entry points that improve conversion, responsiveness, and team productivity."
+            title="Practical entry points with measurable value"
+            description="These are the most common first deployments for service-led teams."
           />
-          <div className="cards-grid">
+          <div className="cards-grid compact-grid">
             {useCases.map((item) => (
               <article key={item.title} className="surface-card compact">
                 <h3>{item.title}</h3>
@@ -183,8 +192,8 @@ export default function Home() {
         <div className="container">
           <SectionHeader
             eyebrow="How It Works"
-            title="A structured path from idea to deployment"
-            description="A clear operating model that keeps execution fast and risk controlled."
+            title="A clear path from initial scope to production"
+            description="Delivery follows a focused process that balances speed with long-term system quality."
           />
           <div className="process-grid">
             {process.map((step) => (
@@ -201,8 +210,8 @@ export default function Home() {
         <div className="container">
           <SectionHeader
             eyebrow="Why Aethos AI"
-            title="A partner focused on outcomes"
-            description="The engagement is built to create confidence internally while producing visible business gains."
+            title="A delivery partner focused on credible outcomes"
+            description="Execution quality and business relevance are treated as first-order priorities."
           />
           <div className="cards-grid">
             {differentiators.map((item) => (
@@ -218,10 +227,10 @@ export default function Home() {
       <section className="section final-cta">
         <div className="container final-cta-layout">
           <div>
-            <h2>Ready to scope your AI initiative?</h2>
+            <h2>Ready to turn AI into a business advantage?</h2>
             <p className="muted">
-              Share your context and goals. You will receive a practical recommendation
-              with next steps tailored to your business.
+              Share your context and goals. You will receive an actionable consultation
+              response with proposed next steps.
             </p>
           </div>
           <Link className="btn btn-primary" to="/book">

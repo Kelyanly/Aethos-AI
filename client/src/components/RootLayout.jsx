@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 
 const navItems = [
@@ -9,23 +10,57 @@ const navItems = [
 ];
 
 export default function RootLayout() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  function closeMenu() {
+    setIsMenuOpen(false);
+  }
+
   return (
     <div className="site-shell">
       <header className="site-header">
-        <div className="container nav-bar">
-          <Link to="/" className="brand" aria-label="Aethos AI home">
-            Aethos AI
-          </Link>
-          <nav className="desktop-nav" aria-label="Primary">
+        <div className="container nav-shell">
+          <div className="nav-bar">
+            <Link to="/" className="brand" aria-label="Aethos AI home" onClick={closeMenu}>
+              Aethos AI
+            </Link>
+
+            <nav className="desktop-nav" aria-label="Primary">
+              {navItems.map((item) => (
+                <a key={item.label} href={item.href}>
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+
+            <div className="nav-actions">
+              <Link to="/book" className="btn btn-primary nav-cta" onClick={closeMenu}>
+                Book Consultation
+              </Link>
+              <button
+                type="button"
+                className="menu-toggle"
+                onClick={() => setIsMenuOpen((prev) => !prev)}
+                aria-label="Toggle navigation"
+                aria-expanded={isMenuOpen}
+              >
+                <span />
+                <span />
+                <span />
+              </button>
+            </div>
+          </div>
+
+          <nav className={`mobile-nav ${isMenuOpen ? "open" : ""}`} aria-label="Mobile navigation">
             {navItems.map((item) => (
-              <a key={item.label} href={item.href}>
+              <a key={item.label} href={item.href} onClick={closeMenu}>
                 {item.label}
               </a>
             ))}
+            <Link to="/book" className="btn btn-primary" onClick={closeMenu}>
+              Book Consultation
+            </Link>
           </nav>
-          <Link to="/book" className="btn btn-primary nav-button">
-            Book Consultation
-          </Link>
         </div>
       </header>
 
@@ -36,7 +71,7 @@ export default function RootLayout() {
           <div>
             <p className="brand">Aethos AI</p>
             <p className="muted">
-              AI consulting for lead-generation, knowledge assistants, and workflow
+              AI consulting for lead generation, knowledge assistants, and workflow
               automation.
             </p>
           </div>
