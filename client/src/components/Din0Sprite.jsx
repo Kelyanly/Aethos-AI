@@ -8,47 +8,40 @@ const PIXEL = 3;
 const palette = {
   ".": null,
   O: "#0f1720",
-  G: "#1f6b4f",
-  S: "#5eaf8f",
-  B: "#d8eee3",
+  G: "#22c55e",
+  D: "#15803d",
+  L: "#4ade80",
+  B: "#d9f99d",
   E: "#ffffff",
-  P: "#0f1720",
-  R: "#cf2f2f",
-  C: "#294338",
-  M: "#173127",
-  H: "#89d3b4",
+  K: "#0f1720",
+  S: "#bbf7d0",
+  M: "#14532d",
+  H: "#86efac",
+  T: "#6ee7b7",
 };
 
-/**
- * Placeholder frame system until final sprite sheets are available.
- * Drop-in expected asset structure:
- * /client/src/assets/din0/idle.png
- * /client/src/assets/din0/sleep.png
- * /client/src/assets/din0/wake.png
- * /client/src/assets/din0/talk.png
- * /client/src/assets/din0/jump.png
- * Suggested frame size: 48x51 px (16x17 cells @ 3px) with per-state frame strips.
- */
 const BASE_FRAME = [
-  "................",
-  "......OOOO......",
-  "....OOOGGGOO....",
-  "...OOGGGGGGGO...",
-  "...OGGGRRGGGO...",
-  "..OGGGGGGGGGGO..",
-  "..OGGGGBBGGGGO..",
-  ".OGGGGGBBBGGGGO.",
-  ".OGGGGGGGGGGGGO.",
-  ".OGGGGGGGGGGGGO.",
-  "..OGGGGGGGGGGO..",
-  "..OGGGOGGGOGGO..",
-  "...OGGOOOOOGGO..",
-  "...OGGGGGGGGGO..",
-  "..OOGGGGGGGGOO..",
-  ".OOGGGGOOGGGGOO.",
-  ".OGGGO....OGGGO.",
-  "..OO........OO..",
-];
+  "....................",
+  "......OO............",
+  "....OOGGO...........",
+  "...OGGGGGO..........",
+  "..OGGLLLLGO.........",
+  "..OGLLLLLLGO........",
+  ".OGLLKELLLLGO.......",
+  ".OGLLLLLLLLLGO......",
+  "OGLLLLBLLLLLGO......",
+  "OGLLLLBLLLLLGO......",
+  "OGLLLLLLLLLLLGO.....",
+  ".OGGGLLLLLLLLLGO....",
+  ".OGGGGLLLGLLLLLGO...",
+  "..OGDGGLLLGGGGGGO...",
+  "..OGDDGGGGGGOGGGO...",
+  ".OGDDDGGGGG..OGGO...",
+  ".OGDDGGGG....OGGO...",
+  "..OOO.........OO....",
+  "....................",
+  "....................",
+].map((row) => row.replace(/\s/g, ""));
 
 function withCells(baseFrame, cells) {
   const grid = baseFrame.map((row) => row.split(""));
@@ -61,59 +54,64 @@ function withCells(baseFrame, cells) {
 }
 
 const BLINK = withCells(BASE_FRAME, [
-  [7, 3, "C"],
-  [8, 3, "C"],
+  [7, 6, "M"],
+  [8, 6, "M"],
+]);
+
+const GLANCE = withCells(BASE_FRAME, [
+  [8, 6, "E"],
+  [9, 6, "K"],
 ]);
 
 const SLEEP_1 = withCells(BASE_FRAME, [
-  [7, 3, "C"],
-  [8, 3, "C"],
-  [9, 2, "S"],
+  [7, 6, "M"],
+  [8, 6, "M"],
+  [10, 3, "S"],
 ]);
 
 const SLEEP_2 = withCells(SLEEP_1, [
-  [7, 1, "S"],
-  [8, 1, "S"],
+  [9, 2, "S"],
+  [11, 2, "S"],
 ]);
 
 const TALK_1 = withCells(BASE_FRAME, [
-  [8, 9, "M"],
-  [7, 9, "M"],
+  [10, 9, "M"],
 ]);
 
-const TALK_2 = withCells(BASE_FRAME, [[8, 10, "M"]]);
+const TALK_2 = withCells(BASE_FRAME, [
+  [10, 9, "M"],
+  [9, 10, "M"],
+]);
 
 const TALK_3 = withCells(BASE_FRAME, [
-  [7, 9, "M"],
-  [8, 9, "M"],
-  [8, 10, "M"],
+  [10, 8, "M"],
+  [9, 9, "M"],
 ]);
 
 const JUMP_PREP = withCells(BASE_FRAME, [
-  [1, 14, "."],
-  [2, 14, "O"],
-  [3, 14, "G"],
-  [4, 14, "G"],
-  [10, 14, "G"],
-  [11, 14, "O"],
-  [12, 14, "."],
+  [2, 17, "."],
+  [3, 17, "O"],
+  [14, 17, "O"],
+  [15, 17, "."],
 ]);
 
 const JUMP_MID = withCells(BASE_FRAME, [
+  [1, 15, "."],
   [2, 16, "."],
-  [13, 16, "."],
-  [7, 1, "H"],
-  [8, 1, "H"],
+  [3, 16, "."],
+  [7, 4, "H"],
+  [8, 4, "H"],
 ]);
 
 const CTA_REACT = withCells(BASE_FRAME, [
-  [7, 3, "R"],
-  [8, 3, "R"],
-  [9, 3, "R"],
+  [7, 6, "H"],
+  [8, 6, "H"],
+  [9, 6, "H"],
+  [10, 6, "H"],
 ]);
 
 const SPRITES = {
-  idle: [BASE_FRAME, BASE_FRAME, BLINK, BASE_FRAME],
+  idle: [BASE_FRAME, BASE_FRAME, BLINK, BASE_FRAME, GLANCE, BASE_FRAME],
   sleep: [SLEEP_1, SLEEP_2],
   wake: [SLEEP_2, SLEEP_1, BLINK, BASE_FRAME],
   talk: [TALK_1, TALK_2, TALK_3],
@@ -133,9 +131,9 @@ const STATE_CONFIG = {
 const STATE_COPY = {
   idle: "Din_0: Want a quick AI use-case idea?",
   sleep: "Din_0 is recharging...",
-  wake: "Reconnected. Ready when you are.",
+  wake: "Back online. Ready to guide.",
   talk: "Din_0 is thinking...",
-  jump: "Great. Let us scope your AI roadmap.",
+  jump: "Great choice. Let us map your roadmap.",
   ctaReact: "Best place to start: consultation.",
 };
 

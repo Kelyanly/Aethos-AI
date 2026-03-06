@@ -9,6 +9,7 @@ import UseCaseSwitcher from "../components/UseCaseSwitcher.jsx";
 import WorkflowMicroDiagram from "../components/WorkflowMicroDiagram.jsx";
 import Din0StickyAssistant from "../components/Din0StickyAssistant.jsx";
 import Din0Companion from "../components/Din0Companion.jsx";
+import DynamicIslandAssistant from "../components/DynamicIslandAssistant.jsx";
 import WhyAdoptAI from "../components/sections/WhyAdoptAI.jsx";
 import ROIExamples from "../components/sections/ROIExamples.jsx";
 import HowWeWork from "../components/sections/HowWeWork.jsx";
@@ -246,6 +247,7 @@ export default function Home() {
                 Explore AI Solutions
               </Link>
             </div>
+            <DynamicIslandAssistant />
             <div className="hero-signals">
               <span>AI consulting for SMEs</span>
               <span>Din_0 companion widget</span>

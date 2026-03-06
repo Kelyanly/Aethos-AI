@@ -25,23 +25,235 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script src="/din0.js"></script>
     <script>
-      (function loadDin0Widget() {
-        var script = document.createElement("script");
-        script.src = window.__DIN0_WIDGET_URL__ || "/din0.js";
-        script.defer = true;
-        script.onload = function initDin0Widget() {
-          if (!window.Din0) return;
-          window.Din0.init({
-            agentId: "default",
-            position: "bottom-right",
-            apiBaseUrl: window.__DIN0_API_BASE_URL__ || "http://localhost:8080",
-            title: "Din_0 Assistant",
-            quickActions: ["Pricing", "Demo", "Docs"],
+      const DIN0_VIDEO_SRC = "/din0-avatar.mp4";
+
+      function applyDin0Customizations() {
+        const host = document.querySelector(".din0-host");
+        if (!host || !host.shadowRoot) return false;
+
+        const root = host.shadowRoot;
+
+        if (!root.getElementById("din0-theme-override")) {
+          const style = document.createElement("style");
+          style.id = "din0-theme-override";
+          style.textContent = `
+            .din0-root {
+              --din0-primary: #1f6b4f !important;
+              --din0-accent: #0d3b2d !important;
+              --din0-text: #ecfdf5 !important;
+              --din0-bg: #052e22 !important;
+            }
+            .din0-launcher {
+              background: linear-gradient(135deg, #1f6b4f, #2b8a67) !important;
+              border-radius: 14px !important;
+              border: 2px solid #000 !important;
+              box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35) !important;
+            }
+            .din0-panel {
+              background: linear-gradient(180deg, #052e22, #031d16) !important;
+            }
+            .din0-input:focus {
+              border-color: #34d399 !important;
+              box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.28) !important;
+            }
+            .din0-avatar {
+              background: transparent !important;
+              overflow: hidden !important;
+              border-radius: 8px !important;
+              border: 2px solid #000 !important;
+              box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35) !important;
+            }
+            .din0-avatar-md {
+              width: 40px !important;
+              height: 40px !important;
+            }
+            .din0-avatar-sm {
+              width: 28px !important;
+              height: 28px !important;
+            }
+            .din0-avatar video {
+              width: 100%;
+              height: 100%;
+              object-fit: contain;
+              background: #000;
+              border-radius: inherit;
+            }
+            .din0-video-expand {
+              margin-left: 6px;
+              border: 1px solid #000;
+              background: rgba(2, 44, 34, 0.6);
+              color: #d1fae5;
+              border-radius: 8px;
+              font-size: 11px;
+              line-height: 1;
+              padding: 4px 6px;
+              cursor: pointer;
+            }
+            .din0-video-expand:hover {
+              background: rgba(16, 87, 63, 0.8);
+            }
+            .din0-video-modal {
+              position: absolute;
+              inset: 0;
+              display: grid;
+              place-items: center;
+              z-index: 20;
+            }
+            .din0-video-modal[hidden] {
+              display: none;
+            }
+            .din0-video-modal-backdrop {
+              position: absolute;
+              inset: 0;
+              background: rgba(2, 12, 9, 0.72);
+            }
+            .din0-video-modal-card {
+              position: relative;
+              width: min(94%, 320px);
+              border: 2px solid #000;
+              border-radius: 12px;
+              background: #04231a;
+              padding: 8px;
+              box-shadow: 0 18px 34px rgba(2, 12, 9, 0.6);
+            }
+            .din0-video-modal-card video {
+              width: 100%;
+              aspect-ratio: 1 / 1;
+              object-fit: contain;
+              border-radius: 8px;
+              background: #03140f;
+            }
+            .din0-video-modal-close {
+              position: absolute;
+              top: 10px;
+              right: 10px;
+              border: 1px solid #000;
+              background: rgba(2, 44, 34, 0.86);
+              color: #d1fae5;
+              border-radius: 8px;
+              font-size: 11px;
+              line-height: 1;
+              padding: 4px 6px;
+              cursor: pointer;
+            }
+          `;
+          root.appendChild(style);
+        }
+
+        root.querySelectorAll(".din0-avatar").forEach((avatar) => {
+          if (avatar.dataset.videoApplied === "true") return;
+          avatar.dataset.videoApplied = "true";
+          avatar.innerHTML = "";
+
+          const video = document.createElement("video");
+          video.src = DIN0_VIDEO_SRC;
+          video.autoplay = true;
+          video.muted = true;
+          video.loop = true;
+          video.playsInline = true;
+          video.setAttribute("aria-label", "Din_0 video avatar");
+          avatar.appendChild(video);
+        });
+
+        const titleWrap = root.querySelector(".din0-title-wrap");
+        if (titleWrap && !root.querySelector(".din0-video-expand")) {
+          const expandButton = document.createElement("button");
+          expandButton.type = "button";
+          expandButton.className = "din0-video-expand";
+          expandButton.setAttribute("aria-label", "Expand avatar video");
+          expandButton.textContent = "Expand";
+          titleWrap.appendChild(expandButton);
+
+          expandButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            const modal = root.getElementById("din0-video-modal");
+            if (modal) {
+              modal.hidden = false;
+              const modalVideo = modal.querySelector("video");
+              if (modalVideo) modalVideo.play().catch(() => {});
+            }
           });
-        };
-        document.body.appendChild(script);
-      })();
+        }
+
+        if (!root.getElementById("din0-video-modal")) {
+          const panel = root.querySelector(".din0-panel");
+          if (panel) {
+            const modal = document.createElement("div");
+            modal.id = "din0-video-modal";
+            modal.className = "din0-video-modal";
+            modal.hidden = true;
+
+            const backdrop = document.createElement("button");
+            backdrop.type = "button";
+            backdrop.className = "din0-video-modal-backdrop";
+            backdrop.setAttribute("aria-label", "Close video preview");
+
+            const card = document.createElement("div");
+            card.className = "din0-video-modal-card";
+
+            const modalVideo = document.createElement("video");
+            modalVideo.src = DIN0_VIDEO_SRC;
+            modalVideo.autoplay = true;
+            modalVideo.muted = true;
+            modalVideo.loop = true;
+            modalVideo.playsInline = true;
+            modalVideo.setAttribute("aria-label", "Expanded Din_0 video avatar");
+
+            const close = document.createElement("button");
+            close.type = "button";
+            close.className = "din0-video-modal-close";
+            close.textContent = "Close";
+
+            function closeModal(event) {
+              if (event) event.preventDefault();
+              modal.hidden = true;
+            }
+
+            close.addEventListener("click", closeModal);
+            backdrop.addEventListener("click", closeModal);
+
+            card.appendChild(modalVideo);
+            card.appendChild(close);
+            modal.appendChild(backdrop);
+            modal.appendChild(card);
+            panel.appendChild(modal);
+          }
+        }
+
+        return true;
+      }
+
+      if (window.Din0) {
+        window.Din0.init({
+          agentId: "default",
+          position: "bottom-right",
+          apiBaseUrl: "http://localhost:8787",
+          title: "Din_0 Assistant",
+          quickActions: ["Pricing", "Demo", "Docs"],
+          theme: {
+            primary: "#1f6b4f",
+            accent: "#0d3b2d",
+            text: "#ecfdf5",
+            background: "#052e22",
+          },
+        });
+
+        let attempts = 0;
+        const timer = setInterval(() => {
+          attempts += 1;
+          if (applyDin0Customizations() || attempts > 30) {
+            clearInterval(timer);
+          }
+        }, 200);
+
+        const observer = new MutationObserver(() => {
+          applyDin0Customizations();
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
     </script>
   </body>
 </html>

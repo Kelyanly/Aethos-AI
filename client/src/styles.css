@@ -431,6 +431,20 @@ h2 {
 .din0-companion-block {
   display: grid;
   gap: var(--space-3);
+  width: min(620px, 100%);
+}
+
+.dino-inline-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.dino-inline-copy {
+  display: grid;
+  gap: 0.25rem;
+  max-width: 480px;
 }
 
 .din0-guide-actions {
@@ -442,6 +456,7 @@ h2 {
 .din0-guide-rotating {
   font-size: 0.88rem;
   font-weight: 600;
+  margin: 0;
 }
 
 .din0-action-links {
@@ -462,6 +477,88 @@ h2 {
 .din0-list {
   margin: 0;
   padding-left: 1rem;
+}
+
+.dino-panel-shell {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.dino-panel-toggle {
+  width: fit-content;
+}
+
+.dino-panel {
+  display: grid;
+  gap: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: #fff;
+  padding: var(--space-4);
+  box-shadow: 0 10px 24px rgba(15, 23, 32, 0.08);
+}
+
+.dino-suggestions {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.dino-suggestions-message {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--primary-text);
+}
+
+.dino-suggestions-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.dino-chat {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.dino-chat label {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.dino-chat input {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.56rem 0.68rem;
+  font-family: inherit;
+  font-size: 0.88rem;
+  color: var(--primary-text);
+  background: #fff;
+}
+
+.dino-chat input:focus {
+  outline: 2px solid rgba(31, 107, 79, 0.2);
+  border-color: rgba(31, 107, 79, 0.52);
+}
+
+.dino-tour {
+  display: grid;
+  gap: 0.48rem;
+  border: 1px dashed rgba(31, 107, 79, 0.28);
+  border-radius: 12px;
+  padding: 0.68rem;
+  background: rgba(246, 248, 247, 0.75);
+}
+
+.dino-tour-progress {
+  margin: 0;
+  font-size: 0.86rem;
+  color: var(--primary-text);
+}
+
+.dino-tour-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
 .dynamic-island {
@@ -1179,6 +1276,9 @@ select:focus {
 .din0-guide-caption {
   font-size: 0.78rem;
   color: var(--secondary-text);
+  margin: 0;
+  max-width: 260px;
+  text-align: right;
 }
 
 .din0-guide-progress {
@@ -1187,6 +1287,13 @@ select:focus {
   border-radius: 999px;
   background: rgba(31, 107, 79, 0.28);
   transform-origin: left;
+}
+
+.din0-guide-inline-actions {
+  display: flex;
+  gap: 0.38rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .lab-card {
@@ -1367,6 +1474,15 @@ select:focus {
   backdrop-filter: blur(10px);
 }
 
+.din0-sticky-content {
+  display: grid;
+  gap: 0.24rem;
+}
+
+.din0-sticky-content p {
+  margin: 0;
+}
+
 .din0-sticky-sprite .din0-sprite-card {
   width: 56px;
   height: 56px;
@@ -1448,6 +1564,14 @@ select:focus {
     justify-items: start;
   }
 
+  .din0-guide-caption {
+    text-align: left;
+  }
+
+  .din0-guide-inline-actions {
+    justify-content: flex-start;
+  }
+
   .panel-metrics {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1506,6 +1630,14 @@ select:focus {
 
   .din0-guide-actions {
     max-width: 100%;
+  }
+
+  .dino-inline-header {
+    align-items: flex-start;
+  }
+
+  .dino-panel {
+    padding: 0.9rem;
   }
 
   .din0-action-links .btn {
