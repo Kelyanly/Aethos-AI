@@ -66,6 +66,17 @@ export default function AiRoiCalculator() {
           <p className="hero-copy muted">
             Estimate how much time and money your business could save with AI assistants and workflow automation.
           </p>
+          <div className="page-intro-block">
+            <p>
+              Use this calculator to model potential gains before implementation. The result helps
+              teams prioritize realistic AI automation opportunities and pilot scope.
+            </p>
+            <ul className="content-list">
+              <li>Estimate hours saved from lead and support automation.</li>
+              <li>Review potential automation percentage for your context.</li>
+              <li>Use outputs as a baseline for consultation planning.</li>
+            </ul>
+          </div>
           <div className="demo-inline-actions">
             <button type="button" className="btn btn-secondary" onClick={useDemoValues}>
               Use Demo Values
@@ -134,7 +145,7 @@ export default function AiRoiCalculator() {
               <h2>Estimated ROI Output</h2>
               <ROIResultVisualizer result={result} />
               <Link to="/book" className="btn btn-primary">
-                Discuss Your AI Opportunities
+                Get Your AI Opportunity Assessment
               </Link>
             </div>
           </aside>

@@ -43,6 +43,17 @@ export default function UseCases() {
           <p className="hero-copy muted">
             Real consulting examples that show how AI automation for businesses creates measurable outcomes.
           </p>
+          <div className="page-intro-block">
+            <p>
+              These scenarios are written for decision-makers who need concrete examples before
+              investing in implementation. Each case maps problem, AI system design, and impact.
+            </p>
+            <ul className="content-list">
+              <li>Focus on workflows with recurring requests and high manual handling.</li>
+              <li>Pair AI assistants with routing and escalation logic.</li>
+              <li>Measure impact through response speed, lead quality, and workload reduction.</li>
+            </ul>
+          </div>
         </div>
       </ScrollRevealSection>
 

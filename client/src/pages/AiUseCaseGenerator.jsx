@@ -45,6 +45,17 @@ export default function AiUseCaseGenerator() {
           <p className="hero-copy muted">
             Share your context and generate a short list of practical AI opportunities you can deploy first.
           </p>
+          <div className="page-intro-block">
+            <p>
+              This tool is designed for teams that want quick direction on AI automation for
+              businesses without committing to a long discovery phase.
+            </p>
+            <ul className="content-list">
+              <li>Describe one repetitive task and a customer-facing challenge.</li>
+              <li>Receive structured recommendations focused on operational impact.</li>
+              <li>Use the output to prepare a clearer consultation discussion.</li>
+            </ul>
+          </div>
         </div>
       </ScrollRevealSection>
 
@@ -98,6 +109,11 @@ export default function AiUseCaseGenerator() {
           <aside className="booking-side-panel">
             <div className="surface-card">
               <h2>Generated Opportunities</h2>
+              <ul className="content-list compact">
+                <li>Prioritize one high-friction workflow first.</li>
+                <li>Use qualification criteria before full automation rollout.</li>
+                <li>Validate value with a short pilot and tracked KPI.</li>
+              </ul>
               {!result ? (
                 <p className="muted">Submit your inputs to generate use cases.</p>
               ) : (

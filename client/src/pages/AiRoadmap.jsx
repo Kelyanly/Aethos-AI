@@ -44,6 +44,17 @@ export default function AiRoadmap() {
           <p className="hero-copy muted">
             Enter your business profile to generate a practical 3-step AI roadmap and estimate value.
           </p>
+          <div className="page-intro-block">
+            <p>
+              This roadmap tool converts high-level goals into an ordered execution path. It is
+              useful for teams planning AI automation for businesses with limited delivery capacity.
+            </p>
+            <ul className="content-list">
+              <li>Prioritize one pilot with clear operational value.</li>
+              <li>Sequence deployment to reduce implementation risk.</li>
+              <li>Estimate ROI before expanding to additional workflows.</li>
+            </ul>
+          </div>
         </div>
       </ScrollRevealSection>
 
@@ -98,6 +109,10 @@ export default function AiRoadmap() {
           <aside className="booking-side-panel">
             <div className="surface-card">
               <h2>Your AI Roadmap</h2>
+              <p className="muted">
+                The generated plan is a starting point. A consultation helps adapt scope, systems,
+                and ownership to your current team setup.
+              </p>
               {!result ? (
                 <p className="muted">Submit your profile to generate your roadmap.</p>
               ) : (

@@ -42,7 +42,7 @@ export default function Din0CompanionBlock({
           <Link className="btn btn-secondary" to="/lab">Try a Demo</Link>
           <Link className="btn btn-secondary" to="/use-cases">See AI Use Cases</Link>
           <Link className="btn btn-secondary" to="/ai-roi-calculator">Calculate ROI</Link>
-          <Link className="btn btn-primary" to="/book">Book Consultation</Link>
+          <Link className="btn btn-primary" to="/book">Get Assessment</Link>
         </div>
 
         <div className="din0-microtool">

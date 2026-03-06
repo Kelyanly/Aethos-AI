@@ -10,7 +10,7 @@ export default function Din0StickyAssistant({ visible }) {
     <aside className="din0-sticky" aria-label="Din_0 quick assistant">
       <Din0Sprite className="din0-sticky-sprite" showBubble={false} inViewport={visible} />
       <Link to="/book" className="btn btn-primary">
-        Book
+        Assess
       </Link>
     </aside>
   );

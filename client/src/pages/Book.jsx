@@ -89,6 +89,17 @@ export default function Book() {
               request and replies with a practical recommendation, timeline guidance, and
               implementation options.
             </p>
+            <div className="page-intro-block">
+              <p>
+                This form helps us qualify your context quickly so we can respond with a relevant
+                scope and realistic delivery path.
+              </p>
+              <ul className="content-list">
+                <li>Describe one operational bottleneck and one target outcome.</li>
+                <li>Share timeline and budget range to improve recommendation quality.</li>
+                <li>Expect a structured response within one business day.</li>
+              </ul>
+            </div>
           </div>
           <aside className="surface-card reassurance-card">
             <h2>What happens next</h2>

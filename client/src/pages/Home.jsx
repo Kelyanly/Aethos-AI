@@ -9,6 +9,14 @@ import UseCaseSwitcher from "../components/UseCaseSwitcher.jsx";
 import WorkflowMicroDiagram from "../components/WorkflowMicroDiagram.jsx";
 import Din0StickyAssistant from "../components/Din0StickyAssistant.jsx";
 import Din0Companion from "../components/Din0Companion.jsx";
+import WhyAdoptAI from "../components/sections/WhyAdoptAI.jsx";
+import ROIExamples from "../components/sections/ROIExamples.jsx";
+import HowWeWork from "../components/sections/HowWeWork.jsx";
+import FAQ from "../components/sections/FAQ.jsx";
+import SocialProof from "../components/sections/SocialProof.jsx";
+import AIDemoBox from "../components/demos/AIDemoBox.jsx";
+import ROISlider from "../components/tools/ROISlider.jsx";
+import WorkflowComparison from "../components/visualizers/WorkflowComparison.jsx";
 import { tourSteps } from "../agents/demoGuide.js";
 import { trackEvent } from "../lib/analytics.js";
 
@@ -185,17 +193,13 @@ export default function Home() {
   }, []);
 
   const intentCopy = {
-    agency: "AI lead automation for agencies that want better-fit inbound opportunities.",
-    "real-estate": "AI qualification for buyer and seller requests before agent calls.",
-    accounting: "AI intake and knowledge assistants for accounting and advisory workflows.",
-    unknown: "AI automation for businesses that need qualified leads and scalable operations.",
-  };
-
-  const intentCta = {
-    agency: "Automate Your Lead Capture",
-    "real-estate": "Qualify Buyer Leads Faster",
-    accounting: "Optimize Client Intake",
-    unknown: "Book a Consultation",
+    agency: "Priority focus: agency lead qualification, proposal pre-briefing, and follow-up automation.",
+    "real-estate":
+      "Priority focus: buyer intent scoring, visit qualification, and faster response to high-fit inquiries.",
+    accounting:
+      "Priority focus: client intake automation, advisory triage, and policy-aware knowledge assistance.",
+    unknown:
+      "Priority focus: practical AI lead generation automation and operational workflow automation for service teams.",
   };
 
   function updateIntent(nextIntent) {
@@ -220,15 +224,25 @@ export default function Home() {
           >
             <AISignalBackground />
             <p className="eyebrow">AI Consulting for SMEs</p>
-            <h1>{intentCopy[visitorIntent] || intentCopy.unknown}</h1>
+            <h1>Deploy AI agents that automate lead capture, support, and internal knowledge workflows.</h1>
             <p className="hero-copy muted">
-              Aethos AI delivers AI lead generation automation, AI assistants for websites,
-              and AI workflow automation with practical implementation quality.
+              Aethos AI designs practical AI assistants that integrate into your existing tools and
+              eliminate repetitive operational work.
             </p>
+            <div className="page-intro-block">
+              <p>
+                {intentCopy[visitorIntent] || intentCopy.unknown}
+              </p>
+              <ul className="content-list">
+                <li>Capture and qualify leads automatically.</li>
+                <li>Reduce support workload with AI assistants.</li>
+                <li>Give your team instant access to internal knowledge.</li>
+              </ul>
+            </div>
             <div className="hero-actions">
               <Link
                 className="btn btn-primary pulse-cta"
-                to="/book"
+                to="/tools/opportunity-studio"
                 onMouseEnter={() => setCtaHovered(true)}
                 onMouseLeave={() => setCtaHovered(false)}
                 onFocus={() => setCtaHovered(true)}
@@ -236,12 +250,12 @@ export default function Home() {
                 onClick={() => {
                   setCtaClickSignal((current) => current + 1);
                   registerHeroActivity();
-                  trackEvent("cta_click", "/", { cta: "hero_primary_book" });
+                  trackEvent("cta_click", "/", { cta: "hero_primary_opportunity_map" });
                 }}
               >
-                {intentCta[visitorIntent] || intentCta.unknown}
+                Get Your AI Opportunity Map
               </Link>
-              <Link className="btn btn-secondary" to="/agents">
+              <Link className="btn btn-secondary" to="/#chathive-agents">
                 Explore AI Solutions
               </Link>
             </div>
@@ -291,6 +305,23 @@ export default function Home() {
         </div>
       </ScrollRevealSection>
 
+      <WhyAdoptAI />
+
+      <ScrollRevealSection className="section" id="interactive-exploration">
+        <div className="container">
+          <SectionHeader
+            eyebrow="Interactive Guidance"
+            title="Test AI opportunities before scheduling a consultation"
+            description="These interactive modules help visitors understand implementation fit, expected workflow changes, and potential ROI impact."
+          />
+          <div className="cards-grid">
+            <AIDemoBox />
+            <WorkflowComparison />
+            <ROISlider />
+          </div>
+        </div>
+      </ScrollRevealSection>
+
       {showTour ? (
         <div className="tour-overlay" role="dialog" aria-modal="true" aria-label="Aethos quick tour">
           <div className="tour-card">
@@ -330,10 +361,20 @@ export default function Home() {
             title="AI Agents powered by ChatHive"
             description="Aethos AI deploys conversational AI agents that capture and qualify leads, answer customer questions, automate repetitive workflows, integrate with CRM systems, and connect to internal knowledge bases."
           />
+          <div className="page-intro-block">
+            <p>
+              ChatHive is used as the conversational layer so teams can launch quickly while
+              keeping integration options open for CRM, scheduling, and knowledge operations.
+            </p>
+          </div>
           <div className="cards-grid compact-grid">
             {chatHiveAgents.map((agent) => (
               <article key={agent} className="surface-card compact interactive-card">
                 <h3>{agent}</h3>
+                <ul className="content-list compact">
+                  <li>Scope-aligned intents and qualification rules.</li>
+                  <li>Structured payloads for CRM and workflow tools.</li>
+                </ul>
               </article>
             ))}
           </div>
@@ -347,6 +388,12 @@ export default function Home() {
             title="AI Systems We Build"
             description="A complete consulting offer from AI readiness to production deployment."
           />
+          <div className="page-intro-block">
+            <p>
+              The service mix is designed for service businesses that need better lead quality and
+              stronger delivery consistency without adding operational overhead.
+            </p>
+          </div>
           <UseCaseSwitcher />
           <div className="cards-grid">
             {aiSystems.map((service) => (
@@ -424,6 +471,10 @@ export default function Home() {
         </div>
       </ScrollRevealSection>
 
+      <ROIExamples />
+
+      <HowWeWork />
+
       <ScrollRevealSection className="section" id="trust-signals">
         <div className="container">
           <SectionHeader
@@ -439,16 +490,25 @@ export default function Home() {
         </div>
       </ScrollRevealSection>
 
+      <SocialProof />
+
+      <FAQ />
+
       <ScrollRevealSection className="section final-cta">
         <div className="container final-cta-layout">
           <div>
-            <h2>Ready to discuss your AI opportunities?</h2>
+            <h2>Get your AI opportunity assessment</h2>
             <p className="muted">
-              Start with a practical consultation to identify where AI assistants and workflow automation can deliver measurable ROI.
+              In a short session we map your workflows and identify practical AI automation opportunities.
             </p>
+            <ul className="content-list compact">
+              <li>Get a scoped first pilot recommendation.</li>
+              <li>Review expected timeline, effort, and business impact.</li>
+              <li>Align priorities before committing to full rollout.</li>
+            </ul>
           </div>
           <Link className="btn btn-primary pulse-cta" to="/book">
-            Book a Consultation
+            Get Your AI Opportunity Assessment
           </Link>
         </div>
       </ScrollRevealSection>

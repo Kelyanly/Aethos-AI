@@ -26,7 +26,7 @@ export const tourSteps = [
   },
   {
     id: "book",
-    title: "Book Consultation",
+    title: "Get Opportunity Assessment",
     description: "Turn the shortlist into an implementation roadmap.",
     path: "/book",
   },

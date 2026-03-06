@@ -4,8 +4,9 @@ import { trackEvent } from "../lib/analytics.js";
 
 const topLinks = [
   { label: "Services", href: "/#services" },
+  { label: "About", href: "/about" },
   { label: "AI Playground", href: "/lab" },
-  { label: "Opportunity Studio", href: "/ai-opportunity-studio" },
+  { label: "Opportunity Studio", href: "/tools/opportunity-studio" },
   { label: "Insights", href: "/insights" },
 ];
 
@@ -99,7 +100,7 @@ export default function RootLayout() {
 
             <div className="nav-actions">
               <Link to="/book" className="btn btn-primary nav-cta pulse-cta" onClick={closeMenu}>
-                Book a Consultation
+                Get Your AI Opportunity Assessment
               </Link>
               <button
                 type="button"
@@ -140,7 +141,7 @@ export default function RootLayout() {
             ))}
 
             <Link to="/book" className="btn btn-primary" onClick={closeMenu}>
-              Book a Consultation
+              Get Your AI Opportunity Assessment
             </Link>
           </nav>
         </div>
@@ -153,7 +154,10 @@ export default function RootLayout() {
           <div>
             <p className="brand">Aethos AI</p>
             <p className="muted">
-              AI consulting for SMEs, AI lead generation automation, and AI workflow automation for modern service businesses.
+              Aethos AI delivers AI consulting for SMEs, AI lead generation automation, and AI workflow automation for modern service businesses.
+            </p>
+            <p className="muted">
+              We design practical assistants that integrate with your existing tools and improve operational consistency.
             </p>
           </div>
           <div>
@@ -165,9 +169,10 @@ export default function RootLayout() {
             <p className="footer-title">Explore</p>
             <Link to="/agents">AI Agents</Link>
             <Link to="/use-cases">AI Use Cases</Link>
-            <Link to="/ai-opportunity-studio">Opportunity Studio</Link>
+            <Link to="/tools/opportunity-studio">Opportunity Studio</Link>
             <Link to="/ai-roi-calculator">AI ROI Calculator</Link>
-            <Link to="/book">Book a Consultation</Link>
+            <Link to="/about">About Aethos AI</Link>
+            <Link to="/book">Get Your AI Opportunity Assessment</Link>
           </div>
         </div>
         <div className="container footer-bottom">

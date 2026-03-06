@@ -9,7 +9,11 @@ const modeSchemas = {
   use_cases: {
     schema: {
       summary: "short summary",
+      opportunityScore: "0-100",
+      estimatedHoursSaved: "number (monthly)",
+      estimatedAnnualValue: "number (EUR annual)",
       items: [{ title: "use case title", description: "short description", impact: "Low|Medium|High" }],
+      roadmap: ["Week 1 - Discovery", "Week 2 - Prototype", "Week 3-4 - Pilot", "Week 5 - Deployment"],
       firstStep: "first implementation step",
       recommendedPage: "/ai-roi-calculator",
     },
@@ -19,7 +23,11 @@ const modeSchemas = {
   workflow: {
     schema: {
       summary: "workflow summary",
+      opportunityScore: "0-100",
+      estimatedHoursSaved: "number (monthly)",
+      estimatedAnnualValue: "number (EUR annual)",
       items: [{ title: "automation opportunity", description: "what to automate", impact: "Low|Medium|High" }],
+      roadmap: ["Week 1 - Discovery", "Week 2 - Prototype", "Week 3-4 - Pilot", "Week 5 - Deployment"],
       firstStep: "pilot recommendation",
       recommendedPage: "/lab",
     },
@@ -29,11 +37,15 @@ const modeSchemas = {
   roadmap: {
     schema: {
       summary: "roadmap summary",
+      opportunityScore: "0-100",
+      estimatedHoursSaved: "number (monthly)",
+      estimatedAnnualValue: "number (EUR annual)",
       items: [
         { title: "Phase 1", description: "phase detail", impact: "High" },
         { title: "Phase 2", description: "phase detail", impact: "Medium" },
         { title: "Phase 3", description: "phase detail", impact: "Medium" },
       ],
+      roadmap: ["Week 1 - Discovery", "Week 2 - Prototype", "Week 3-4 - Pilot", "Week 5 - Deployment"],
       firstStep: "first implementation step",
       recommendedPage: "/book",
     },
@@ -43,7 +55,11 @@ const modeSchemas = {
   readiness: {
     schema: {
       summary: "readiness snapshot",
+      opportunityScore: "0-100",
+      estimatedHoursSaved: "number (monthly)",
+      estimatedAnnualValue: "number (EUR annual)",
       items: [{ title: "AI readiness score", description: "0-100 with short reason", impact: "Low|Medium|High" }],
+      roadmap: ["Week 1 - Discovery", "Week 2 - Prototype", "Week 3-4 - Pilot", "Week 5 - Deployment"],
       firstStep: "best next action",
       recommendedPage: "/ai-roi-calculator",
     },

@@ -6,7 +6,7 @@ const prompts = [
   "Explore AI Solutions",
   "Try the AI Playground",
   "Calculate ROI",
-  "Book a Consultation",
+  "Get Your AI Opportunity Assessment",
 ];
 
 export default function DynamicIslandAssistant() {
@@ -24,7 +24,7 @@ export default function DynamicIslandAssistant() {
     <div className="dynamic-island" role="status" aria-live="polite">
       <PromptCarousel items={prompts} className="dynamic-island-text" />
       <div className="dynamic-island-actions">
-        <Link to="/book" className="dynamic-island-link">Book</Link>
+        <Link to="/book" className="dynamic-island-link">Assess</Link>
         <button type="button" className="dynamic-island-dismiss" onClick={() => setCollapsed(true)}>
           Dismiss
         </button>

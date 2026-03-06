@@ -40,6 +40,7 @@ const presets = [
 export default function OpportunityPresetChips({ onApply }) {
   return (
     <div className="op-presets">
+      <p className="muted small">Quick presets for realistic consulting scenarios:</p>
       {presets.map((preset) => (
         <button key={preset.label} type="button" className="chip-button" onClick={() => onApply(preset.values)}>
           {preset.label}

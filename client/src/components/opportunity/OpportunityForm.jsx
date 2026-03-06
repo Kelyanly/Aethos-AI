@@ -16,6 +16,10 @@ function commonIndustryField(form, onChange) {
 export default function OpportunityForm({ mode, form, onChange, onSubmit, disabled }) {
   return (
     <form className="lead-form op-form" onSubmit={onSubmit}>
+      <p className="muted small full-row">
+        Provide short operational context. The model returns structured recommendations for AI
+        consulting for SMEs and service businesses.
+      </p>
       {(mode === "use_cases" || mode === "roadmap") && commonIndustryField(form, onChange)}
 
       {(mode === "use_cases" || mode === "readiness") ? (

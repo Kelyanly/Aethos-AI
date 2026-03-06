@@ -37,6 +37,17 @@ export default function RoiCases() {
         <div className="container">
           <h1>Example ROI Cases</h1>
           <p className="hero-copy muted">Illustrative benchmarks used to scope practical AI opportunities.</p>
+          <div className="page-intro-block">
+            <p>
+              These scenarios are reference estimates built from common service-business workflows.
+              Actual outcomes depend on process quality, adoption, and integration scope.
+            </p>
+            <ul className="content-list">
+              <li>Use benchmarks to estimate feasibility and implementation priority.</li>
+              <li>Validate assumptions with your own baseline metrics.</li>
+              <li>Convert benchmark scenarios into a pilot plan with measurable KPIs.</li>
+            </ul>
+          </div>
         </div>
       </ScrollRevealSection>
 

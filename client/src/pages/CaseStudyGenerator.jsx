@@ -2,25 +2,35 @@ import { useState } from "react";
 import Seo from "../components/Seo.jsx";
 import ScrollRevealSection from "../components/ScrollRevealSection.jsx";
 
-function buildCase({ industry, teamSize }) {
-  const monthlyHours = Math.round(teamSize * 3.5 + (industry === "real_estate" ? 18 : 12));
-  const annualValue = Math.round(monthlyHours * 45 * 12);
+function buildCase({ industry, teamSize, monthlyLeads }) {
+  const industryLabel = industry.replace("_", " ");
+  const qualificationReduction = Math.min(65, Math.round(28 + teamSize * 0.8));
+  const fasterResponse = Math.round(18 + monthlyLeads * 0.09);
+  const pipelineQuality = Math.min(58, Math.round(22 + monthlyLeads * 0.07));
+
   return {
-    title: `${industry.replace("_", " ")} team (${teamSize} employees)`,
-    problem: "Manual qualification and repetitive follow-up create response delays.",
-    solution: "AI lead qualification assistant + workflow automation for CRM and scheduling.",
-    outcome: `Estimated time saved: ${monthlyHours} hours/month (~EUR ${annualValue.toLocaleString()}/year).`,
+    title: `AI Implementation for ${industryLabel.charAt(0).toUpperCase() + industryLabel.slice(1)}`,
+    teamSize,
+    monthlyLeads,
+    challenge: "Manual lead filtering and delayed responses created pipeline friction.",
+    solution: "AI lead qualification assistant integrated with CRM and scheduling workflow.",
+    results: [
+      `${qualificationReduction}% reduction in lead qualification time`,
+      `${fasterResponse}% faster response to prospects`,
+      `${pipelineQuality}% improvement in pipeline quality indicators`,
+    ],
   };
 }
 
 export default function CaseStudyGenerator() {
   const [industry, setIndustry] = useState("agency");
   const [teamSize, setTeamSize] = useState("20");
+  const [monthlyLeads, setMonthlyLeads] = useState("200");
   const [result, setResult] = useState(null);
 
   function onSubmit(event) {
     event.preventDefault();
-    setResult(buildCase({ industry, teamSize: Number(teamSize) }));
+    setResult(buildCase({ industry, teamSize: Number(teamSize), monthlyLeads: Number(monthlyLeads) }));
   }
 
   return (
@@ -34,6 +44,12 @@ export default function CaseStudyGenerator() {
         <div className="container">
           <h1>Case Study Generator</h1>
           <p className="hero-copy muted">Create a sample implementation story tailored to a business profile.</p>
+          <div className="page-intro-block">
+            <p>
+              This generator creates realistic storytelling blocks for demos and sales conversations.
+              Use it to explain value in clear business language.
+            </p>
+          </div>
         </div>
       </ScrollRevealSection>
 
@@ -53,6 +69,10 @@ export default function CaseStudyGenerator() {
               Team Size
               <input type="number" min="1" value={teamSize} onChange={(event) => setTeamSize(event.target.value)} />
             </label>
+            <label>
+              Monthly leads
+              <input type="number" min="0" value={monthlyLeads} onChange={(event) => setMonthlyLeads(event.target.value)} />
+            </label>
             <div className="full-row form-actions">
               <button className="btn btn-primary">Generate Case Study</button>
             </div>
@@ -65,9 +85,16 @@ export default function CaseStudyGenerator() {
               ) : (
                 <div className="lab-result">
                   <p><strong>{result.title}</strong></p>
-                  <p><strong>Problem:</strong> {result.problem}</p>
-                  <p><strong>AI solution:</strong> {result.solution}</p>
-                  <p><strong>Outcome:</strong> {result.outcome}</p>
+                  <p><strong>Team size:</strong> {result.teamSize}</p>
+                  <p><strong>Monthly leads:</strong> {result.monthlyLeads}</p>
+                  <p><strong>Challenges:</strong> {result.challenge}</p>
+                  <p><strong>Solution:</strong> {result.solution}</p>
+                  <p><strong>Results:</strong></p>
+                  <ul className="content-list compact">
+                    {result.results.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
                 </div>
               )}
             </div>

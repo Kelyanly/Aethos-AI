@@ -3,6 +3,7 @@ import { useState } from "react";
 
 export default function OpportunityResults({ result, loading, error }) {
   const [copied, setCopied] = useState(false);
+  const [showPlan, setShowPlan] = useState(false);
 
   async function onCopy() {
     if (!result) return;
@@ -42,6 +43,14 @@ export default function OpportunityResults({ result, loading, error }) {
   return (
     <div className="op-results">
       <h3>{result.summary}</h3>
+      <div className="op-score-grid">
+        <article className="surface-card compact">
+          <h4>AI Opportunity Score</h4>
+          <p><strong>Automation Potential:</strong> {result.opportunityScore}%</p>
+          <p><strong>Estimated time saved:</strong> {result.estimatedHoursSaved} hours/month</p>
+          <p><strong>Estimated annual value:</strong> EUR {result.estimatedAnnualValue.toLocaleString()}</p>
+        </article>
+      </div>
       <div className="cards-grid compact-grid">
         {result.items.map((item) => (
           <article key={item.title} className="surface-card compact interactive-card">
@@ -52,9 +61,22 @@ export default function OpportunityResults({ result, loading, error }) {
         ))}
       </div>
       <p><strong>First implementation step:</strong> {result.firstStep}</p>
+      <button type="button" className="btn btn-secondary" onClick={() => setShowPlan((current) => !current)}>
+        {showPlan ? "Hide implementation plan" : "Generate detailed implementation plan"}
+      </button>
+      {showPlan && result.roadmap?.length ? (
+        <div className="lab-result">
+          <p><strong>Suggested implementation roadmap</strong></p>
+          <ul className="content-list compact">
+            {result.roadmap.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
       <div className="op-result-actions">
         <Link className="btn btn-primary" to={roiHref}>Try ROI Calculator</Link>
-        <Link className="btn btn-secondary" to="/book">Book a Consultation</Link>
+        <Link className="btn btn-secondary" to="/book">Get Your AI Opportunity Assessment</Link>
         <Link className="btn btn-secondary" to="/use-cases">Explore AI Use Cases</Link>
         <button type="button" className="btn btn-secondary" onClick={onCopy}>{copied ? "Copied" : "Copy Result"}</button>
       </div>

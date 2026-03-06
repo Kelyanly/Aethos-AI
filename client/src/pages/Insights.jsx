@@ -43,6 +43,17 @@ export default function Insights() {
           <p className="hero-copy muted">
             Practical articles on AI automation for businesses, implementation strategy, and applied consulting insights.
           </p>
+          <div className="page-intro-block">
+            <p>
+              This library supports SEO and buyer education with practical guidance on AI lead
+              generation automation, knowledge assistants, and deployment strategy.
+            </p>
+            <ul className="content-list">
+              <li>Implementation patterns for SMEs and service businesses.</li>
+              <li>Operational trade-offs and rollout recommendations.</li>
+              <li>Examples you can reuse in internal planning discussions.</li>
+            </ul>
+          </div>
         </div>
       </ScrollRevealSection>
 

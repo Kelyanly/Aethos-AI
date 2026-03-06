@@ -18,6 +18,12 @@ export function normalizeResult(rawText, fallback) {
     const summary = String(parsed.summary || fallback.summary).slice(0, 220);
     const firstStep = String(parsed.firstStep || fallback.firstStep).slice(0, 220);
     const recommendedPage = String(parsed.recommendedPage || fallback.recommendedPage);
+    const opportunityScore = Number(parsed.opportunityScore || fallback.opportunityScore || 0);
+    const estimatedHoursSaved = Number(parsed.estimatedHoursSaved || fallback.estimatedHoursSaved || 0);
+    const estimatedAnnualValue = Number(parsed.estimatedAnnualValue || fallback.estimatedAnnualValue || 0);
+    const roadmap = Array.isArray(parsed.roadmap)
+      ? parsed.roadmap.slice(0, 4).map((step) => String(step).slice(0, 80))
+      : fallback.roadmap || [];
 
     const items = Array.isArray(parsed.items)
       ? parsed.items.slice(0, 3).map((item) => ({
@@ -29,7 +35,11 @@ export function normalizeResult(rawText, fallback) {
 
     return {
       summary,
+      opportunityScore,
+      estimatedHoursSaved,
+      estimatedAnnualValue,
       items: items.length ? items : fallback.items,
+      roadmap,
       firstStep,
       recommendedPage,
     };

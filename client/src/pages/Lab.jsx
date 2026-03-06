@@ -119,6 +119,17 @@ export default function Lab() {
             <p className="hero-copy muted">
               Interactive demonstrations of AI systems and algorithms used in real consulting projects.
             </p>
+            <div className="page-intro-block">
+              <p>
+                Use this page to simulate practical AI consulting for SMEs, including lead
+                generation automation, knowledge assistants, and workflow automation scenarios.
+              </p>
+              <ul className="content-list">
+                <li>Run short demos with realistic business prompts.</li>
+                <li>Validate expected behavior before discussing implementation.</li>
+                <li>Reuse outputs as inputs for ROI estimation and planning.</li>
+              </ul>
+            </div>
           </div>
           <Din0PlaygroundGuide />
         </div>
@@ -228,6 +239,12 @@ export default function Lab() {
       <ScrollRevealSection className="section">
         <div className="container">
           <h2>Suggested Demo Inputs</h2>
+          <div className="page-intro-block">
+            <p>
+              These prompts help prospects understand how AI assistants for websites and internal
+              teams can behave in common business situations.
+            </p>
+          </div>
           <div className="cards-grid">
             {suggestedInputs.map((item) => (
               <article key={item.title} className="surface-card">

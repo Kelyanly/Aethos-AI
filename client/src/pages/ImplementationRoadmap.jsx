@@ -21,6 +21,17 @@ export default function ImplementationRoadmap() {
         <div className="container">
           <h1>AI Implementation Roadmap</h1>
           <p className="hero-copy muted">A realistic path from first scope to measurable business value.</p>
+          <div className="page-intro-block">
+            <p>
+              This sequence keeps implementation risk low while giving teams clear checkpoints for
+              value delivery and operational readiness.
+            </p>
+            <ul className="content-list">
+              <li>Scope one high-impact workflow before expanding.</li>
+              <li>Validate with pilot users and measurable KPIs.</li>
+              <li>Scale only after quality and governance checks pass.</li>
+            </ul>
+          </div>
         </div>
       </ScrollRevealSection>
 

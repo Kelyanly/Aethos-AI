@@ -55,6 +55,17 @@ export default function AutomationScore() {
           <p className="hero-copy muted">
             Quick diagnostic to estimate AI automation readiness and where to start.
           </p>
+          <div className="page-intro-block">
+            <p>
+              This assessment gives an initial signal of how ready your team is for AI workflow
+              automation. It is useful for prioritizing first pilots and implementation scope.
+            </p>
+            <ul className="content-list">
+              <li>Capture current workload pressure and process repetition.</li>
+              <li>Estimate readiness level with clear next action guidance.</li>
+              <li>Use the result to prepare a focused consultation.</li>
+            </ul>
+          </div>
         </div>
       </ScrollRevealSection>
 
@@ -99,7 +110,7 @@ export default function AutomationScore() {
                   <p className="muted">{result.recommendation}</p>
                 </div>
               )}
-              <Link to="/book" className="btn btn-primary">Book Consultation</Link>
+              <Link to="/book" className="btn btn-primary">Get Your AI Opportunity Assessment</Link>
             </div>
           </aside>
         </div>

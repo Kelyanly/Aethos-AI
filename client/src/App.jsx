@@ -20,6 +20,7 @@ import AiStack from "./pages/AiStack.jsx";
 import CaseStudyGenerator from "./pages/CaseStudyGenerator.jsx";
 import InsightsArticle from "./pages/InsightsArticle.jsx";
 import AiOpportunityStudio from "./pages/AiOpportunityStudio.jsx";
+import About from "./pages/About.jsx";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,8 @@ const router = createBrowserRouter([
       { path: "ai-stack", element: <AiStack /> },
       { path: "case-study-generator", element: <CaseStudyGenerator /> },
       { path: "ai-opportunity-studio", element: <AiOpportunityStudio /> },
+      { path: "tools/opportunity-studio", element: <AiOpportunityStudio /> },
+      { path: "about", element: <About /> },
       { path: "insights/:slug", element: <InsightsArticle /> },
     ],
   },

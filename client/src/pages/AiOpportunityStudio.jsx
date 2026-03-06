@@ -94,6 +94,17 @@ export default function AiOpportunityStudio() {
             <p className="hero-copy muted">
               Generate structured AI use cases and implementation ideas based on your business context — directly in your browser.
             </p>
+            <div className="page-intro-block">
+              <p>
+                This browser-side tool is designed for quick strategic exploration. It produces
+                short, structured recommendations you can use in planning and consultation calls.
+              </p>
+              <ul className="content-list">
+                <li>Keep inputs focused on one workflow or business challenge.</li>
+                <li>Review outputs as opportunity hypotheses, not fixed commitments.</li>
+                <li>Use ROI and booking pages to validate implementation scope.</li>
+              </ul>
+            </div>
             <div className="op-meta-row">
               <span className="pill-item">Runs locally in your browser</span>
               <span className="pill-item">Inference: {modelStatus.webgpu ? "WebGPU" : "WASM fallback"}</span>
@@ -123,6 +134,18 @@ export default function AiOpportunityStudio() {
           <section>
             <OpportunityResults result={result} loading={loading} error={error} />
           </section>
+        </div>
+      </ScrollRevealSection>
+
+      <ScrollRevealSection className="section">
+        <div className="container">
+          <div className="surface-card">
+            <h2>Next step after generation</h2>
+            <p className="muted">
+              Convert your generated scenario into a measurable pilot by validating assumptions in
+              the ROI calculator, then define implementation scope in a consultation.
+            </p>
+          </div>
         </div>
       </ScrollRevealSection>
     </main>

@@ -6,7 +6,7 @@ const fallback = {
   message: "Din_0: Want to explore demos, ROI, or consultation next?",
   suggestedActions: [
     { label: "AI Playground", href: "/lab" },
-    { label: "Book Consultation", href: "/book" },
+    { label: "Get Assessment", href: "/book" },
   ],
   state: "idle",
 };
