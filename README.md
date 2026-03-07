@@ -119,14 +119,14 @@ Open separate terminals.
 
 ### 1. Frontend
 ```bash
-cd "/Users/kellianmpiryswenko/Documents/New project/client"
+cd "/Users/kellianmpiryswenko/Documents/Aethos AI/client"
 npm install
 npm run dev
 ```
 
 ### 2. Main website backend
 ```bash
-cd "/Users/kellianmpiryswenko/Documents/New project/server"
+cd "/Users/kellianmpiryswenko/Documents/Aethos AI/server"
 npm install
 npm run dev
 ```
