@@ -8,3 +8,5 @@ server/data/*.db
 server/data/*.db-journal
 server/data/*.sqlite
 server/data/*.json
+
+.playwright-cli

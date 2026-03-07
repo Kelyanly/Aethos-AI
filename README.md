@@ -1,240 +1,250 @@
-# Aethos AI Website & Product Studio
+# Aethos AI
 
-## Project Overview
-Aethos AI is now built as a hybrid experience:
-- A premium AI consulting website
-- A guided Din_0 assistant layer
-- Interactive AI diagnostic tools (playground, ROI, automation scoring, opportunity studio)
-- Lead-generation flows connected to consultation booking
+Aethos AI is a React + Express portfolio and lead-generation site for AI consulting. The project combines a premium consulting website, interactive diagnostic tools, a custom Din_0 concierge widget, and a small set of product-style demos that help qualify leads before a consultation.
 
-The platform is designed to feel product-like while staying practical and conversion-oriented.
+## What is in the project
 
-## Tech Stack
-- Frontend: React, Vite, JavaScript, CSS, Framer Motion
-- Browser AI: `@huggingface/transformers` (local inference in browser, WebGPU/WASM)
-- Backend: Node.js, Express
-- Database: SQLite
-- Widget: Din_0 embeddable script (`/din0.js` or CDN-hosted build)
+### Website layer
+- Conversion-focused homepage for Aethos AI
+- Service, use-case, insights, architecture, roadmap, and industry pages
+- Consultation booking flow backed by Express + SQLite
 
-## Architecture
+### Interactive product layer
+- `AI Playground` for guided demo scenarios
+- `AI Opportunity Studio` for browser-side structured AI opportunity generation
+- `AI ROI Calculator`, `Automation Score`, `AI Roadmap`, `Prompt Library`, and `Case Study Generator`
+- `Snake Lab` as a feedback-loop / routing exercise framed for operations and automation discussions
 
-### Frontend (`client/`)
-- App routes: `client/src/App.jsx`
-- Shared shell + nav: `client/src/components/RootLayout.jsx`
-- Main API client: `client/src/lib/api.js`
-- Din_0 API client: `client/src/lib/din0Api.js`
-- Browser model layer:
-  - `client/src/lib/browserModelService.js`
-  - `client/src/lib/opportunityPromptBuilder.js`
-  - `client/src/lib/resultParser.js`
-- Analytics client: `client/src/lib/analytics.js`
+### Din_0 system
+- Homepage Din_0 companion block
+- Sticky Din_0 assistant surfaces across the site
+- Custom embeddable Din_0 widget loaded from `client/din0.js`
+- Context-aware greeting prompts and page-specific suggestions
+- Custom theme overrides matching the Aethos AI visual system
 
-### Backend (`server/`)
-- Main API: `server/index.js`
-- Din_0 bounded LLM route:
-  - `server/src/routes/din0.js`
-  - `server/src/services/din0LlmService.js`
-  - `server/src/services/siteContextService.js`
-  - `server/data/site-context.json`
-- SQLite init:
-  - `server/lib/database.js`
+## Stack
 
-### Data storage
-- SQLite database: `server/data/consultations.db`
-- Tables:
-  - `consultations`
-  - `analytics_events`
+### Frontend
+- React
+- Vite
+- JavaScript
+- Custom CSS
+- Framer Motion
+- `@huggingface/transformers` for browser-side inference in Opportunity Studio
 
-## Main Routes
+### Backend
+- Node.js
+- Express
+- SQLite
 
-### Core
-- `/` Home
-- `/book` Consultation booking
-- `/agents` AI agents
-- `/use-cases` AI use cases
-- `/lab` AI playground
-- `/ai-roi-calculator` ROI calculator
-- `/insights` Insights index
+### External local companion backend
+The custom Din_0 widget currently talks to the local Din_0 backend stored outside this repo:
+- `/Users/kellianmpiryswenko/Documents/Robot GenAI/backend`
 
-### Product / credibility pages
+That backend can run with Ollama for real responses.
+
+## Main frontend routes
+
+### Core pages
+- `/`
+- `/about`
+- `/book`
+- `/agents`
+- `/use-cases`
+- `/lab`
+- `/ai-roi-calculator`
+- `/insights`
+
+### Tools and supporting pages
+- `/tools/opportunity-studio`
+- `/tools/snake-lab`
+- `/automation-score`
+- `/ai-roadmap`
+- `/ai-use-case-generator`
+- `/prompt-library`
+- `/case-study-generator`
+- `/ai-stack`
 - `/architecture`
 - `/implementation-roadmap`
 - `/industries`
-- `/industries/:industryId`
 - `/roi-cases`
-- `/ai-roadmap`
-- `/ai-use-case-generator`
-- `/automation-score`
-- `/prompt-library`
-- `/ai-stack`
-- `/case-study-generator`
-- `/insights/:slug`
-- `/ai-opportunity-studio`
 
-## Din_0 System
-- Stateful sprite behavior (idle/sleep/wake/talk/jump/ctaReact)
-- Context-aware responses via backend endpoint `POST /api/din0/respond`
-- Fallback deterministic responses if Ollama is unavailable
-- Home companion block + sticky assistant + playground guide
-- Embedded website widget loaded from `client/din0.js` (or CDN override)
+## Repo structure
 
-Key files:
-- `client/src/components/Din0Sprite.jsx`
-- `client/src/components/Din0Sprite.css`
-- `client/src/hooks/useDin0StateMachine.js`
-- `client/src/components/Din0Companion.jsx`
-
-## Din_0 Widget Embed
-- Current integration lives in `client/index.html`
-- Default widget script path: `/din0.js`
-- Optional overrides before widget init:
-  - `window.__DIN0_WIDGET_URL__ = "https://cdn.tonsite.com/din0.js"`
-  - `window.__DIN0_API_BASE_URL__ = "https://api.tonsite.com"`
-- Default local backend used by init: `http://localhost:8080`
-
-## AI Opportunity Studio (Flagship)
-Route: `/ai-opportunity-studio`
-
-Modes:
-1. Use Case Generator
-2. Workflow Analyzer
-3. AI Roadmap Builder
-4. Readiness Snapshot
-
-Features:
-- Browser-side model lazy load
-- WebGPU availability badge + WASM fallback
-- Structured outputs rendered in cards
-- Preset scenarios
-- Din_0 contextual insight panel
-- CTA flow to ROI / booking / use cases
-- Copy result action
-
-## Backend API Endpoints
-
-### Contact & diagnostics
-- `GET /health`
-- `POST /api/contact`
-- `POST /api/lab/lead-qualification`
-- `POST /api/lab/knowledge-assistant`
-- `POST /api/lab/automation-potential`
-- `POST /api/lab/roi-calculator`
-- `POST /api/generate-use-cases`
-- `POST /api/automation-score`
-
-### Din_0 LLM
-- `POST /api/din0/respond`
-
-### Analytics
-- `POST /api/analytics/event`
-
-## Local Setup
-
-### 1) Install dependencies
-```bash
-cd client
-npm install
-cd ../server
-npm install
+```text
+client/
+  index.html                 # Vite entry + Din_0 widget bootstrap
+  din0.js                    # Custom widget bundle used by the site
+  src/
+    App.jsx                  # Router
+    pages/                   # Route-level pages
+    components/              # Shared UI, Din_0, widgets, sections
+    lib/                     # API clients, browser model helpers, analytics
+server/
+  index.js                   # Express server
+  lib/database.js            # SQLite setup
+  data/consultations.db      # Consultation storage
+  data/analytics_events      # Analytics data (SQLite table)
+docs/
+  demo-scenarios.md
+  test-cases.md
 ```
 
-### 2) Run backend
+## Din_0 widget
+
+The site no longer uses ChatHive.
+
+The active widget is the custom Din_0 widget injected from `client/index.html`:
+- script path: `/din0.js`
+- widget init: `window.Din0.init(...)`
+- greeting prompts: randomized and page-aware in `client/index.html`
+- theme overrides: applied inside the widget shadow root from `client/index.html`
+
+### Current widget behavior
+- Floating launcher in the lower corner
+- Random context-aware greeting bubble while closed
+- Conversation reset on page refresh
+- Custom Din_0 sprite injected into the widget avatar surface
+- Local API target can be switched with `window.__DIN0_API_BASE_URL__`
+
+### Custom widget local integration
+The site expects:
+- frontend at `http://localhost:5173`
+- main Express API at `http://localhost:8080`
+- Din_0 widget API at `http://localhost:8787`
+
+## Local development
+
+Open separate terminals.
+
+### 1. Frontend
 ```bash
-cd server
+cd "/Users/kellianmpiryswenko/Documents/New project/client"
+npm install
 npm run dev
 ```
 
-### 3) Run frontend
+### 2. Main website backend
 ```bash
-cd client
+cd "/Users/kellianmpiryswenko/Documents/New project/server"
+npm install
 npm run dev
 ```
 
-Default URLs:
-- Frontend: `http://localhost:5173`
-- Backend: `http://localhost:8080`
+### 3. Ollama (for real Din_0 responses)
+```bash
+ollama serve
+```
 
-## Environment Variables
+If the model is not installed yet:
+```bash
+ollama pull llama3.1:8b
+```
 
-### Frontend (`client/.env.local`)
+### 4. Din_0 backend
+```bash
+cd "/Users/kellianmpiryswenko/Documents/Robot GenAI"
+PORT=8787 MOCK_LLM=false OLLAMA_BASE_URL=http://127.0.0.1:11434 OLLAMA_MODEL=llama3.1:8b node backend/api.js
+```
+
+## Environment
+
+### Frontend
+Create `client/.env.local` if needed:
 ```env
 VITE_API_URL=http://localhost:8080
 ```
 
-### Backend (`server/.env`)
+### Main backend
+Create `server/.env` if needed:
 ```env
 PORT=8080
 CORS_ORIGIN=http://localhost:5173
-OLLAMA_URL=http://localhost:11434/api/chat
-OLLAMA_MODEL=qwen2.5:3b
 ```
 
-## Optional: local Ollama for Din_0
-```bash
-ollama pull qwen2.5:3b
-ollama run qwen2.5:3b
-```
+## Booking flow
 
-If Ollama is not running, Din_0 still works with bounded fallback suggestions.
+The booking form posts to the Express backend and stores consultation requests in SQLite.
 
-## Test Cases (Manual QA)
+Captured fields include:
+- full name
+- email
+- company
+- website
+- business type
+- project goal
+- budget range
+- desired timeline
+- message
+- created at
 
-### A) Core navigation
-1. Open `/`, `/agents`, `/use-cases`, `/lab`, `/ai-roi-calculator`, `/insights`, `/book`
-2. Open new pages: `/architecture`, `/implementation-roadmap`, `/industries`, `/roi-cases`, `/ai-roadmap`, `/ai-use-case-generator`, `/automation-score`, `/prompt-library`, `/ai-stack`, `/case-study-generator`, `/ai-opportunity-studio`
-Expected: all pages render with correct headings and no runtime crash.
+## Interactive tools
 
-### B) Din_0 behavior
-1. On homepage, verify Din_0 appears in companion block
-2. Wait idle period (~6s) and verify sleep behavior
-3. Hover/click main CTA and verify reaction states
-4. Verify suggestions refresh and actions remain bounded to site routes
-Expected: state transitions work; no long free-form drift.
+### AI Opportunity Studio
+- Browser-side structured generation
+- Multiple modes: opportunity mapping, workflow analysis, roadmap, readiness snapshot
+- CTA path into ROI and consultation booking
 
-### C) AI Playground
-1. Run lead qualification demo
-2. Run knowledge assistant demo
-3. Run automation potential demo
-Expected: valid results and no frontend/backend errors.
+### Snake Lab
+- Accessible from `/tools/snake-lab`
+- Framed as an AI operations routing exercise
+- Autopilot vs manual control states
+- Apples, score, high score, pause, reset, and keyboard controls
+- Homepage preview links into the full page
 
-### D) ROI Calculator
-1. Submit numeric values
-2. Verify outputs + visual bars
-3. Use demo values
-Expected: hours/automation/savings/ROI outputs displayed correctly.
+## Manual test cases
 
-### E) AI Opportunity Studio
-1. Test all 4 modes
-2. Apply preset chips
-3. Generate results with browser model
-4. Check fallback behavior if model fails
-5. Test copy result + ROI deep link
-Expected: structured result cards, concise outputs, stable UI states.
+### Navigation
+- Open all main routes and verify they render without runtime errors.
+- Check the `Tools` menu links, including `Snake Lab` and `Opportunity Studio`.
 
-### F) Booking + persistence
-1. Submit valid consultation form
-2. Validate row insertion in `consultations` table
-Expected: success feedback + stored record with timestamp.
+### Booking
+- Submit invalid and valid form states.
+- Verify a successful submission is persisted in SQLite.
 
-### G) Analytics events
-1. Navigate pages and click key CTAs
-2. Run demos + ROI submit
-3. Check `analytics_events` table entries
-Expected: events are inserted with `eventType`, `path`, and metadata JSON.
+### Din_0 homepage surfaces
+- Verify the companion block renders.
+- Verify Din_0 sprite and Snake Lab preview cards align visually.
+- Verify Din_0 greeting text rotates.
 
-### H) Responsive & accessibility
-1. Test desktop/tablet/mobile layouts
-2. Validate keyboard tab navigation on interactive blocks
-3. Check reduced-motion behavior
-Expected: readable layout, usable controls, reduced animation when enabled.
+### Interactive Widgets
+- Verify the homepage widget grid renders below the hero.
+- Test category filtering and search.
+- Open a few widgets and verify charts, counters, and actions render without runtime errors.
 
-## Deployment Notes
-- Frontend can be deployed on static hosting (Vercel/Netlify/Cloudflare Pages)
-- Backend (Express + SQLite) must be deployed separately (Render/Railway/Fly)
-- GitHub Pages cannot host the Express backend
-- Browser-side model assets can increase client bundle/runtime downloads; monitor performance
+### Din_0 widget
+- Verify the launcher appears.
+- Verify greeting bubble changes over time.
+- Open the widget and send a prompt.
+- Refresh the page and confirm history resets.
 
-## Known Notes
-- `@huggingface/transformers` introduces large assets (expected for browser inference)
-- First run in `/ai-opportunity-studio` may warm up the model before response
-- Ollama is optional for Din_0 (fallback exists)
+### AI Playground / Opportunity Studio / ROI
+- Run each tool once and verify outputs render.
+- Confirm CTA buttons route to valid pages.
+
+### Snake Lab
+- Load `/tools/snake-lab`
+- Verify the board is visible above the explanatory copy.
+- Hover the board and control the snake with arrow keys or WASD.
+- Confirm the snake is slower and more manageable.
+- Confirm apples increase score and the manual snake turns gold.
+
+## Deployment notes
+
+### Frontend
+Can be deployed to static hosting such as:
+- Vercel
+- Netlify
+- Cloudflare Pages
+
+### Backend
+The Express + SQLite backend must be deployed separately.
+GitHub Pages cannot host the backend.
+
+### Din_0 widget backend
+The custom widget backend is also separate from static hosting. If you want the widget to answer publicly, the Din_0 API must be deployed and reachable from the site.
+
+## Notes
+- The Vite build warns that `/din0.js` in `index.html` is a non-module script. This is expected because it is intentionally injected as a standalone widget script.
+- Browser-side model features can download large assets on first use.
+- The repo contains a `.playwright-cli/` local workspace artifact and it is ignored.

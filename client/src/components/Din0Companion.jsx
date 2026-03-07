@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import DinoAvatar from "./dino/DinoAvatar.jsx";
 import DinoPanel from "./dino/DinoPanel.jsx";
+import Din0CodeCarousel from "./Din0CodeCarousel.jsx";
+import SnakeLabPreview from "./SnakeLabPreview.jsx";
 import useDin0Assistant from "../hooks/useDin0Assistant.js";
 
 export default function Din0Companion({
@@ -50,14 +52,20 @@ export default function Din0Companion({
   return (
     <div className="din0-companion-block">
       <div className="dino-inline-header">
-        <DinoAvatar
-          inViewport={inViewport}
-          ctaHovered={ctaHovered}
-          ctaClickSignal={ctaClickSignal}
-          chatActive={chatActive}
-          activitySignal={activitySignal}
-          className="dino-inline-avatar"
-        />
+        <div className="dino-inline-visual-row">
+          <div className="dino-inline-visual">
+            <DinoAvatar
+              inViewport={inViewport}
+              ctaHovered={ctaHovered}
+              ctaClickSignal={ctaClickSignal}
+              chatActive={chatActive}
+              activitySignal={activitySignal}
+              className="dino-inline-avatar din0-wide-avatar"
+            />
+            <Din0CodeCarousel />
+          </div>
+          <SnakeLabPreview />
+        </div>
         <div className="dino-inline-copy">
           <p className="muted small">Din_0 concierge</p>
           <p className="din0-guide-rotating">{loading ? "Din_0 is thinking..." : assistant.message}</p>

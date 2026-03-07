@@ -15,6 +15,8 @@ import ROIExamples from "../components/sections/ROIExamples.jsx";
 import HowWeWork from "../components/sections/HowWeWork.jsx";
 import FAQ from "../components/sections/FAQ.jsx";
 import SocialProof from "../components/sections/SocialProof.jsx";
+import Din0ApyCard from "../components/sections/Din0ApyCard.jsx";
+import InteractiveWidgets from "../components/sections/InteractiveWidgets.jsx";
 import AIDemoBox from "../components/demos/AIDemoBox.jsx";
 import ROISlider from "../components/tools/ROISlider.jsx";
 import WorkflowComparison from "../components/visualizers/WorkflowComparison.jsx";
@@ -290,9 +292,12 @@ export default function Home() {
                 </div>
               </div>
             </aside>
+            <Din0ApyCard intent={visitorIntent} />
           </div>
         </div>
       </ScrollRevealSection>
+
+      <InteractiveWidgets />
 
       <WhyAdoptAI />
 

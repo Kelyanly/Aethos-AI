@@ -35,7 +35,12 @@ export default function Din0PlaygroundGuide() {
 
   return (
     <aside className="din0-playground-guide" aria-label="Din_0 guide" ref={guideRef}>
-      <DinoAvatar inViewport={inView} chatActive activitySignal={promptIndex} className="din0-guide-floating" />
+      <DinoAvatar
+        inViewport={inView}
+        chatActive
+        activitySignal={promptIndex}
+        className="din0-guide-floating din0-wide-avatar"
+      />
       <motion.div
         className="din0-guide-progress"
         initial={{ scaleX: 0 }}

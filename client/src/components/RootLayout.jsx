@@ -32,6 +32,7 @@ const navGroups = [
       { label: "Automation Score", href: "/automation-score" },
       { label: "Prompt Library", href: "/prompt-library" },
       { label: "Case Study Generator", href: "/case-study-generator" },
+      { label: "Snake Lab", href: "/tools/snake-lab" },
     ],
   },
 ];
@@ -171,6 +172,7 @@ export default function RootLayout() {
             <Link to="/use-cases">AI Use Cases</Link>
             <Link to="/tools/opportunity-studio">Opportunity Studio</Link>
             <Link to="/ai-roi-calculator">AI ROI Calculator</Link>
+            <Link to="/tools/snake-lab">Snake Lab</Link>
             <Link to="/about">About Aethos AI</Link>
             <Link to="/book">Get Your AI Opportunity Assessment</Link>
           </div>

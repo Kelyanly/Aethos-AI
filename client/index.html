@@ -27,7 +27,161 @@
     <script type="module" src="/src/main.jsx"></script>
     <script src="/din0.js"></script>
     <script>
-      const DIN0_VIDEO_SRC = "/din0-avatar.mp4";
+      const DIN0_SPRITE_FRAME = [
+        "....................",
+        "......OO............",
+        "....OOGGO...........",
+        "...OGGGGGO..........",
+        "..OGGLLLLGO.........",
+        "..OGLLLLLLGO........",
+        ".OGLLKELLLLGO.......",
+        ".OGLLLLLLLLLGO......",
+        "OGLLLLBLLLLLGO......",
+        "OGLLLLBLLLLLGO......",
+        "OGLLLLLLLLLLLGO.....",
+        ".OGGGLLLLLLLLLGO....",
+        ".OGGGGLLLGLLLLLGO...",
+        "..OGDGGLLLGGGGGGO...",
+        "..OGDDGGGGGGOGGGO...",
+        ".OGDDDGGGGG..OGGO...",
+        ".OGDDGGGG....OGGO...",
+        "..OOO.........OO....",
+        "....................",
+        "....................",
+      ];
+
+      const DIN0_SPRITE_PALETTE = {
+        O: "#0f1720",
+        G: "#22c55e",
+        D: "#15803d",
+        L: "#4ade80",
+        B: "#d9f99d",
+        E: "#ffffff",
+        K: "#0f1720",
+        S: "#bbf7d0",
+        M: "#14532d",
+        H: "#86efac",
+        T: "#6ee7b7",
+      };
+
+      function createDin0SpriteElement(label) {
+        const NS = "http://www.w3.org/2000/svg";
+        const pixel = 3;
+        const svg = document.createElementNS(NS, "svg");
+        svg.setAttribute("viewBox", `0 0 ${DIN0_SPRITE_FRAME[0].length * pixel} ${DIN0_SPRITE_FRAME.length * pixel}`);
+        svg.setAttribute("role", "img");
+        svg.setAttribute("aria-label", label || "Din_0 sprite avatar");
+        svg.setAttribute("shape-rendering", "crispEdges");
+        svg.classList.add("din0-inline-sprite");
+
+        DIN0_SPRITE_FRAME.forEach((row, y) => {
+          row.split("").forEach((cell, x) => {
+            const fill = DIN0_SPRITE_PALETTE[cell];
+            if (!fill) return;
+            const rect = document.createElementNS(NS, "rect");
+            rect.setAttribute("x", x * pixel);
+            rect.setAttribute("y", y * pixel);
+            rect.setAttribute("width", pixel);
+            rect.setAttribute("height", pixel);
+            rect.setAttribute("fill", fill);
+            svg.appendChild(rect);
+          });
+        });
+
+        return svg;
+      }
+
+      const DIN0_GREETING_POOLS = {
+        default: [
+          "Want to see the fastest AI use case for a service business?",
+          "Should we start with ROI, demos, or a scoped implementation plan?",
+          "Looking for lead capture, knowledge search, or workflow automation first?",
+          "Want a quick path to the most relevant tool on this page?",
+        ],
+        home: [
+          "Should we start with AI use cases, ROI, or a consultation?",
+          "Want Din_0 to point you to the best first workflow to automate?",
+          "Looking for lead capture automation or internal knowledge search first?",
+          "Do you want the shortest route from this page to a qualified pilot idea?",
+        ],
+        opportunity: [
+          "Want help choosing between use case generation and roadmap mode?",
+          "Should Din_0 point you to ROI after your first generated opportunity?",
+          "Need help framing one repetitive workflow before you generate?",
+          "Want a tighter prompt before running Opportunity Studio?",
+        ],
+        lab: [
+          "Do you want to test lead qualification or knowledge search first?",
+          "Should Din_0 guide you from demos into the ROI calculator next?",
+          "Want the quickest demo for a service business use case?",
+          "Need help choosing the most relevant playground scenario?",
+        ],
+        roi: [
+          "Want example values before you calculate automation ROI?",
+          "Should we estimate hours saved or cost savings first?",
+          "Need help turning a workflow bottleneck into an ROI case?",
+          "Want a benchmark scenario before filling the calculator?",
+        ],
+        booking: [
+          "Need help clarifying your use case before booking?",
+          "Should Din_0 help you summarize the project goal for the form?",
+          "Want to arrive at the consultation with a tighter automation brief?",
+          "Need a quick way to describe the workflow you want to automate?",
+        ],
+        insights: [
+          "Want the most relevant article for lead capture or internal knowledge?",
+          "Should Din_0 point you to the next insight based on this topic?",
+          "Looking for practical AI guidance instead of general hype?",
+          "Want a related use case after this article?",
+        ],
+      };
+
+      let din0GreetingTimer = null;
+      let din0LastGreeting = "";
+
+      function getDin0GreetingPool() {
+        const path = window.location.pathname;
+
+        if (path === "/") return DIN0_GREETING_POOLS.home;
+        if (path.includes("opportunity-studio")) return DIN0_GREETING_POOLS.opportunity;
+        if (path.includes("/lab")) return DIN0_GREETING_POOLS.lab;
+        if (path.includes("roi")) return DIN0_GREETING_POOLS.roi;
+        if (path.includes("/book")) return DIN0_GREETING_POOLS.booking;
+        if (path.includes("/insights")) return DIN0_GREETING_POOLS.insights;
+        return DIN0_GREETING_POOLS.default;
+      }
+
+      function getRandomDin0Greeting() {
+        const pool = getDin0GreetingPool();
+        const candidates = pool.filter((message) => message !== din0LastGreeting);
+        const source = candidates.length > 0 ? candidates : pool;
+        const next = source[Math.floor(Math.random() * source.length)];
+        din0LastGreeting = next;
+        return next;
+      }
+
+      function refreshDin0Greeting(root, { forceVisible = false } = {}) {
+        const greeting = root.querySelector(".din0-greeting");
+        const panel = root.querySelector(".din0-panel");
+        if (!greeting) return;
+        if (panel && !panel.hidden && !forceVisible) return;
+
+        greeting.textContent = getRandomDin0Greeting();
+        if (forceVisible) {
+          greeting.hidden = false;
+        }
+      }
+
+      function startDin0GreetingRotation(root) {
+        if (din0GreetingTimer) {
+          clearInterval(din0GreetingTimer);
+        }
+
+        din0GreetingTimer = setInterval(() => {
+          if (document.hidden) return;
+          refreshDin0Greeting(root);
+        }, 5000);
+      }
 
       function applyDin0Customizations() {
         const host = document.querySelector(".din0-host");
@@ -41,196 +195,165 @@
           style.textContent = `
             .din0-root {
               --din0-primary: #1f6b4f !important;
-              --din0-accent: #0d3b2d !important;
-              --din0-text: #ecfdf5 !important;
-              --din0-bg: #052e22 !important;
+              --din0-accent: #f6f8f7 !important;
+              --din0-text: #0f1720 !important;
+              --din0-bg: rgba(255, 255, 255, 0.72) !important;
             }
             .din0-launcher {
-              background: linear-gradient(135deg, #1f6b4f, #2b8a67) !important;
-              border-radius: 14px !important;
-              border: 2px solid #000 !important;
-              box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35) !important;
+              width: 74px !important;
+              height: 74px !important;
+              padding: 6px !important;
+              background:
+                linear-gradient(145deg, rgba(255, 255, 255, 0.78), rgba(246, 248, 247, 0.58)) !important;
+              border-radius: 22px !important;
+              border: 1px solid rgba(255, 255, 255, 0.72) !important;
+              box-shadow:
+                0 16px 36px rgba(15, 23, 32, 0.14),
+                0 0 0 1px rgba(255, 255, 255, 0.48) inset !important;
+              backdrop-filter: blur(18px) saturate(1.08) !important;
+              -webkit-backdrop-filter: blur(18px) saturate(1.08) !important;
             }
             .din0-panel {
-              background: linear-gradient(180deg, #052e22, #031d16) !important;
+              background:
+                linear-gradient(155deg, rgba(255, 255, 255, 0.78), rgba(246, 248, 247, 0.56)) !important;
+              border: 1px solid rgba(255, 255, 255, 0.74) !important;
+              box-shadow:
+                0 24px 56px rgba(15, 23, 32, 0.14),
+                0 0 0 1px rgba(255, 255, 255, 0.42) inset !important;
+              backdrop-filter: blur(22px) saturate(1.08) !important;
+              -webkit-backdrop-filter: blur(22px) saturate(1.08) !important;
+            }
+            .din0-panel-header,
+            .din0-quick-actions,
+            .din0-composer,
+            .din0-footer {
+              border-color: rgba(15, 23, 32, 0.08) !important;
+            }
+            .din0-title {
+              color: #0f1720 !important;
+              font-weight: 700 !important;
+            }
+            .din0-close {
+              color: #5f6c66 !important;
             }
             .din0-input:focus {
-              border-color: #34d399 !important;
-              box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.28) !important;
+              border-color: rgba(31, 107, 79, 0.42) !important;
+              box-shadow: 0 0 0 3px rgba(31, 107, 79, 0.16) !important;
             }
             .din0-avatar {
-              background: transparent !important;
+              background:
+                linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(246, 248, 247, 0.62)) !important;
               overflow: hidden !important;
-              border-radius: 8px !important;
-              border: 2px solid #000 !important;
-              box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35) !important;
+              border-radius: 14px !important;
+              border: 1px solid rgba(255, 255, 255, 0.78) !important;
+              box-shadow:
+                0 12px 28px rgba(15, 23, 32, 0.12),
+                0 0 0 1px rgba(255, 255, 255, 0.46) inset !important;
             }
             .din0-avatar-md {
-              width: 40px !important;
-              height: 40px !important;
+              width: 48px !important;
+              height: 48px !important;
             }
             .din0-avatar-sm {
-              width: 28px !important;
-              height: 28px !important;
+              width: 32px !important;
+              height: 32px !important;
             }
-            .din0-avatar video {
+            .din0-inline-sprite {
               width: 100%;
               height: 100%;
-              object-fit: contain;
-              background: #000;
-              border-radius: inherit;
+              display: block;
+              image-rendering: pixelated;
+              image-rendering: crisp-edges;
+              transform-origin: center bottom;
+              transition: transform 0.26s ease, filter 0.26s ease;
             }
-            .din0-video-expand {
-              margin-left: 6px;
-              border: 1px solid #000;
-              background: rgba(2, 44, 34, 0.6);
-              color: #d1fae5;
-              border-radius: 8px;
-              font-size: 11px;
-              line-height: 1;
-              padding: 4px 6px;
-              cursor: pointer;
+            .din0-launcher:hover .din0-inline-sprite,
+            .din0-avatar:hover .din0-inline-sprite {
+              transform: translateY(-1px) scale(1.04);
             }
-            .din0-video-expand:hover {
-              background: rgba(16, 87, 63, 0.8);
+            .din0-messages {
+              background: transparent !important;
             }
-            .din0-video-modal {
-              position: absolute;
-              inset: 0;
-              display: grid;
-              place-items: center;
-              z-index: 20;
+            .din0-message-assistant {
+              background: rgba(255, 255, 255, 0.58) !important;
+              color: #0f1720 !important;
+              border: 1px solid rgba(255, 255, 255, 0.54) !important;
+              box-shadow: 0 10px 20px rgba(15, 23, 32, 0.06) !important;
             }
-            .din0-video-modal[hidden] {
-              display: none;
+            .din0-message-user {
+              background: linear-gradient(135deg, rgba(31, 107, 79, 0.92), rgba(43, 138, 103, 0.88)) !important;
+              color: #ffffff !important;
+              box-shadow: 0 12px 24px rgba(31, 107, 79, 0.18) !important;
             }
-            .din0-video-modal-backdrop {
-              position: absolute;
-              inset: 0;
-              background: rgba(2, 12, 9, 0.72);
+            .din0-message-system {
+              background: rgba(246, 248, 247, 0.72) !important;
+              color: #5f6c66 !important;
             }
-            .din0-video-modal-card {
-              position: relative;
-              width: min(94%, 320px);
-              border: 2px solid #000;
-              border-radius: 12px;
-              background: #04231a;
-              padding: 8px;
-              box-shadow: 0 18px 34px rgba(2, 12, 9, 0.6);
+            .din0-chip {
+              background: rgba(255, 255, 255, 0.52) !important;
+              color: #0f1720 !important;
+              border: 1px solid rgba(15, 23, 32, 0.08) !important;
             }
-            .din0-video-modal-card video {
-              width: 100%;
-              aspect-ratio: 1 / 1;
-              object-fit: contain;
-              border-radius: 8px;
-              background: #03140f;
+            .din0-chip:hover {
+              background: rgba(255, 255, 255, 0.74) !important;
             }
-            .din0-video-modal-close {
-              position: absolute;
-              top: 10px;
-              right: 10px;
-              border: 1px solid #000;
-              background: rgba(2, 44, 34, 0.86);
-              color: #d1fae5;
-              border-radius: 8px;
-              font-size: 11px;
-              line-height: 1;
-              padding: 4px 6px;
-              cursor: pointer;
+            .din0-input {
+              background: rgba(255, 255, 255, 0.62) !important;
+              color: #0f1720 !important;
+              border: 1px solid rgba(15, 23, 32, 0.08) !important;
+            }
+            .din0-input::placeholder {
+              color: #5f6c66 !important;
+            }
+            .din0-send,
+            .din0-voice {
+              background: linear-gradient(135deg, #1f6b4f, #2b8a67) !important;
+              color: #ffffff !important;
+              border-radius: 12px !important;
+              box-shadow: 0 12px 24px rgba(31, 107, 79, 0.18) !important;
+            }
+            .din0-footer {
+              color: #5f6c66 !important;
             }
           `;
           root.appendChild(style);
         }
 
         root.querySelectorAll(".din0-avatar").forEach((avatar) => {
-          if (avatar.dataset.videoApplied === "true") return;
-          avatar.dataset.videoApplied = "true";
+          if (avatar.dataset.spriteApplied === "true") return;
+          avatar.dataset.spriteApplied = "true";
           avatar.innerHTML = "";
-
-          const video = document.createElement("video");
-          video.src = DIN0_VIDEO_SRC;
-          video.autoplay = true;
-          video.muted = true;
-          video.loop = true;
-          video.playsInline = true;
-          video.setAttribute("aria-label", "Din_0 video avatar");
-          avatar.appendChild(video);
+          avatar.appendChild(createDin0SpriteElement("Din_0 sprite avatar"));
         });
 
-        const titleWrap = root.querySelector(".din0-title-wrap");
-        if (titleWrap && !root.querySelector(".din0-video-expand")) {
-          const expandButton = document.createElement("button");
-          expandButton.type = "button";
-          expandButton.className = "din0-video-expand";
-          expandButton.setAttribute("aria-label", "Expand avatar video");
-          expandButton.textContent = "Expand";
-          titleWrap.appendChild(expandButton);
-
-          expandButton.addEventListener("click", (event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            const modal = root.getElementById("din0-video-modal");
-            if (modal) {
-              modal.hidden = false;
-              const modalVideo = modal.querySelector("video");
-              if (modalVideo) modalVideo.play().catch(() => {});
-            }
-          });
+        const expandButton = root.querySelector(".din0-video-expand");
+        if (expandButton) {
+          expandButton.remove();
         }
 
-        if (!root.getElementById("din0-video-modal")) {
-          const panel = root.querySelector(".din0-panel");
-          if (panel) {
-            const modal = document.createElement("div");
-            modal.id = "din0-video-modal";
-            modal.className = "din0-video-modal";
-            modal.hidden = true;
-
-            const backdrop = document.createElement("button");
-            backdrop.type = "button";
-            backdrop.className = "din0-video-modal-backdrop";
-            backdrop.setAttribute("aria-label", "Close video preview");
-
-            const card = document.createElement("div");
-            card.className = "din0-video-modal-card";
-
-            const modalVideo = document.createElement("video");
-            modalVideo.src = DIN0_VIDEO_SRC;
-            modalVideo.autoplay = true;
-            modalVideo.muted = true;
-            modalVideo.loop = true;
-            modalVideo.playsInline = true;
-            modalVideo.setAttribute("aria-label", "Expanded Din_0 video avatar");
-
-            const close = document.createElement("button");
-            close.type = "button";
-            close.className = "din0-video-modal-close";
-            close.textContent = "Close";
-
-            function closeModal(event) {
-              if (event) event.preventDefault();
-              modal.hidden = true;
-            }
-
-            close.addEventListener("click", closeModal);
-            backdrop.addEventListener("click", closeModal);
-
-            card.appendChild(modalVideo);
-            card.appendChild(close);
-            modal.appendChild(backdrop);
-            modal.appendChild(card);
-            panel.appendChild(modal);
-          }
+        const modal = root.getElementById("din0-video-modal");
+        if (modal) {
+          modal.remove();
         }
+
+        refreshDin0Greeting(root);
+        startDin0GreetingRotation(root);
 
         return true;
       }
 
       if (window.Din0) {
+        try {
+          window.localStorage.removeItem("din0:default:history");
+        } catch {
+          // Ignore storage access issues and continue loading the widget.
+        }
+
         window.Din0.init({
           agentId: "default",
           position: "bottom-right",
           apiBaseUrl: "http://localhost:8787",
+          greetingMessage: getRandomDin0Greeting(),
           title: "Din_0 Assistant",
           quickActions: ["Pricing", "Demo", "Docs"],
           theme: {

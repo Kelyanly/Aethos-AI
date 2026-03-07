@@ -8,7 +8,7 @@ export default function Din0StickyAssistant({ visible }) {
 
   return (
     <aside className="din0-sticky" aria-label="Din_0 quick assistant">
-      <DinoAvatar inViewport={visible} className="din0-sticky-sprite" activitySignal={1} />
+      <DinoAvatar inViewport={visible} className="din0-sticky-sprite din0-compact-avatar" activitySignal={1} />
       <div className="din0-sticky-content">
         <p className="small muted">Need help exploring AI automation?</p>
         <Link to="/book" className="btn btn-primary">

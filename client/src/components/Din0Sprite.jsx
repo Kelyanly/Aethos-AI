@@ -53,6 +53,29 @@ function withCells(baseFrame, cells) {
   return grid.map((row) => row.join(""));
 }
 
+function offsetFrame(baseFrame, offsetX = 0, offsetY = 0) {
+  const width = baseFrame[0].length;
+  const height = baseFrame.length;
+  const shifted = Array.from({ length: height }, () => Array.from({ length: width }, () => "."));
+
+  baseFrame.forEach((row, y) => {
+    row.split("").forEach((cell, x) => {
+      if (cell === ".") {
+        return;
+      }
+
+      const nextX = x + offsetX;
+      const nextY = y + offsetY;
+
+      if (nextX >= 0 && nextX < width && nextY >= 0 && nextY < height) {
+        shifted[nextY][nextX] = cell;
+      }
+    });
+  });
+
+  return shifted.map((row) => row.join(""));
+}
+
 const BLINK = withCells(BASE_FRAME, [
   [7, 6, "M"],
   [8, 6, "M"],
@@ -62,6 +85,9 @@ const GLANCE = withCells(BASE_FRAME, [
   [8, 6, "E"],
   [9, 6, "K"],
 ]);
+
+const IDLE_BOB = offsetFrame(BASE_FRAME, 0, -1);
+const IDLE_GLANCE_BOB = offsetFrame(GLANCE, 1, -1);
 
 const SLEEP_1 = withCells(BASE_FRAME, [
   [7, 6, "M"],
@@ -88,6 +114,9 @@ const TALK_3 = withCells(BASE_FRAME, [
   [9, 9, "M"],
 ]);
 
+const TALK_SWAY_LEFT = offsetFrame(TALK_2, -1, 0);
+const TALK_SWAY_RIGHT = offsetFrame(TALK_3, 1, 0);
+
 const JUMP_PREP = withCells(BASE_FRAME, [
   [2, 17, "."],
   [3, 17, "O"],
@@ -110,13 +139,15 @@ const CTA_REACT = withCells(BASE_FRAME, [
   [10, 6, "H"],
 ]);
 
+const CTA_REACT_LEAN = offsetFrame(CTA_REACT, 1, 0);
+
 const SPRITES = {
-  idle: [BASE_FRAME, BASE_FRAME, BLINK, BASE_FRAME, GLANCE, BASE_FRAME],
-  sleep: [SLEEP_1, SLEEP_2],
+  idle: [BASE_FRAME, IDLE_BOB, BLINK, BASE_FRAME, IDLE_GLANCE_BOB, IDLE_BOB],
+  sleep: [SLEEP_1, SLEEP_2, offsetFrame(SLEEP_1, 0, 1)],
   wake: [SLEEP_2, SLEEP_1, BLINK, BASE_FRAME],
-  talk: [TALK_1, TALK_2, TALK_3],
+  talk: [TALK_1, TALK_SWAY_RIGHT, TALK_2, TALK_SWAY_LEFT, TALK_3],
   jump: [JUMP_PREP, JUMP_MID, BASE_FRAME],
-  ctaReact: [BASE_FRAME, CTA_REACT, BASE_FRAME],
+  ctaReact: [BASE_FRAME, CTA_REACT, CTA_REACT_LEAN, BASE_FRAME],
 };
 
 const STATE_CONFIG = {
@@ -270,13 +301,18 @@ export default function Din0Sprite({
     <div className={`din0-companion ${className}`.trim()}>
       <button
         type="button"
-        className="din0-sprite-card"
+        className={`din0-sprite-card din0-sprite-card-${activeState}`}
         onMouseEnter={wakeDin0}
         onFocus={wakeDin0}
         onMouseMove={markActive}
         aria-label="Din_0 companion"
+        data-state={activeState}
       >
-        <Din0PixelFrame state={activeState} frameIndex={frameIndex} className="din0-sprite-frame" />
+        <Din0PixelFrame
+          state={activeState}
+          frameIndex={frameIndex}
+          className={`din0-sprite-frame din0-sprite-frame-${activeState}`}
+        />
       </button>
 
       {showBubble ? (

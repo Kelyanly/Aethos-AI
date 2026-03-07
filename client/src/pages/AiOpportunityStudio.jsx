@@ -111,7 +111,13 @@ export default function AiOpportunityStudio() {
             </div>
           </div>
           <div className="op-din0-card">
-            <Din0Sprite inViewport activitySignal={mode.length} chatActive showBubble={false} />
+            <Din0Sprite
+              inViewport
+              activitySignal={mode.length}
+              chatActive
+              showBubble={false}
+              className="op-din0-visual din0-wide-avatar"
+            />
             <Din0InsightPanel mode={mode} result={result} loading={loading} />
           </div>
         </div>
